@@ -2,7 +2,12 @@
 
 Coding Activity 1:
 
+<img width="427" height="650" alt="image" src="https://github.com/user-attachments/assets/dd0649de-667a-43bc-8509-efa46dee01e0" />
+
 Coding Activity 2:
+
+<img width="427" height="866" alt="image" src="https://github.com/user-attachments/assets/666da981-49f1-4a43-b07d-fb1ad39bdeb4" />
+
 
 ## AI Use Disclosure
 
@@ -12,7 +17,7 @@ Generative models were used in the following applications:
 - Researching SVG elements as a general concept using the specific example used as reference
 - Debug the submission action
     - two `input`s were missing the `name` attribute
-- Researching the `event` parameter fromt he following code snippet:
+- Researching the `event` parameter from the following code snippet:
 ```javascript
 wellnessForm.addEventListener('submit', function(event)
 ```
