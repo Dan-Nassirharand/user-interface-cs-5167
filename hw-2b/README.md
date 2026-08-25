@@ -1,3 +1,9 @@
+## Screenshots
+
+Coding Activity 1:
+
+Coding Activity 2:
+
 ## AI Use Disclosure
 
 Generative models were used in the following applications:
