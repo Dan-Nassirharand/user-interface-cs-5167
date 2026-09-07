@@ -1,0 +1,16 @@
+/* This is an empty style sheet in CSS */
+
+.text-custom {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: medium;
+    font-weight: 200;
+    color: coral;
+}
+
+#time {
+    font-style: italic;
+}
+
+.h2-custom {
+    color: rgb(8, 78, 40);
+}

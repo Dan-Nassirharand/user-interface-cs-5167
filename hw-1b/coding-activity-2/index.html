@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dan's Journaling Page</title>
+
+    <!-- The following line references an external css file -->
+    <!-- It defines style rules for your page, and elements in your page -->
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body>
+    <h1>Dan Nassirharand's Journaling Page</h1>
+
+    <h2 class="h2-custom">Date/Time</h2>
+    <p class="text-custom">Date: 8/25/2026</p>
+    <p class="text-custom" id="time">Time: 10:29 a.m.</p>
+
+    <h2 class="h2-custom">Image of the Day</h2>
+    <img src="assets/image-of-the-day.jpg">
+
+    <h2 class="h2-custom">Inspirational Quote</h2>
+    <p class="text-custom">
+        "We need joy as we need air.
+        We need love as we need water.
+        We need each other as we need the earth we share."
+        - Maya Angelou
+    </p>
+
+    <h2 class="h2-custom">Wellness Statistics</h2>
+
+    <h3>Average Sleep Time (hr)</h3>
+    <p id="average-sleep-time">0</p>
+
+    <h3>Pensive Days</h3>
+    <p id="pensive-days">0</p>
+
+    <h3>Angry Days</h3>
+    <p id="angry-days">0</p>
+
+    <h3>Motivated Days</h3>
+    <p id="motivated-days">0</p>
+
+    <h3>Loved Days</h3>
+    <p id="loved-days">0</p>
+
+    <h2 class="h2-custom">Check-In</h2>
+    <form id="wellness-form">
+        <input type="text" name="note" placeholder="Enter a note here">
+        <input id="sleep" type="number" name="sleep" placeholder="Enter hours of sleep here"><br>
+
+        <h3>How did you feel today?</h3>
+        <input type="checkbox" id="pensive" name="pensive" value="true">
+        <label class="text-custom" for="pensive"> pensive</label><br>
+
+        <input type="checkbox" id="angry" name="angry" value="true">
+        <label class="text-custom" for="angry"> angry</label><br>
+
+        <input type="checkbox" id="motivated" name="motivated" value="true">
+        <label class="text-custom" for="motivated"> motivated</label><br>
+
+        <input type="checkbox" id="loved" name="loved" value="true">
+        <label class="text-custom" for="loved"> loved</label><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <svg width="100" height="100">
+        <circle cx="50" cy="50" r="40" fill="orange" />
+        <text x="50" y="55" font-size="10" text-anchor="middle" fill="black">Have a good day!</text>
+    </svg>
+
+
+
+
+    <!-- Load external JS files -->
+    <!-- This is where you will do most of the 'work' for your applications -->
+    <script src="js/main.js"></script>
+</body>
+</html>
