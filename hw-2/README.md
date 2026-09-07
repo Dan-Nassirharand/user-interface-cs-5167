@@ -1,4 +1,6 @@
 ## Screenshots
+
+### Svelte Tutorial
 <img width="1845" height="907" alt="image" src="https://github.com/user-attachments/assets/1c5f85f6-5c4c-4d85-92d5-0bf2eed63c63" />
 <img width="1855" height="908" alt="image" src="https://github.com/user-attachments/assets/88b00c7b-6396-4471-9b1f-6187b30561e7" />
 <img width="1855" height="847" alt="image" src="https://github.com/user-attachments/assets/e2a3cedf-9193-4d6d-8a07-d621c29c70ff" />
@@ -7,6 +9,8 @@
 <img width="1852" height="912" alt="image" src="https://github.com/user-attachments/assets/3e3466ae-4251-4361-b6e7-7e79ac13de7c" />
 <img width="1855" height="917" alt="image" src="https://github.com/user-attachments/assets/8c8f9878-e5c9-4c46-a99c-1fe8fc8d45fc" />
 
+
+### Svelte: Project 1 Component
 
 
 
