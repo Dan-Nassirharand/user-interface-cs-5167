@@ -12,7 +12,7 @@
 
 ### Svelte: Project 1 Component
 
-
+<img width="511" height="407" alt="image" src="https://github.com/user-attachments/assets/c72087c6-b6e5-4ecf-9d91-cc49dc161ef3" />
 
 ## AI Use Disclosure
 
