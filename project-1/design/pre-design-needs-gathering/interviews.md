@@ -33,6 +33,7 @@ be guided predominantly by their experience, and allow room to organically follo
   - Often different shoes with varying amounts of utility, but sometimes aesthetic as well
 - Users consider cost when buying shoes
 - Users have personal, unique aesthetic preferences when buying shoes
+- Users generally have a pair of shoes dedicated to walking
 
 ## Interview 1: <"J-Mart" (Anonymous) >
 
