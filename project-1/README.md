@@ -2,6 +2,8 @@
 
 Smart Object: Shoes
 
+<!-- todo: add structure + notes for grader -->
+
 ## AI Use Disclosure
 
 Generative models were used in the following applications:
