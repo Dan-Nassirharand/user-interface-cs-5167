@@ -10,6 +10,13 @@ be guided predominantly by their experience, and allow room to organically follo
 
 ## Questions
 
+Interviews will be individual and semi-structured. The questions listed below
+will be used as an initial template to open conversation with interviewees, but
+the interviewer shall exercise their own judgement in determining the type and number of questions to ask.
+
+These questions are left open-ended to learn something new from each user,
+be guided predominantly by their experience, and allow room to organically follow-up during the conversation to hone in on user stories and needs.
+
 - Tell me about your shoes.
 - What do you use your shoes for?
 - How do you feel about your shoes?
@@ -20,8 +27,12 @@ be guided predominantly by their experience, and allow room to organically follo
 
 ## Analysis
 
-<!-- TODO: rename this section, possibly move it within the file, and conduct and analysis
-of results from the review to define requirements/design challenges -->
+- Users enjoy slipping a shoe on/off, regardless of the mechanism of the actual shoe
+  - If not built to be slipped on/off, users will find a way to do it anyway
+- Users often have multiple shoes to fulfill different lifestyle needs
+  - Often different shoes with varying amounts of utility, but sometimes aesthetic as well
+- Users consider cost when buying shoes
+- Users have personal, unique aesthetic preferences when buying shoes
 
 ## Interview 1: <"J-Mart" (Anonymous) >
 
@@ -112,13 +123,15 @@ Very important, don't like walking on yucky stuff.
 Make me want to be more active, stylish, and intentional.
 Intentional with respect to aesthetic choice and lifestyle.
 
+Enjoys wearing open toed shoes with "flowy" pants.
+
 ## Interview 3: <Kymani Marley (Anonymous)>
 
 ### Tell me about your shoes.
 
 - Like comfortable shoes, something to slide in and out of
 - Big plus if can wear the same shoe in multiple temperature ranges
-- Lounge around in but still commmute to classes in (walking)
+- Lounge around in but still commute to classes in (walking)
 
 ### What do you use your shoes for?
 
@@ -132,7 +145,7 @@ Intentional with respect to aesthetic choice and lifestyle.
 
 - Running/gym
 - Commuting shoes (not too flashy)
-- SHoes for bad weather (snow/rain)
+- Shoes for bad weather (snow/rain)
 - Shoes to go out in (more fashionable/loud)
 
 ### Do you like having multiple pairs of shoes?
