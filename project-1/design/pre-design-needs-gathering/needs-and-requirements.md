@@ -18,17 +18,3 @@ DR-4: Shoes shall provide a way for users to realize their personal aesthetic ta
 
 UN-5: Users have various utility needs they expect their shoes to satisfy
 DR-5: Shoes shall allow users to adjust the utility performance of the shoe
-
-TODO: delete ideation. Just scrap so I can keep track below:
-
-- Has different utility modes (5)
-  - Has a way to change the tread of the shoe
-  - Has a way to change the fit of the shoe
-- Has a battery that collects kinetic energy for use in different modes (auto feature available) (3)
-- Has a camera that scans outfit of user to match (4)
-- Made of lights that allow the shoe to change color (4)
-  - User can change color or make custom designs
-- Made of recycled, easily sourced, widely available material (1)
-- Button on back of shoe user can hit with opposite heel (2)
-- Can clap hands twice to take off (2)
-- Voice command (2)
