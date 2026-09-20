@@ -4,6 +4,9 @@ This collection of user needs and design requirements will serve as the user-cen
 foundation of the project. The designer will be led primarily by these principles gathered
 during [user interviews](./interviews.md) to design a product to best serve their needs.
 
+- User Need (UN)
+- Design Requirement (DR)
+
 UN-1: User needs to be able to purchase shoes at a reasonable cost
 DR-1: Shoes shall be available for purchase at a competitive price.
 
