@@ -3,6 +3,9 @@
 Smart Object: Shoes
 
 <!-- todo: add level 1 documentation -->
+<!-- todo: host website on github -->
+<!-- todo: add simulation for action over time -->
+<!-- todo: add mock secondary device -->
 
 ## Setup
 
@@ -46,10 +49,15 @@ Generative models were used in the following applications:
 - Refresh knowledge on HTML and CSS basics
 - Researching industry-standard Svelte practices
 - Implement main page with accessibility concerns in mind
+  - While building the general structure of the page, `aria-*` elements were
+    introduced to the developer, which were then researched and incorporated into
+    other parts of the project
 - Research and use component libraries
 - Implement components
+  <!-- - TODO: add detail -->
 
 ## References
 
 https://www.w3schools.com/css/css_boxmodel.asp
 https://www.reddit.com/r/css/comments/10vbm4u/when_to_use_padding_vs_margin/
+https://icon-sets.iconify.design/
