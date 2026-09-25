@@ -1,11 +1,18 @@
 <script>
   // TODO: saturation fixed at 100%; trading it away to show hue x lightness instead
+  let { selectedColor = $bindable("#e5490b") } = $props();
   const saturation = 100;
   let hue = $state(0);
   let lightness = $state(50);
+  /** @type {HTMLDivElement} */
   let squareEl;
   let dragging = false;
 
+  /**
+   * @param {number} h
+   * @param {number} s
+   * @param {number} l
+   */
   function hslToHex(h, s, l) {
     s /= 100;
     l /= 100;
@@ -19,6 +26,7 @@
     else if (h < 240) [r, g, b] = [0, x, c];
     else if (h < 300) [r, g, b] = [x, 0, c];
     else [r, g, b] = [c, 0, x];
+    /** @param {number} n */
     const toHex = (n) =>
       Math.round((n + m) * 255)
         .toString(16)
@@ -26,8 +34,11 @@
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   }
 
-  let selectedColor = $derived(hslToHex(hue, saturation, lightness));
+  $effect(() => {
+    selectedColor = hslToHex(hue, saturation, lightness);
+  });
 
+  /** @param {PointerEvent} event */
   function updateFromPointer(event) {
     const rect = squareEl.getBoundingClientRect();
     const x = Math.min(Math.max(event.clientX - rect.left, 0), rect.width);
@@ -36,16 +47,19 @@
     lightness = 100 - (y / rect.height) * 100;
   }
 
+  /** @param {PointerEvent} event */
   function handlePointerDown(event) {
     dragging = true;
     squareEl.setPointerCapture(event.pointerId);
     updateFromPointer(event);
   }
 
+  /** @param {PointerEvent} event */
   function handlePointerMove(event) {
     if (dragging) updateFromPointer(event);
   }
 
+  /** @param {PointerEvent} event */
   function handlePointerUp(event) {
     dragging = false;
     squareEl.releasePointerCapture(event.pointerId);

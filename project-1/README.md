@@ -30,9 +30,9 @@ npm run preview  # preview the production build locally
 ## AI Use Disclosure
 
 In general, AI was used to learn Svelte, refresh on general web-design principles,
-and explore different implementation options.
+and explore different implementation options. With no existing codebase to explore or PRs to review, this was the most efficient way to learn the stack while meeting deadlines.
 
-All design work, ideation, and application of judgment was done solely by the developer.
+The developer made design decisions, ideated, and explored scope without the use of AI. AI was not used to replace the developer's judgment.
 
 The below list is included to remain in adherence with the class and university
 academic integrity policy.
@@ -47,6 +47,7 @@ Generative models were used in the following applications:
 - Researching industry-standard Svelte practices
 - Implement main page with accessibility concerns in mind
 - Research and use component libraries
+- Implement components
 
 ## References
 

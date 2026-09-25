@@ -9,7 +9,7 @@
   class="sock-liner-switch"
   aria-pressed={isOn}
   aria-label={`Sock Liner: ${isOn ? "On" : "Off"}`}
-  onclick={() => (isOn = !isOn)}
+  ondblclick={() => (isOn = !isOn)}
 >
   <Icon icon="boxicons:sock-filled" width="32" height="32" />
 </button>
