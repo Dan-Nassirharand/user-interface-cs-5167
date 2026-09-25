@@ -2,7 +2,7 @@
 
 Smart Object: Shoes
 
-<!-- todo: add structure + notes for grader -->
+<!-- todo: add level 1 documentation -->
 
 ## Setup
 

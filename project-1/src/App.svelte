@@ -10,7 +10,9 @@
   let showInfo = $state(false);
   let sockLinerOn = $state(false);
   let agletColor = $state("#e5490b");
+  /** @type {"single" | "double" | "refresh"} */
   let mode = $state("single");
+  /** @type {"none" | "walk" | "run"} */
   let activity = $state("none");
   let value = $state(50);
 
@@ -52,52 +54,103 @@
   </header>
 
   <aside class="sidebar">
-    <div class="sketch-list">
-      <div class="placement-graphic">
-        <img
-          src={sockLinerSketch}
-          alt="Placement sketch for the sock liner switch"
-        />
+    <section class="sidebar-section">
+      <h2 class="section-title">UI Placement</h2>
+
+      <div class="sketch-list">
+        <div class="sketch-item">
+          <h3 class="item-title">Sock Liner Color</h3>
+          <div class="placement-graphic">
+            <img
+              src={sockLinerSketch}
+              alt="Placement sketch for the sock liner switch"
+            />
+          </div>
+        </div>
+
+        <div class="sketch-item">
+          <h3 class="item-title">Aglet Color Selector</h3>
+          <div class="placement-graphic">
+            <img
+              src={shoeColorSketch}
+              alt="Placement sketch for the aglet color selector"
+            />
+          </div>
+        </div>
+
+        <div class="sketch-item">
+          <h3 class="item-title">Power Control</h3>
+          <div class="placement-graphic">
+            <img
+              src={movementBoostSketch}
+              alt="Placement sketch for the power control"
+            />
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="placement-graphic">
-        <img
-          src={shoeColorSketch}
-          alt="Placement sketch for the aglet color selector"
-        />
-      </div>
+    <section class="sidebar-section">
+      <h2 class="section-title">Action Buttons</h2>
 
-      <div class="placement-graphic">
-        <img
-          src={movementBoostSketch}
-          alt="Placement sketch for the power control"
-        />
-      </div>
-    </div>
+      <ActivityButtons bind:activity />
 
-    <ActivityButtons bind:activity />
-
-    <button
-      class="info-button"
-      aria-expanded={showInfo}
-      onclick={() => (showInfo = !showInfo)}
-    >
-      <span aria-hidden="true">ⓘ</span> Info
-    </button>
-
-    {#if showInfo}
-      <p class="info-panel">
-        <!-- TODO: explain the controls for simulating the object's use -->
-        TODO: explain how to use the simulated controls here.
-      </p>
-    {/if}
+      <button
+        class="info-button"
+        aria-expanded={showInfo}
+        onclick={() => (showInfo = !showInfo)}
+      >
+        <span aria-hidden="true">ⓘ</span> Info
+      </button>
+    </section>
   </aside>
 
   <main class="main">
     <div class="control-list">
-      <SockLinerSwitch bind:isOn={sockLinerOn} />
-      <AgletColorSelector bind:selectedColor={agletColor} />
-      <PowerControl {value} {sockLinerOn} ringColor={agletColor} bind:mode />
+      <div class="control-item">
+        <h3 class="item-title">Sock Liner Color</h3>
+        <div class="control-row">
+          <SockLinerSwitch bind:isOn={sockLinerOn} />
+          {#if showInfo}
+            <p class="control-info">
+              Double-click to toggle sock liner between white/black. Inner Power
+              Control color matches that of the sock liner.
+            </p>
+          {/if}
+        </div>
+      </div>
+
+      <div class="control-item">
+        <h3 class="item-title">Aglet Color Selector</h3>
+        <div class="control-row">
+          <AgletColorSelector bind:selectedColor={agletColor} />
+          {#if showInfo}
+            <p class="control-info">
+              Controls the color of the shoe. Present when aglets are
+              magnetically bound. Power Control ring color matches the color of
+              the shoe.
+            </p>
+          {/if}
+        </div>
+      </div>
+
+      <div class="control-item">
+        <h3 class="item-title">Power Control</h3>
+        <div class="control-row">
+          <PowerControl
+            {value}
+            {sockLinerOn}
+            ringColor={agletColor}
+            bind:mode
+          />
+          {#if showInfo}
+            <p class="control-info">
+              Displays the current power mode and remaining energy. Click to
+              cycle through Power I, Power II, and Recharge modes.
+            </p>
+          {/if}
+        </div>
+      </div>
     </div>
   </main>
 </div>
@@ -141,15 +194,42 @@
     padding: 16px;
   }
 
+  .sidebar-section + .sidebar-section {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(247, 247, 247, 0.4);
+  }
+
+  .section-title {
+    margin: 0 0 16px;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
   .sketch-list {
     display: grid;
-    grid-template-rows: repeat(3, 190px);
-    margin-bottom: 16px;
+    grid-template-rows: repeat(3, 220px);
+    row-gap: 16px;
+  }
+
+  .sketch-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+  }
+
+  .item-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
   }
 
   .placement-graphic {
     display: flex;
     align-items: center;
+    flex: 1;
     border: 1px dashed rgba(247, 247, 247, 0.6);
     padding: 8px;
     text-align: center;
@@ -169,11 +249,6 @@
     cursor: pointer;
   }
 
-  .info-panel {
-    margin-top: 12px;
-    font-size: 0.9rem;
-  }
-
   .main {
     grid-area: main;
     background: #eee;
@@ -185,8 +260,35 @@
 
   .control-list {
     display: grid;
-    grid-template-rows: repeat(3, 190px);
+    grid-template-rows: repeat(3, minmax(220px, auto));
+    row-gap: 16px;
     justify-items: center;
+  }
+
+  .control-item {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 100%;
+  }
+
+  .control-item .item-title {
+    color: #000;
+  }
+
+  .control-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .control-info {
+    max-width: 220px;
+    margin: 0;
+    font-size: 0.85rem;
+    color: #333;
+    text-align: left;
   }
 </style>
