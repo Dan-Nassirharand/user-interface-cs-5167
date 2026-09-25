@@ -68,14 +68,14 @@
 
 <div
   bind:this={squareEl}
-  class="aglet-color-selector"
+  class="shoe-color-selector"
   style="background:
     linear-gradient(to bottom, #fff, transparent 50%),
     linear-gradient(to top, #000, transparent 50%),
     linear-gradient(to right, hsl(0, 100%, 50%), hsl(60, 100%, 50%), hsl(120, 100%, 50%), hsl(180, 100%, 50%), hsl(240, 100%, 50%), hsl(300, 100%, 50%), hsl(360, 100%, 50%));"
   role="slider"
   tabindex="0"
-  aria-label={`Aglet Color: ${selectedColor}`}
+  aria-label={`Shoe Color: ${selectedColor}`}
   aria-valuenow={Math.round(hue)}
   onpointerdown={handlePointerDown}
   onpointermove={handlePointerMove}
@@ -89,7 +89,7 @@
 </div>
 
 <style>
-  .aglet-color-selector {
+  .shoe-color-selector {
     position: relative;
     width: 96px;
     height: 64px;

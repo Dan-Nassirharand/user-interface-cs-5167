@@ -1,15 +1,16 @@
 <script>
   import SockLinerSwitch from "./lib/SockLinerSwitch.svelte";
-  import AgletColorSelector from "./lib/AgletColorSelector.svelte";
+  import ShoeColorSelector from "./lib/ShoeColorSelector.svelte";
   import PowerControl from "./lib/PowerControl.svelte";
   import ActivityButtons from "./lib/ActivityButtons.svelte";
+  import SimulationControl from "./lib/SimulationControl.svelte";
   import sockLinerSketch from "./assets/sock-liner.png";
   import shoeColorSketch from "./assets/shoe-color.png";
   import movementBoostSketch from "./assets/movement-boost.png";
 
   let showInfo = $state(false);
   let sockLinerOn = $state(false);
-  let agletColor = $state("#e5490b");
+  let shoeColor = $state("#e5490b");
   /** @type {"single" | "double" | "refresh"} */
   let mode = $state("single");
   /** @type {"none" | "walk" | "run"} */
@@ -47,6 +48,13 @@
     <div class="header-actions">
       <ActivityButtons bind:activity />
 
+      <SimulationControl
+        bind:sockLinerOn
+        bind:shoeColor
+        bind:activity
+        bind:mode
+      />
+
       <button
         class="info-button"
         aria-expanded={showInfo}
@@ -71,69 +79,70 @@
       <div class="control-item">
         <h3 class="item-title">Sock Liner Color</h3>
         <div class="control-content">
-          <div class="placement-graphic">
-            <img
-              src={sockLinerSketch}
-              alt="Placement sketch for the sock liner switch"
-            />
-          </div>
           <div class="control-row">
+            <div class="placement-graphic">
+              <img
+                src={sockLinerSketch}
+                alt="Placement sketch for the sock liner switch"
+              />
+            </div>
             <SockLinerSwitch bind:isOn={sockLinerOn} />
-            {#if showInfo}
-              <p class="control-info">
-                Double-click to toggle sock liner between white/black. Inner
-                Power Control color matches that of the sock liner.
-              </p>
-            {/if}
           </div>
+          {#if showInfo}
+            <p class="control-info">
+              Double-click to toggle sock liner between white/black. Inner Power
+              Control color matches that of the sock liner.
+            </p>
+          {/if}
         </div>
       </div>
 
       <div class="control-item">
-        <h3 class="item-title">Aglet Color Selector</h3>
+        <h3 class="item-title">Shoe Color Selector</h3>
         <div class="control-content">
-          <div class="placement-graphic">
-            <img
-              src={shoeColorSketch}
-              alt="Placement sketch for the aglet color selector"
-            />
-          </div>
           <div class="control-row">
-            <AgletColorSelector bind:selectedColor={agletColor} />
-            {#if showInfo}
-              <p class="control-info">
-                Controls the color of the shoe. Present when aglets are
-                magnetically bound. Power Control ring color matches the color
-                of the shoe.
-              </p>
-            {/if}
+            <div class="placement-graphic">
+              <img
+                src={shoeColorSketch}
+                alt="Placement sketch for the shoe color selector"
+              />
+            </div>
+            <ShoeColorSelector bind:selectedColor={shoeColor} />
           </div>
+          {#if showInfo}
+            <p class="control-info">
+              Controls the color of the shoe. Present when aglets are
+              magnetically bound. Power Control ring color matches the color of
+              the shoe.
+            </p>
+          {/if}
         </div>
       </div>
 
       <div class="control-item">
         <h3 class="item-title">Power Control</h3>
         <div class="control-content">
-          <div class="placement-graphic">
-            <img
-              src={movementBoostSketch}
-              alt="Placement sketch for the power control"
-            />
-          </div>
           <div class="control-row">
+            <div class="placement-graphic">
+              <img
+                src={movementBoostSketch}
+                alt="Placement sketch for the power control"
+              />
+            </div>
             <PowerControl
               {value}
               {sockLinerOn}
-              ringColor={agletColor}
+              ringColor={shoeColor}
               bind:mode
             />
-            {#if showInfo}
-              <p class="control-info">
-                Displays the current power mode and remaining energy. Click to
-                cycle through Power I, Power II, and Recharge modes.
-              </p>
-            {/if}
           </div>
+          {#if showInfo}
+            <p class="control-info">
+              Displays the remaining energy available to enhance user movement,
+              as well as the selected power mode. Click to cycle through Power
+              I, Power II, and Recharge modes.
+            </p>
+          {/if}
         </div>
       </div>
     </div>
@@ -212,26 +221,35 @@
   .main {
     grid-area: main;
     background: #eee;
-    padding: 48px;
+    padding: 24px 48px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
+    overflow-x: auto;
   }
 
   .control-list {
-    display: grid;
-    grid-template-rows: repeat(3, minmax(160px, auto));
-    row-gap: 32px;
-    justify-items: start;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 48px;
+    justify-content: center;
   }
 
   .control-item {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
     gap: 12px;
-    height: 100%;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   }
 
   .control-item .item-title {
@@ -240,8 +258,9 @@
 
   .control-content {
     display: flex;
-    align-items: center;
-    gap: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 
   .control-row {
@@ -251,10 +270,11 @@
   }
 
   .control-info {
-    max-width: 220px;
+    max-width: 320px;
     margin: 0;
+    align-self: center;
     font-size: 0.85rem;
     color: #333;
-    text-align: left;
+    text-align: center;
   }
 </style>

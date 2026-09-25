@@ -4,7 +4,6 @@ Smart Object: Shoes
 
 <!-- todo: add level 1 documentation -->
 <!-- todo: host website on github -->
-<!-- todo: add simulation for action over time -->
 <!-- todo: add mock secondary device -->
 
 ## Setup
