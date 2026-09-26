@@ -8,6 +8,8 @@
   let squareEl;
   let dragging = false;
 
+  // TODO: refactor for readability
+
   /**
    * @param {number} h
    * @param {number} s
