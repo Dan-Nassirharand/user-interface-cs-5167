@@ -2,8 +2,9 @@
 
 Smart Object: Shoes
 
+**Live site:** https://dan-nassirharand.github.io/user-interface-cs-5167/
+
 <!-- todo: add level 1 documentation -->
-<!-- todo: host website on github -->
 
 ## Setup
 
@@ -53,6 +54,8 @@ Generative models were used in the following applications:
 - Research and use component libraries
 - Implement components
   - The developer described the element in detail (shape, behavior, size, etc.) and evaluated the result. The developer would then assess the AI output source code, and repeat the cycle until satisfied, asking clarifying questions about Svelte and implementation strategies along the way. Once satisfied, the developer conducted a code review, addressing smells, anti-patterns, and readability concerns
+- Explore available options to host project publicly
+- Create a workflow that builds the hosted site on push to Git
 
 ## References
 
