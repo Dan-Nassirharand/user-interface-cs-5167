@@ -40,6 +40,7 @@
     return () => clearInterval(id);
   });
 
+  /** @type {boolean | null} */
   let sockLinerPreset = $state(null);
   function setSockLinerPreset() {
     sockLinerPreset = sockLinerOn;
@@ -48,6 +49,7 @@
     if (sockLinerPreset !== null) sockLinerOn = sockLinerPreset;
   }
 
+  /** @type {string | null} */
   let shoeColorPreset = $state(null);
   function setShoeColorPreset() {
     shoeColorPreset = shoeColor;
@@ -56,6 +58,7 @@
     if (shoeColorPreset !== null) shoeColor = shoeColorPreset;
   }
 
+  /** @type {"single" | "double" | "refresh" | null} */
   let powerModePreset = $state(null);
   function setPowerModePreset() {
     powerModePreset = mode;

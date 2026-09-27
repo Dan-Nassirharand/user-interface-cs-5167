@@ -1,5 +1,11 @@
 <script>
-  let { component, text, actions, onSetPreset, onApplyPreset } = $props();
+  let {
+    component,
+    text,
+    actions = undefined,
+    onSetPreset,
+    onApplyPreset,
+  } = $props();
 </script>
 
 <div class="mobile-device">
