@@ -56,6 +56,7 @@ Generative models were used in the following applications:
   - The developer described the element in detail (shape, behavior, size, etc.) and evaluated the result. The developer would then assess the AI output source code, and repeat the cycle until satisfied, asking clarifying questions about Svelte and implementation strategies along the way. Once satisfied, the developer conducted a code review, addressing smells, anti-patterns, and readability concerns
 - Explore available options to host project publicly
 - Create a workflow that builds the hosted site on push to Git
+  - `YAML` files, GitHub repo settings, and methods to expose documentation
 
 ## References
 

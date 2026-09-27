@@ -94,7 +94,7 @@
 
     <a
       class="writeup-link"
-      href="./design/README.md"
+      href="./writeup.html"
       target="_blank"
       rel="noopener"
     >
