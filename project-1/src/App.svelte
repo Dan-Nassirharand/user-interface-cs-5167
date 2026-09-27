@@ -134,9 +134,7 @@
               <SockLinerSwitch bind:isOn={sockLinerOn} />
             {/snippet}
             {#snippet text()}
-              <p class="screen-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
+              <p class="screen-text">Double-tap to change sock liner color.</p>
             {/snippet}
           </MobileDevice>
         </div>
@@ -178,9 +176,7 @@
               />
             {/snippet}
             {#snippet text()}
-              <p class="screen-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
-              </p>
+              <p class="screen-text">Tap to select shoe color.</p>
             {/snippet}
           </MobileDevice>
         </div>
@@ -228,7 +224,7 @@
             {/snippet}
             {#snippet text()}
               <p class="screen-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Tap to cycle through Power I, Power II, and Recharge modes.
               </p>
             {/snippet}
           </MobileDevice>

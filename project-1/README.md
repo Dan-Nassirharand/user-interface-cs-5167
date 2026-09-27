@@ -4,7 +4,10 @@ Smart Object: Shoes
 
 **Live site:** https://dan-nassirharand.github.io/user-interface-cs-5167/
 
-<!-- todo: add level 1 documentation -->
+<!-- todo: add level 1 documentation page -->
+<!-- todo: create general project documentation -->
+<!-- todo: refactor code -->
+<!-- todo: change link in project-documentation -->
 
 ## Setup
 
