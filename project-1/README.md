@@ -8,6 +8,7 @@ Smart Object: Shoes
 <!-- todo: create general project documentation -->
 <!-- todo: refactor code -->
 <!-- todo: change link in project-documentation -->
+<!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
 
 ## Setup
 
