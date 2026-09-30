@@ -1,36 +1,14 @@
 # Project 1: Interface to a Smart Object
 
-Smart Object: Shoes
+## Project Description
 
-**Live site:** https://dan-nassirharand.github.io/user-interface-cs-5167/
+## UI Description
 
-<!-- todo: create general project documentation -->
-<!-- todo: refactor code -->
-<!-- todo: change link in project-documentation -->
-<!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
+### Features and Controls
 
-## Setup
+## Implementation
 
-This project is built with [Svelte](https://svelte.dev/) and [Vite](https://vitejs.dev/), and requires [Node.js](https://nodejs.org/) (with `npm`) to be installed.
-
-Install dependencies (run once, and again any time `package.json` changes):
-
-```bash
-npm install
-```
-
-Run the local dev server (with hot reload) at `http://localhost:5173`:
-
-```bash
-npm run dev
-```
-
-Other available commands:
-
-```bash
-npm run build    # production build, output to dist/
-npm run preview  # preview the production build locally
-```
+## Future Steps
 
 ## AI Use Disclosure
 
@@ -61,8 +39,47 @@ Generative models were used in the following applications:
 - Create a workflow that builds the hosted site on push to Git
   - `YAML` files, GitHub repo settings, and methods to expose documentation
 
+## Demo
+
+<!-- -- todo: Include a 2-3 minute demo video, showing your interface in action -->
+
 ## References
 
 - https://www.w3schools.com/css/css_boxmodel.asp
 - https://www.reddit.com/r/css/comments/10vbm4u/when_to_use_padding_vs_margin/
 - https://icon-sets.iconify.design/
+
+## Project Links
+
+- Publicly hosted application
+  - https://dan-nassirharand.github.io/user-interface-cs-5167/
+- Source code
+  <!-- - todo: add source code link -->
+
+<!-- todo: create general project documentation -->
+<!-- todo: refactor code -->
+<!-- todo: change link in project-documentation -->
+<!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
+
+## Setup
+
+This project is built with [Svelte](https://svelte.dev/) and [Vite](https://vitejs.dev/), and requires [Node.js](https://nodejs.org/) (with `npm`) to be installed.
+
+Install dependencies (run once, and again any time `package.json` changes):
+
+```bash
+npm install
+```
+
+Run the local dev server (with hot reload) at `http://localhost:5173`:
+
+```bash
+npm run dev
+```
+
+Other available commands:
+
+```bash
+npm run build    # production build, output to dist/
+npm run preview  # preview the production build locally
+```
