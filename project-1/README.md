@@ -8,7 +8,6 @@ Smart Object: Shoes
 <!-- todo: refactor code -->
 <!-- todo: change link in project-documentation -->
 <!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
-<!-- standardize alignment when info is present -->
 
 ## Setup
 

@@ -96,7 +96,7 @@
   <main class="main">
     <div class="control-list">
       <div class="control-column">
-        <div class="control-item">
+        <div class="control-item" class:info-open={showInfo}>
           <h3 class="item-title">Sock Liner Color</h3>
           <div class="control-content">
             <div class="control-row">
@@ -129,7 +129,7 @@
       </div>
 
       <div class="control-column">
-        <div class="control-item">
+        <div class="control-item" class:info-open={showInfo}>
           <h3 class="item-title">Shoe Color Selector</h3>
           <div class="control-content">
             <div class="control-row">
@@ -171,7 +171,7 @@
       </div>
 
       <div class="control-column">
-        <div class="control-item">
+        <div class="control-item" class:info-open={showInfo}>
           <h3 class="item-title">Power Control</h3>
           <div class="control-content">
             <div class="control-row">
@@ -343,6 +343,11 @@
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  .control-item.info-open {
+    box-sizing: border-box;
+    min-height: 380px;
   }
 
   .control-item .item-title {
