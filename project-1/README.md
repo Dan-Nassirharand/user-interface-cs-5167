@@ -4,17 +4,11 @@ Smart Object: Shoes
 
 **Live site:** https://dan-nassirharand.github.io/user-interface-cs-5167/
 
-<!-- todo: add level 1 documentation page -->
 <!-- todo: create general project documentation -->
 <!-- todo: refactor code -->
 <!-- todo: change link in project-documentation -->
 <!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
-<!-- todo: make info button "ON" be default -->
-<!-- left align text info text -->
 <!-- standardize alignment when info is present -->
-
-<!-- todo: feedback for preset buttons -->
-<!-- remove preset for sock liner toggle -->
 
 ## Setup
 

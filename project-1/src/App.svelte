@@ -9,7 +9,7 @@
   import shoeColorSketch from "./assets/shoe-color.png";
   import movementBoostSketch from "./assets/movement-boost.png";
 
-  let showInfo = $state(false);
+  let showInfo = $state(true);
   let sockLinerOn = $state(false);
   let shoeColor = $state("#e5490b");
   /** @type {"single" | "double" | "refresh"} */
@@ -39,15 +39,6 @@
 
     return () => clearInterval(id);
   });
-
-  /** @type {boolean | null} */
-  let sockLinerPreset = $state(null);
-  function setSockLinerPreset() {
-    sockLinerPreset = sockLinerOn;
-  }
-  function applySockLinerPreset() {
-    if (sockLinerPreset !== null) sockLinerOn = sockLinerPreset;
-  }
 
   /** @type {string | null} */
   let shoeColorPreset = $state(null);
@@ -126,10 +117,7 @@
           </div>
         </div>
         <div class="device-preview">
-          <MobileDevice
-            onSetPreset={setSockLinerPreset}
-            onApplyPreset={applySockLinerPreset}
-          >
+          <MobileDevice showPresets={false}>
             {#snippet component()}
               <SockLinerSwitch bind:isOn={sockLinerOn} />
             {/snippet}
@@ -380,7 +368,7 @@
     align-self: center;
     font-size: 0.85rem;
     color: #333;
-    text-align: center;
+    text-align: left;
   }
 
   .device-preview {

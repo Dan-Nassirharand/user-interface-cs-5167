@@ -1,11 +1,39 @@
 <script>
+  import { onDestroy } from "svelte";
+
   let {
     component,
     text,
     actions = undefined,
-    onSetPreset,
-    onApplyPreset,
+    onSetPreset = undefined,
+    onApplyPreset = undefined,
+    showPresets = true,
   } = $props();
+
+  let feedbackMessage = $state("");
+  /** @type {ReturnType<typeof setTimeout> | undefined} */
+  let feedbackTimeout;
+
+  /** @param {string} message */
+  function showFeedback(message) {
+    feedbackMessage = message;
+    clearTimeout(feedbackTimeout);
+    feedbackTimeout = setTimeout(() => {
+      feedbackMessage = "";
+    }, 1500);
+  }
+
+  function handleSetPreset() {
+    onSetPreset?.();
+    showFeedback("Preset saved");
+  }
+
+  function handleApplyPreset() {
+    onApplyPreset?.();
+    showFeedback("Preset applied");
+  }
+
+  onDestroy(() => clearTimeout(feedbackTimeout));
 </script>
 
 <div class="mobile-device">
@@ -18,22 +46,27 @@
         {@render text()}
       {/if}
     </div>
-    <div class="screen-actions">
-      {#if actions}
-        {@render actions()}
-      {:else}
-        <button type="button" class="preset-button" onclick={onSetPreset}>
-          Set Preset
-        </button>
-        <button
-          type="button"
-          class="preset-button preset-button--primary"
-          onclick={onApplyPreset}
-        >
-          Apply Preset
-        </button>
-      {/if}
-    </div>
+    {#if actions || showPresets}
+      <div class="screen-actions">
+        {#if actions}
+          {@render actions()}
+        {:else}
+          <button type="button" class="preset-button" onclick={handleSetPreset}>
+            Set Preset
+          </button>
+          <button
+            type="button"
+            class="preset-button preset-button--primary"
+            onclick={handleApplyPreset}
+          >
+            Apply Preset
+          </button>
+          {#if feedbackMessage}
+            <p class="preset-feedback" role="status">{feedbackMessage}</p>
+          {/if}
+        {/if}
+      </div>
+    {/if}
   </div>
 </div>
 
@@ -99,5 +132,12 @@
     background: var(--color-secondary);
     color: var(--color-primary);
     border-color: var(--color-secondary);
+  }
+
+  .preset-feedback {
+    margin: 0;
+    font-size: 0.75rem;
+    text-align: center;
+    color: #1a7f37;
   }
 </style>
