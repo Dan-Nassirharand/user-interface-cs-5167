@@ -1,10 +1,40 @@
 # Project 1: Interface to a Smart Object
 
+Smart Object: Shoes
+
 ## Project Description
+
+The focus of this project is to select a physical object and upgrade it to
+a "smart" version with a digital interface. The learning outcomes are focused
+on design, needs gathering, ideation, and user interface evaluation, rather than
+technical mastery of a language or web application framework.
+
+## Design Work
+
+_Design documentation is available [here](./design/)_
+
+### Pre-Design
+
+<!-- todo: add links for each point of the walkthorugh -->
+
+Design work began with building an understanding of the chosen object, shoes.
+The affordances and physical descriptions of the object were defined and explored. After a working understanding of the object was established, interviews were conducted to inform a problem statement and design challenges. Eventually, a list of needs and requirements were constructed, and were used to inspire ideation.
+
+### Ideation
+
+To ideate, the 10+10 sketching method was used. After sketching was completed,
+the designer selected a few ideas that addressed the challenges described in the pre-design phase to include in a vanilla UI sketch and a series of hybrid sketches. The vanilla sketch was evaluated by users to influence implementation
+and scope future work.
+
+After sketching was complete, a list of assumptions about the physical
+capabilities of the smart device was drafted, and implementation began.
 
 ## UI Description
 
-### Features and Controls
+<!-- todo: add link -->
+
+A description of all features and controls is available [here](todo), as well
+as how they connect back to specific design challenges.
 
 ## Implementation
 
