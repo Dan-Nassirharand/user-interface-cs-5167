@@ -9,6 +9,12 @@ Smart Object: Shoes
 <!-- todo: refactor code -->
 <!-- todo: change link in project-documentation -->
 <!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
+<!-- todo: make info button "ON" be default -->
+<!-- left align text info text -->
+<!-- standardize alignment when info is present -->
+
+<!-- todo: feedback for preset buttons -->
+<!-- remove preset for sock liner toggle -->
 
 ## Setup
 

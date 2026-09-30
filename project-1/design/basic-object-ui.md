@@ -29,3 +29,12 @@ UN-1 is indirectly addressed not necessarily in the cost of the shoe itself, but
 that no longer has to purchase multiple pairs of shoes for different aesthetic applications.
 
 ## Power Control
+
+The control and display of this element are tightly coupled to enhance the usability of the smart shoe. The
+control is a button, that when pressed, cycles through available power modes. The display is on the button itself,
+where an icon informing the user of the power mode they have selected is always made available to the user. Additionally, the
+colored ring around the UI element displays the percentage of remaining battery based on its position around the diameter of
+the button.
+
+UN-3 and UN-5 are addressed with this feature, as power modes I and II enhance walking comfort
+and utility according to the user's preference.
