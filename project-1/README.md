@@ -15,10 +15,8 @@ _Design documentation is available [here](./design/)_
 
 ### Pre-Design
 
-<!-- todo: add links for each point of the walkthorugh -->
-
 Design work began with building an understanding of the chosen object, shoes.
-The affordances and physical descriptions of the object were defined and explored. After a working understanding of the object was established, interviews were conducted to inform a problem statement and design challenges. Eventually, a list of needs and requirements were constructed, and were used to inspire ideation.
+The [affordances and physical descriptions](./design/pre-design-needs-gathering/affordances.md) of the object were defined and explored. After a working understanding of the object was established, [interviews](./design/pre-design-needs-gathering/interviews.md) were conducted to inform [design challenges](./design/sketching/10-plus-10/10-plus-ten-design-challenges.png). Eventually, a list of [needs and requirements](./design/pre-design-needs-gathering/needs-and-requirements.md) were constructed, and were used to inspire ideation.
 
 ### Ideation
 
@@ -31,10 +29,8 @@ capabilities of the smart device was drafted, and implementation began.
 
 ## UI Description
 
-<!-- todo: add link -->
-
-A description of all features and controls is available [here](todo), as well
-as how they connect back to specific design challenges.
+A description of all features and controls, as well
+as how they connect back to specific design challenges is available [here](./design/basic-object-ui.md).
 
 ## Implementation
 
@@ -65,6 +61,7 @@ Generative models were used in the following applications:
 - Research and use component libraries
 - Implement components
   - The developer described the element in detail (shape, behavior, size, etc.) and evaluated the result. The developer would then assess the AI output source code, and repeat the cycle until satisfied, asking clarifying questions about Svelte and implementation strategies along the way. Once satisfied, the developer conducted a code review, addressing smells, anti-patterns, and readability concerns
+  - For the color selection component, AI was used to research and implement a method to convert between HSL and RGB.
 - Explore available options to host project publicly
 - Create a workflow that builds the hosted site on push to Git
   - `YAML` files, GitHub repo settings, and methods to expose documentation
@@ -84,10 +81,9 @@ Generative models were used in the following applications:
 - Publicly hosted application
   - https://dan-nassirharand.github.io/user-interface-cs-5167/
 - Source code
-  <!-- - todo: add source code link -->
+  - https://github.com/Dan-Nassirharand/user-interface-cs-5167/tree/main/project-1
 
-<!-- todo: create general project documentation -->
-<!-- todo: refactor code -->
+<!-- todo: finish general project documentation -->
 <!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
 
 ## Local Setup

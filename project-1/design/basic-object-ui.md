@@ -32,7 +32,8 @@ that no longer has to purchase multiple pairs of shoes for different aesthetic a
 
 The power control functionality of the shoe enhances movement comfort and efficiency
 
-<!-- todo: add feature description -->
+<!-- todo: add feature description. -->
+<!-- todo: add screenshots -->
 
 The control and display of this element are tightly coupled to enhance the usability of the smart shoe. The
 control is a button, that when pressed, cycles through available power modes. The display is on the button itself,

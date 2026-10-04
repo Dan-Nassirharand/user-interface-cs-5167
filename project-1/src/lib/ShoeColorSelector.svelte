@@ -1,75 +1,86 @@
 <script>
-  // TODO: saturation fixed at 100%; trading it away to show hue x lightness instead
+  // saturation is fixed at 100% so the 2D picker can map hue (x) and lightness (y)
   let { selectedColor = $bindable("#e5490b") } = $props();
-  const saturation = 100;
-  let hue = $state(0);
-  let lightness = $state(50);
+  const saturationPercent = 100;
+  let hueDegrees = $state(0);
+  let lightnessPercent = $state(50);
   /** @type {HTMLDivElement} */
-  let squareEl;
-  let dragging = false;
-
-  // TODO: refactor for readability
+  let colorSquare;
+  let isDragging = false;
 
   /**
-   * @param {number} h
-   * @param {number} s
-   * @param {number} l
+   * Converts HSL to a "#rrggbb" string.
+   * @param {number} hue 0-360 degrees
+   * @param {number} saturation 0-100
+   * @param {number} lightness 0-100
    */
-  function hslToHex(h, s, l) {
-    s /= 100;
-    l /= 100;
-    const c = (1 - Math.abs(2 * l - 1)) * s;
-    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-    const m = l - c / 2;
-    let [r, g, b] = [0, 0, 0];
-    if (h < 60) [r, g, b] = [c, x, 0];
-    else if (h < 120) [r, g, b] = [x, c, 0];
-    else if (h < 180) [r, g, b] = [0, c, x];
-    else if (h < 240) [r, g, b] = [0, x, c];
-    else if (h < 300) [r, g, b] = [x, 0, c];
-    else [r, g, b] = [c, 0, x];
-    /** @param {number} n */
-    const toHex = (n) =>
-      Math.round((n + m) * 255)
+  function hslToHex(hue, saturation, lightness) {
+    const saturationFraction = saturation / 100;
+    const lightnessFraction = lightness / 100;
+
+    // chroma: color intensity; secondary: the middle channel's share of it
+    const chroma =
+      (1 - Math.abs(2 * lightnessFraction - 1)) * saturationFraction;
+    const secondary = chroma * (1 - Math.abs(((hue / 60) % 2) - 1));
+    const lightnessOffset = lightnessFraction - chroma / 2;
+
+    // Each 60-degree slice of the hue wheel has a different channel order.
+    let [red, green, blue] = [0, 0, 0];
+    if (hue < 60) [red, green, blue] = [chroma, secondary, 0];
+    else if (hue < 120) [red, green, blue] = [secondary, chroma, 0];
+    else if (hue < 180) [red, green, blue] = [0, chroma, secondary];
+    else if (hue < 240) [red, green, blue] = [0, secondary, chroma];
+    else if (hue < 300) [red, green, blue] = [secondary, 0, chroma];
+    else [red, green, blue] = [chroma, 0, secondary];
+
+    /** @param {number} channel */
+    const channelToHex = (channel) =>
+      Math.round((channel + lightnessOffset) * 255)
         .toString(16)
         .padStart(2, "0");
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+    return `#${channelToHex(red)}${channelToHex(green)}${channelToHex(blue)}`;
   }
 
   $effect(() => {
-    selectedColor = hslToHex(hue, saturation, lightness);
+    selectedColor = hslToHex(hueDegrees, saturationPercent, lightnessPercent);
   });
 
   /** @param {PointerEvent} event */
   function updateFromPointer(event) {
-    const rect = squareEl.getBoundingClientRect();
-    const x = Math.min(Math.max(event.clientX - rect.left, 0), rect.width);
-    const y = Math.min(Math.max(event.clientY - rect.top, 0), rect.height);
-    hue = (x / rect.width) * 360;
-    lightness = 100 - (y / rect.height) * 100;
+    const bounds = colorSquare.getBoundingClientRect();
+    const offsetX = Math.min(
+      Math.max(event.clientX - bounds.left, 0),
+      bounds.width,
+    );
+    const offsetY = Math.min(
+      Math.max(event.clientY - bounds.top, 0),
+      bounds.height,
+    );
+    hueDegrees = (offsetX / bounds.width) * 360;
+    lightnessPercent = 100 - (offsetY / bounds.height) * 100;
   }
 
   /** @param {PointerEvent} event */
   function handlePointerDown(event) {
-    dragging = true;
-    squareEl.setPointerCapture(event.pointerId);
+    isDragging = true;
+    colorSquare.setPointerCapture(event.pointerId);
     updateFromPointer(event);
   }
 
   /** @param {PointerEvent} event */
   function handlePointerMove(event) {
-    if (dragging) updateFromPointer(event);
+    if (isDragging) updateFromPointer(event);
   }
 
   /** @param {PointerEvent} event */
   function handlePointerUp(event) {
-    dragging = false;
-    squareEl.releasePointerCapture(event.pointerId);
+    isDragging = false;
+    colorSquare.releasePointerCapture(event.pointerId);
   }
 </script>
 
 <div
-  bind:this={squareEl}
+  bind:this={colorSquare}
   class="shoe-color-selector"
   style="background:
     linear-gradient(to bottom, #fff, transparent 50%),
@@ -78,15 +89,15 @@
   role="slider"
   tabindex="0"
   aria-label={`Shoe Color: ${selectedColor}`}
-  aria-valuenow={Math.round(hue)}
+  aria-valuenow={Math.round(hueDegrees)}
   onpointerdown={handlePointerDown}
   onpointermove={handlePointerMove}
   onpointerup={handlePointerUp}
 >
   <div
     class="indicator"
-    style="left: {(hue / 360) * 100}%; top: {100 -
-      lightness}%; background: {selectedColor};"
+    style="left: {(hueDegrees / 360) * 100}%; top: {100 -
+      lightnessPercent}%; background: {selectedColor};"
   ></div>
 </div>
 
