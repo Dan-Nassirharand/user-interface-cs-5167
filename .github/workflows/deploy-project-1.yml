@@ -2,7 +2,7 @@ name: Deploy project-1 to GitHub Pages
 
 on:
   push:
-    branches: [proj-1]
+    branches: [main]
     paths:
       - "project-1/**"
       - ".github/workflows/deploy-project-1.yml"

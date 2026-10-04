@@ -85,7 +85,7 @@
 
     <a
       class="writeup-link"
-      href="./writeup.html"
+      href="https://github.com/Dan-Nassirharand/user-interface-cs-5167/blob/main/project-1/README.md"
       target="_blank"
       rel="noopener"
     >
