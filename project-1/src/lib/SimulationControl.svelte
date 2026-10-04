@@ -7,40 +7,54 @@
   } = $props();
 
   // Sequential interaction script; each step's action drives the real app state.
-  const startDelay = 2400;
+  const shortDelay = 2400;
+  const longDelay = 3200;
+  const startDelay = shortDelay;
   const steps = [
     {
       label: "Choosing sock liner color...",
-      duration: 3200,
+      duration: longDelay,
       action: () => (sockLinerOn = true),
     },
     {
       label: "Selecting shoe color...",
-      duration: 3200,
+      duration: longDelay,
       action: () => (shoeColor = "#2b7de9"),
     },
-    { label: "Walking...", duration: 3200, action: () => (activity = "walk") },
+    {
+      label: "Walking...",
+      duration: longDelay,
+      action: () => (activity = "walk"),
+    },
     {
       label: "Stop to increase power",
-      duration: 2400,
+      duration: shortDelay,
       action: () => {
         activity = "none";
         mode = "double";
       },
     },
-    { label: "Walking...", duration: 2400, action: () => (activity = "walk") },
+    {
+      label: "Walking...",
+      duration: shortDelay,
+      action: () => (activity = "walk"),
+    },
     {
       label: "Stop to start recharging power",
-      duration: 2400,
+      duration: shortDelay,
       action: () => {
         activity = "none";
         mode = "refresh";
       },
     },
-    { label: "Running...", duration: 2400, action: () => (activity = "run") },
+    {
+      label: "Running...",
+      duration: shortDelay,
+      action: () => (activity = "run"),
+    },
     {
       label: "Stop to change shoe color...",
-      duration: 2400,
+      duration: shortDelay,
       action: () => {
         activity = "none";
         shoeColor = "#e5490b";

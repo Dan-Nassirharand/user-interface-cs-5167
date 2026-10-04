@@ -18,7 +18,8 @@
   let activity = $state("none");
   let value = $state(50);
 
-  // percentage points per second at a 1x rate; negative = drain, positive = charge
+  // percentage points per second at a 1x rate for power control battery
+  // negative = drain, positive = charge
   const ratesByMode = {
     single: { walk: -1, run: -1.5 },
     double: { walk: -2, run: -2.5 },

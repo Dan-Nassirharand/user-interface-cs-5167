@@ -88,10 +88,9 @@ Generative models were used in the following applications:
 
 <!-- todo: create general project documentation -->
 <!-- todo: refactor code -->
-<!-- todo: change link in project-documentation -->
 <!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
 
-## Setup
+## Local Setup
 
 This project is built with [Svelte](https://svelte.dev/) and [Vite](https://vitejs.dev/), and requires [Node.js](https://nodejs.org/) (with `npm`) to be installed.
 
