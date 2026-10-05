@@ -30,7 +30,7 @@ This affordance, due to the presence of shoe culture in many first world countri
 
 ### Preservable
 
-Some might confound the perservable quality of shoes with its capacity to be displayed, however it is more so an affordance between that of being displayable and wearable on the scale of utility and aesthetics, leaning towards one end of the spectrum based on the demographic of the user and the shoe itself.
+Some might confound the preservable quality of shoes with its capacity to be displayed, however it is more so an affordance between that of being displayable and wearable on the scale of utility and aesthetics, leaning towards one end of the spectrum based on the demographic of the user and the shoe itself.
 
 Common, multi-purpose shoes lend themselves to be preserved from a financial perspective (ex. a student buying one pair of shoes a year), whereas special-purpose shoes, like those used for ballet and rock climbing, may be preserved with a performance constraint in mind. A public figure in New York might want to preserve their shoes as a way to telegraph social status to those around them.
 
