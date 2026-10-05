@@ -105,6 +105,14 @@ on each push to `main` that changes this project. Production builds set Vite's
 
 ## Future Steps
 
+Given more time and resources, the designer would revisit the earliest stages
+of the design process and conduct more interviews. The designer would select a
+specific audience to curate the product to, and interview a large, representative sample of users.
+
+More work being done this early in the design process will prove laborious and expensive, but it is necessary to create a product that will generate revenue for a business and make a difference in the world.
+
+Once interviews are conducted, the same general design process here will be followed. Design constraints will be established from interviews, the designer will ideate, then, finally, implement a mock-up of the UI components for the object.
+
 ## AI Use Disclosure
 
 In general, AI was used to learn Svelte, refresh on general web-design principles,
