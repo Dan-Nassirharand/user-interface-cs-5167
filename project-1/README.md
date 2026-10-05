@@ -105,6 +105,8 @@ on each push to `main` that changes this project. Production builds set Vite's
 
 ## Future Steps
 
+### Design Work
+
 Given more time and resources, the designer would revisit the earliest stages
 of the design process and conduct more interviews. The designer would select a
 specific audience to curate the product to, and interview a large, representative sample of users.
@@ -112,6 +114,10 @@ specific audience to curate the product to, and interview a large, representativ
 More work being done this early in the design process will prove laborious and expensive, but it is necessary to create a product that will generate revenue for a business and make a difference in the world.
 
 Once interviews are conducted, the same general design process here will be followed. Design constraints will be established from interviews, the designer will ideate, then, finally, implement a mock-up of the UI components for the object.
+
+### Business Needs
+
+To address additional design constraints, the user would research and scope more non-technical work, such as sourcing, manufacturing, finance, and marketing, to contribute to the overall success of the commercialization of the object.
 
 ## AI Use Disclosure
 
@@ -164,7 +170,6 @@ Generative models were used in the following applications:
   - https://github.com/Dan-Nassirharand/user-interface-cs-5167/tree/main/project-1
 
 <!-- todo: finish general project documentation -->
-<!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
 
 ## Local Setup
 
