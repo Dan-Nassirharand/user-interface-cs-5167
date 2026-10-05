@@ -36,6 +36,8 @@ capabilities of the smart device was drafted, and implementation began.
 
 ## UI Description
 
+<img width="1848" height="906" alt="image" src="https://github.com/user-attachments/assets/e6e4a630-1496-4920-ac6f-41f2f8977f85" />
+
 A description of individual features and controls, as well
 as how they connect back to specific design challenges is available [here](./design/basic-object-ui.md).
 
