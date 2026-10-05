@@ -170,7 +170,7 @@ Generative models were used in the following applications:
 
 ## Demo
 
-<!-- -- todo: Include a 2-3 minute demo video, showing your interface in action -->
+https://youtu.be/x3-tvNELpLM
 
 ## References
 
