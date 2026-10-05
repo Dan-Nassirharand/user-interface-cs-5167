@@ -65,6 +65,7 @@ Generative models were used in the following applications:
 - Explore available options to host project publicly
 - Create a workflow that builds the hosted site on push to Git
   - `YAML` files, GitHub repo settings, and methods to expose documentation
+- Add links to existing documentation in the project writeup.
 
 ## Demo
 
