@@ -5,16 +5,20 @@ along with a brief description of how each connect back to [captured design goal
 
 ## Sock Liner
 
+<img width="467" height="815" alt="image" src="https://github.com/user-attachments/assets/85137627-bd58-440b-ad65-ee8816df0b70" />
+
 The control of this UI element is a simple button used to adjust the color of the sock liner on the smart shoe.
 The display of this element is highly intuitive as the colors available are communicated via the same button,
 and are easily visible the the user via the color of the sock liner itself.
 
 This UI element addresses UN-4 in that they are able to integrate their shoes with the rest of their apparel via
-a simple touch of a button. This removes friction by eliminating the need to coordinate sock color with shoes and clothing.
+a simple double-press of a button. This removes friction by eliminating the need to coordinate sock color with shoes and clothing.
 
 While UN-1 is not directly addressed, this functionality eliminates the need for socks, potentially saving the user money.
 
 ## Shoe Color Selector
+
+<img width="431" height="810" alt="image" src="https://github.com/user-attachments/assets/362c623b-7f55-4733-8c68-7077cb8d652f" />
 
 The shoe color selector control appears only when the aglets are magnetically connected together. Once touching,
 the control is revealed as a simple touchscreen with a wide range of hues the user can select by touching the desired one
@@ -30,10 +34,10 @@ that no longer has to purchase multiple pairs of shoes for different aesthetic a
 
 ## Power Control
 
-The power control functionality of the shoe enhances movement comfort and efficiency
+<img width="443" height="811" alt="image" src="https://github.com/user-attachments/assets/8c489ca3-be0a-48e0-b6d9-e63a336fa529" />
 
-<!-- todo: add feature description. -->
-<!-- todo: add screenshots -->
+The power control functionality of the shoe enhances movement comfort and efficiency. Based on the power mode (I or II), the shoe assists user movement , similar to the function of an electric bicycle. In recharge mode,
+the internal battery inside each shoe is recharged by the user's movement.
 
 The control and display of this element are tightly coupled to enhance the usability of the smart shoe. The
 control is a button, that when pressed, cycles through available power modes. The display is on the button itself,

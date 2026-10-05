@@ -9,9 +9,16 @@ a "smart" version with a digital interface. The learning outcomes are focused
 on design, needs gathering, ideation, and user interface evaluation, rather than
 technical mastery of a language or web application framework.
 
+## Project Links
+
+- Publicly hosted application
+  - https://dan-nassirharand.github.io/user-interface-cs-5167/
+- Source code
+  - https://github.com/Dan-Nassirharand/user-interface-cs-5167/tree/main/project-1
+
 ## Design Work
 
-_Design documentation is available [here](./design/)_
+Design documentation is available [here](./design/).
 
 ### Pre-Design
 
@@ -29,12 +36,104 @@ capabilities of the smart device was drafted, and implementation began.
 
 ## UI Description
 
-A description of all features and controls, as well
+<img width="1848" height="906" alt="image" src="https://github.com/user-attachments/assets/e6e4a630-1496-4920-ac6f-41f2f8977f85" />
+
+The main section of the webpage (white background) showcases the UI of each feature along with a corresponding view of a secondary device controller.
+A description of individual features and controls, as well
 as how they connect back to specific design challenges is available [here](./design/basic-object-ui.md).
+
+The top banner, aside from including the title of the project and the author's
+name, has buttons to simulate user actions (`Walk`, `Run`), as well as a
+pre-programmed simulation designed to showcase the functionality of all smart features.
+
+The `info` buttons toggles the presence of additional information for each feature. The `Project Write-Up` link routes back to this documentation.
 
 ## Implementation
 
+### Technical Stack
+
+This project was developed using Svelte 5 and JavaScript (ES modules), bundled
+and served with Vite. There is no backend; the app is a static single-page
+application hosted on GitHub Pages.
+
+| Tool / Library                                                                   | Role                                                                                                    |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [Svelte 5](https://svelte.dev/)                                                  | Component framework; reactivity via runes (`$state`, `$derived`, `$effect`, `$props`, `$bindable`)      |
+| [Vite](https://vitejs.dev/)                                                      | Dev server (hot reload) and production bundler                                                          |
+| [`@sveltejs/vite-plugin-svelte`](https://github.com/sveltejs/vite-plugin-svelte) | Compiles `.svelte` files within Vite                                                                    |
+| [`@iconify/svelte`](https://iconify.design/docs/icon-components/svelte/)         | Icon component; icons are loaded on demand from the Iconify icon sets (`at-icons`, `boxicons`, `basil`) |
+| GitHub Actions + GitHub Pages                                                    | CI build and public hosting (see below)                                                                 |
+
+### Styling
+
+No CSS framework is used. Styling is plain CSS scoped to each component, with
+shared colors defined as CSS custom properties in `App.svelte`.
+
+Page layout uses CSS Grid for the overall structure (header above main content)
+and Flexbox for arranging controls within it. The layout targets desktop
+screens and is not responsive.
+
+### Code Structure
+
+```
+src/
+├── main.js            # mounts <App />
+├── App.svelte         # page layout, shared state, simulation logic
+├── app.css            # global styles
+├── assets/            # placement sketches
+└── lib/
+    ├── SockLinerSwitch.svelte    # sock liner on/off control
+    ├── ShoeColorSelector.svelte  # 2D hue/lightness color picker
+    ├── PowerControl.svelte       # battery ring + power mode control
+    ├── MobileDevice.svelte       # phone-style frame for secondary device view
+    ├── ActivityButtons.svelte    # simulate walking / running
+    └── SimulationControl.svelte  # simulation panel for setting state directly
+```
+
+Each smart-shoe feature is its own component in `src/lib/`. `App.svelte` is the
+only place that composes them, and each control is rendered twice: once as the
+on-shoe control and once inside a `MobileDevice` frame as the companion-app
+equivalent.
+
+### Design Patterns
+
+- Modularity: each control is its own self-contained component.
+- Centralized state: shared state lives in `App.svelte` and is passed down to
+  components, so the on-shoe and mobile views of a control stay in sync.
+- Two-way binding: components update shared state through `$bindable` props.
+- Derived state: values computed from other state (e.g., the power ring fill)
+  are derived rather than stored.
+- Isolated side effects: timers and state syncing live in `$effect` blocks.
+- Data-driven behavior: battery drain/charge rates come from a lookup table
+  rather than branching logic.
+- Abstraction and composition: `MobileDevice` is a generic frame that takes its
+  contents as snippets, and is reused for every control.
+- Accessibility: native elements with `aria-*` attributes where state is not
+  visible in text.
+
+### Build and Deployment
+
+The site is built with Vite and deployed to GitHub Pages by a GitHub Actions
+workflow ([deploy-project-1.yml](../.github/workflows/deploy-project-1.yml))
+on each push to `main` that changes this project. Production builds set Vite's
+`base` to the repository name, because GitHub Pages serves the site at
+`/<repo-name>/` rather than the domain root.
+
 ## Future Steps
+
+### Design Work
+
+Given more time and resources, the designer would revisit the earliest stages
+of the design process and conduct more interviews. The designer would select a
+specific audience to curate the product to, and interview a large, representative sample of users.
+
+More work being done this early in the design process will prove laborious and expensive, but it is necessary to create a product that will generate revenue for a business and make a difference in the world.
+
+Once interviews are conducted, the same general design process here will be followed. Design constraints will be established from interviews, the designer will ideate, then, finally, implement a mock-up of the UI components for the object.
+
+### Business Needs
+
+To address additional design constraints, the user would research and scope more non-technical work, such as sourcing, manufacturing, finance, and marketing, to contribute to the overall success of the commercialization of the object.
 
 ## AI Use Disclosure
 
@@ -65,26 +164,19 @@ Generative models were used in the following applications:
 - Explore available options to host project publicly
 - Create a workflow that builds the hosted site on push to Git
   - `YAML` files, GitHub repo settings, and methods to expose documentation
+- Add links to existing documentation in the project writeup.
+- Creating documentation around implementation
+  - Verify and recall design patterns, state management, and dependencies
 
 ## Demo
 
-<!-- -- todo: Include a 2-3 minute demo video, showing your interface in action -->
+https://youtu.be/x3-tvNELpLM
 
 ## References
 
 - https://www.w3schools.com/css/css_boxmodel.asp
 - https://www.reddit.com/r/css/comments/10vbm4u/when_to_use_padding_vs_margin/
 - https://icon-sets.iconify.design/
-
-## Project Links
-
-- Publicly hosted application
-  - https://dan-nassirharand.github.io/user-interface-cs-5167/
-- Source code
-  - https://github.com/Dan-Nassirharand/user-interface-cs-5167/tree/main/project-1
-
-<!-- todo: finish general project documentation -->
-<!-- todo: mention design/requirement numbers that are addressed via business (manufacturing) as part of next steps -->
 
 ## Local Setup
 
