@@ -34,6 +34,75 @@ as how they connect back to specific design challenges is available [here](./des
 
 ## Implementation
 
+### Technical Stack
+
+This project was developed using Svelte 5 and JavaScript (ES modules), bundled
+and served with Vite. There is no backend; the app is a static single-page
+application hosted on GitHub Pages.
+
+| Tool / Library                                                                   | Role                                                                                                    |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [Svelte 5](https://svelte.dev/)                                                  | Component framework; reactivity via runes (`$state`, `$derived`, `$effect`, `$props`, `$bindable`)      |
+| [Vite](https://vitejs.dev/)                                                      | Dev server (hot reload) and production bundler                                                          |
+| [`@sveltejs/vite-plugin-svelte`](https://github.com/sveltejs/vite-plugin-svelte) | Compiles `.svelte` files within Vite                                                                    |
+| [`@iconify/svelte`](https://iconify.design/docs/icon-components/svelte/)         | Icon component; icons are loaded on demand from the Iconify icon sets (`at-icons`, `boxicons`, `basil`) |
+| GitHub Actions + GitHub Pages                                                    | CI build and public hosting (see below)                                                                 |
+
+### Styling
+
+No CSS framework is used. Styling is plain CSS scoped to each component, with
+shared colors defined as CSS custom properties in `App.svelte`.
+
+Page layout uses CSS Grid for the overall structure (header above main content)
+and Flexbox for arranging controls within it. The layout targets desktop
+screens and is not responsive.
+
+### Code Structure
+
+```
+src/
+├── main.js            # mounts <App />
+├── App.svelte         # page layout, shared state, simulation logic
+├── app.css            # global styles
+├── assets/            # placement sketches
+└── lib/
+    ├── SockLinerSwitch.svelte    # sock liner on/off control
+    ├── ShoeColorSelector.svelte  # 2D hue/lightness color picker
+    ├── PowerControl.svelte       # battery ring + power mode control
+    ├── MobileDevice.svelte       # phone-style frame for secondary device view
+    ├── ActivityButtons.svelte    # simulate walking / running
+    └── SimulationControl.svelte  # simulation panel for setting state directly
+```
+
+Each smart-shoe feature is its own component in `src/lib/`. `App.svelte` is the
+only place that composes them, and each control is rendered twice: once as the
+on-shoe control and once inside a `MobileDevice` frame as the companion-app
+equivalent.
+
+### Design Patterns
+
+- Modularity: each control is its own self-contained component.
+- Centralized state: shared state lives in `App.svelte` and is passed down to
+  components, so the on-shoe and mobile views of a control stay in sync.
+- Two-way binding: components update shared state through `$bindable` props.
+- Derived state: values computed from other state (e.g., the power ring fill)
+  are derived rather than stored.
+- Isolated side effects: timers and state syncing live in `$effect` blocks.
+- Data-driven behavior: battery drain/charge rates come from a lookup table
+  rather than branching logic.
+- Abstraction and composition: `MobileDevice` is a generic frame that takes its
+  contents as snippets, and is reused for every control.
+- Accessibility: native elements with `aria-*` attributes where state is not
+  visible in text.
+
+### Build and Deployment
+
+The site is built with Vite and deployed to GitHub Pages by a GitHub Actions
+workflow ([deploy-project-1.yml](../.github/workflows/deploy-project-1.yml))
+on each push to `main` that changes this project. Production builds set Vite's
+`base` to the repository name, because GitHub Pages serves the site at
+`/<repo-name>/` rather than the domain root.
+
 ## Future Steps
 
 ## AI Use Disclosure
@@ -66,6 +135,8 @@ Generative models were used in the following applications:
 - Create a workflow that builds the hosted site on push to Git
   - `YAML` files, GitHub repo settings, and methods to expose documentation
 - Add links to existing documentation in the project writeup.
+- Creating documentation around implementation
+  - Verify and recall design patterns, state management, and dependencies
 
 ## Demo
 
