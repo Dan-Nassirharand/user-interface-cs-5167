@@ -38,8 +38,15 @@ capabilities of the smart device was drafted, and implementation began.
 
 <img width="1848" height="906" alt="image" src="https://github.com/user-attachments/assets/e6e4a630-1496-4920-ac6f-41f2f8977f85" />
 
+The main section of the webpage (white background) showcases the UI of each feature along with a corresponding view of a secondary device controller.
 A description of individual features and controls, as well
 as how they connect back to specific design challenges is available [here](./design/basic-object-ui.md).
+
+The top banner, aside from including the title of the project and the author's
+name, has buttons to simulate user actions (`Walk`, `Run`), as well as a
+pre-programmed simulation designed to showcase the functionality of all smart features.
+
+The `info` buttons toggles the presence of additional information for each feature. The `Project Write-Up` link routes back to this documentation.
 
 ## Implementation
 
