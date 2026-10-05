@@ -9,9 +9,16 @@ a "smart" version with a digital interface. The learning outcomes are focused
 on design, needs gathering, ideation, and user interface evaluation, rather than
 technical mastery of a language or web application framework.
 
+## Project Links
+
+- Publicly hosted application
+  - https://dan-nassirharand.github.io/user-interface-cs-5167/
+- Source code
+  - https://github.com/Dan-Nassirharand/user-interface-cs-5167/tree/main/project-1
+
 ## Design Work
 
-_Design documentation is available [here](./design/)_
+Design documentation is available [here](./design/).
 
 ### Pre-Design
 
@@ -29,7 +36,7 @@ capabilities of the smart device was drafted, and implementation began.
 
 ## UI Description
 
-A description of all features and controls, as well
+A description of individual features and controls, as well
 as how they connect back to specific design challenges is available [here](./design/basic-object-ui.md).
 
 ## Implementation
@@ -161,15 +168,6 @@ Generative models were used in the following applications:
 - https://www.w3schools.com/css/css_boxmodel.asp
 - https://www.reddit.com/r/css/comments/10vbm4u/when_to_use_padding_vs_margin/
 - https://icon-sets.iconify.design/
-
-## Project Links
-
-- Publicly hosted application
-  - https://dan-nassirharand.github.io/user-interface-cs-5167/
-- Source code
-  - https://github.com/Dan-Nassirharand/user-interface-cs-5167/tree/main/project-1
-
-<!-- todo: finish general project documentation -->
 
 ## Local Setup
 
