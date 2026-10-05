@@ -5,6 +5,8 @@ along with a brief description of how each connect back to [captured design goal
 
 ## Sock Liner
 
+<img width="467" height="815" alt="image" src="https://github.com/user-attachments/assets/85137627-bd58-440b-ad65-ee8816df0b70" />
+
 The control of this UI element is a simple button used to adjust the color of the sock liner on the smart shoe.
 The display of this element is highly intuitive as the colors available are communicated via the same button,
 and are easily visible the the user via the color of the sock liner itself.
@@ -15,6 +17,8 @@ a simple touch of a button. This removes friction by eliminating the need to coo
 While UN-1 is not directly addressed, this functionality eliminates the need for socks, potentially saving the user money.
 
 ## Shoe Color Selector
+
+<img width="431" height="810" alt="image" src="https://github.com/user-attachments/assets/362c623b-7f55-4733-8c68-7077cb8d652f" />
 
 The shoe color selector control appears only when the aglets are magnetically connected together. Once touching,
 the control is revealed as a simple touchscreen with a wide range of hues the user can select by touching the desired one
@@ -30,10 +34,11 @@ that no longer has to purchase multiple pairs of shoes for different aesthetic a
 
 ## Power Control
 
+<img width="443" height="811" alt="image" src="https://github.com/user-attachments/assets/8c489ca3-be0a-48e0-b6d9-e63a336fa529" />
+
 The power control functionality of the shoe enhances movement comfort and efficiency
 
 <!-- todo: add feature description. -->
-<!-- todo: add screenshots -->
 
 The control and display of this element are tightly coupled to enhance the usability of the smart shoe. The
 control is a button, that when pressed, cycles through available power modes. The display is on the button itself,
