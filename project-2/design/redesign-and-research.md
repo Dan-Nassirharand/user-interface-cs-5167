@@ -3,7 +3,7 @@
 ## Current Issues
 
 The Craigslist UI has usability issues, most of which stem from the UI's step away from an industry standard template for a webpage
-and aesthetic design. To elaborate, the color scheme, indentation, and logical grouping of elements is unintuitive and not learnable,
+and aesthetic design. To elaborate, the color scheme, indentation, and logical grouping of elements are unintuitive and not learnable,
 as the existing knowledge users are likely to have on navigating web pages is not invoked.
 
 These issues, especially that of learnability,
