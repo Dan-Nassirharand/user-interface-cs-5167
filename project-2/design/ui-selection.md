@@ -5,7 +5,7 @@ We will focus on a redesign of the [Craigslist Cincinnati webpage](https://www.c
 ## Initial Redesign
 
 We are focusing on Craigslist due to fundamental design flaws, as well as issues with usability/learnability.
-Our initial inspections reveals issues with:
+Our initial inspections reveal issues with:
 
 - Color scheme
 - Indentation
