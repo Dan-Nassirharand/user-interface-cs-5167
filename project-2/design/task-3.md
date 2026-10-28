@@ -3,9 +3,9 @@
 
 ### Method
 
-I used Nielsen's 10 Usability Heuristics to review the Craigslist Cincinnati homepage. I focused on the layout, categories, and navigation.
+Nielsen's 10 Usability Heuristics were used to review the Craigslist Cincinnati homepage, focusing on the layout, categories, and navigation.
 
-I rated each problem from 0 (no problem) to 4 (very serious).
+Each problem was rated from 0 (no problem) to 4 (very serious).
 
 ### Findings
 
