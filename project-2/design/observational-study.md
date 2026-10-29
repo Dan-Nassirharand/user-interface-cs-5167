@@ -61,6 +61,11 @@ Thoughts: This one felt a little more simple. He thought it should be on the hom
 
 ### General 
 
-# Findings 
+# Suggested Addressables
 
-# Addressables
+Do not have similar wording far away from each other
+Remove heap of links
+New way to start (instead of location page esp with links)
+Use icons instead of links when applicaple
+Try to use the qizard/quiz style posting when possible
+group, Declutter, and style the whole page better.  
