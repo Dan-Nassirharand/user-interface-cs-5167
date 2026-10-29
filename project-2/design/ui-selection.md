@@ -1,10 +1,16 @@
-<!-- TODO: -->
+# UI Redesign Selection
 
-Task 1-a
+We will focus on a redesign of the [Craigslist Cincinnati webpage](https://www.craigslist.org/area/cincinnati)
 
-```
-1) Choose a UI to fix: Identifying a UI that exists in the world that you think could benefit from a fundamental redesign.  It is going to be better if you find a UI that has a significant flaw, or for which you think a significant re-envisioning would be valuable and interesting to explore.  Don't pick a UI that is generally good, but that could be made better with a few small changes.
+## Initial Redesign
 
-    Submit this UI for a project checkpoint
-    Present your initial idea for the redesign- considering whether you think the issue is a usability or design problem (A above) or you want to retarget the UI for a different goal (B above).
-```
+We are focusing on Craigslist due to fundamental design flaws, as well as issues with usability/learnability.
+Our initial inspections reveal issues with:
+
+- Color scheme
+- Indentation
+- Adherence to webpage standards
+- Efficiency
+- Consistency
+
+As we conduct research, we will narrow the scope of our project to focus on the highest priority violations, and address them in turn.
