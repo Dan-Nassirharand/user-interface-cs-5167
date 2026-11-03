@@ -1,8 +1,8 @@
-## Task 4: Survey
+## Survey
 
 ### Method
 
-A short survey (Canvas method h) was used to get opinions about the Craigslist Cincinnati homepage.
+A short survey was used to get opinions about the Craigslist Cincinnati homepage.
 
 The questions asked about Craigslist experience, finding a used desk, problems with the homepage, and ideas for improvement.
 
