@@ -135,23 +135,23 @@ Across all three pages, users responded best to simple, familiar layouts. The fi
 
 Based on [Sketch 1](images/home-1.jpg).
 
-<!-- TODO: add final sketch once drawn -->
+**Default state**
 
-![Final home sketch](images/home-final.jpg)
+![Final home sketch, default state](images/home-final-1.jpg)
+
+**Highlighted state**
+
+![Final home sketch, highlighted state](images/home-final-2.jpg)
 
 #### Location / Area
 
 Based on [Sketch 1](images/location-1.jpg).
-
-<!-- TODO: add final sketch once drawn -->
 
 ![Final location / area sketch](images/location-final.jpg)
 
 #### Search
 
 Based on [Sketch 2](images/search-2.jpg).
-
-<!-- TODO: add final sketch once drawn -->
 
 ![Final search sketch](images/search-final.jpg)
 
