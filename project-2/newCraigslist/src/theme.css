@@ -1,0 +1,204 @@
+/**
+ * Craigslist Redesign - Theme & Design Tokens
+ * Defines fonts, typography scales, color schemes (light and dark), and UI variables.
+ */
+
+:root {
+  /* ==========================================================================
+     1. Fonts & Typography
+     ========================================================================== */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-heading: var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+
+  /* Font Weights */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* ==========================================================================
+     2. Color Scheme - Light (Default)
+     ========================================================================== */
+  /* Surfaces & Backgrounds */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f8fafc;
+
+  /* Text Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
+
+  /* Borders & Dividers */
+  --border-subtle: #e2e8f0;
+  --border-default: #cbd5e1;
+  --border-strong: #94a3b8;
+
+  /* Brand Colors (Modernized Craigslist Purple) */
+  --color-primary: #5c2d91;
+  --color-primary-hover: #4a2475;
+  --color-primary-light: #f3e8ff;
+  --color-primary-contrast: #ffffff;
+
+  /* Secondary / Accent Colors (Refined Craigslist Blue) */
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --color-accent-light: #eff6ff;
+  --color-accent-contrast: #ffffff;
+
+  /* Semantic Feedback Colors */
+  --color-success: #16a34a;
+  --color-success-bg: #f0fdf4;
+  --color-success-text: #14532d;
+
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-warning-text: #78350f;
+
+  --color-danger: #dc2626;
+  --color-danger-bg: #fef2f2;
+  --color-danger-text: #7f1d1d;
+
+  --color-info: #0284c7;
+  --color-info-bg: #f0f9ff;
+  --color-info-text: #0c4a6e;
+
+  /* ==========================================================================
+     3. Common UI Tokens (Borders, Shadows, Transitions)
+     ========================================================================== */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   4. Color Scheme - Dark Mode
+   Activated either automatically via OS or manually with [data-theme="dark"]
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-surface: #1e293b;
+    --bg-surface-hover: #293548;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --text-inverse: #0f172a;
+
+    --border-subtle: #334155;
+    --border-default: #475569;
+    --border-strong: #64748b;
+
+    --color-primary: #a855f7;
+    --color-primary-hover: #c084fc;
+    --color-primary-light: #3b1d5a;
+    --color-primary-contrast: #ffffff;
+
+    --color-accent: #60a5fa;
+    --color-accent-hover: #93c5fd;
+    --color-accent-light: #1e3a5f;
+    --color-accent-contrast: #ffffff;
+
+    --color-success: #22c55e;
+    --color-success-bg: #052e16;
+    --color-success-text: #bbf7d0;
+
+    --color-warning: #f59e0b;
+    --color-warning-bg: #451a03;
+    --color-warning-text: #fde68a;
+
+    --color-danger: #ef4444;
+    --color-danger-bg: #450a0a;
+    --color-danger-text: #fecaca;
+
+    --color-info: #38bdf8;
+    --color-info-bg: #082f49;
+    --color-info-text: #bae6fd;
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-surface: #1e293b;
+  --bg-surface-hover: #293548;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --text-inverse: #0f172a;
+
+  --border-subtle: #334155;
+  --border-default: #475569;
+  --border-strong: #64748b;
+
+  --color-primary: #a855f7;
+  --color-primary-hover: #c084fc;
+  --color-primary-light: #3b1d5a;
+  --color-primary-contrast: #ffffff;
+
+  --color-accent: #60a5fa;
+  --color-accent-hover: #93c5fd;
+  --color-accent-light: #1e3a5f;
+  --color-accent-contrast: #ffffff;
+
+  --color-success: #22c55e;
+  --color-success-bg: #052e16;
+  --color-success-text: #bbf7d0;
+
+  --color-warning: #f59e0b;
+  --color-warning-bg: #451a03;
+  --color-warning-text: #fde68a;
+
+  --color-danger: #ef4444;
+  --color-danger-bg: #450a0a;
+  --color-danger-text: #fecaca;
+
+  --color-info: #38bdf8;
+  --color-info-bg: #082f49;
+  --color-info-text: #bae6fd;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35);
+}
