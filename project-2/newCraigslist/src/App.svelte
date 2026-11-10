@@ -3,6 +3,7 @@
   import Title from './Title.svelte';
   import SearchBar from './SearchBar.svelte';
   import WordCard from './WordCard.svelte';
+  import DictionaryWordCard from './DictionaryWordCard.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
 </script>
 
@@ -13,9 +14,14 @@
   <div class="header">
     <Title showLogo={true}/>
     <div class="words">
+      
       <WordCard word="Find." description="Find housing, jobs, listings, events, and more in your area." color="var(--color-accent)" />
       <WordCard word="Shop." description="Shop everything that craigslist users are selling." color="var(--color-primary)" />
       <WordCard word="List." description="List items, services, and more to users in your area." color="var(--color-sage)" />
+     
+      <!-- <DictionaryWordCard word="Find." pronunciation="/faɪnd/" partOfSpeech="verb" description="Find housing, jobs, listings, events, and more in your area." color="var(--color-accent)" />
+      <DictionaryWordCard word="Shop." pronunciation="/ʃɑp/" partOfSpeech="verb" description="Shop everything that craigslist users are selling." color="var(--color-primary)" />
+      <DictionaryWordCard word="List." pronunciation="/lɪst/" partOfSpeech="verb" description="List items, services, and more to users in your area." color="var(--color-sage)" /> -->
     </div>
   </div>
   <SearchBar />
