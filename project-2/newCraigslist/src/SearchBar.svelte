@@ -7,22 +7,32 @@
   };
 
   let mode = $state("search");
+  let { onsearch, initialQuery = '' } = $props();
+  let query = $state('');
+  $effect(() => { query = initialQuery; });
+
+  function submit(event) {
+    event.preventDefault();
+    onsearch?.(query.trim(), mode);
+  }
 </script>
 
-<form class="search-bar" onsubmit={(e) => e.preventDefault()}>
+<form class="search-bar" onsubmit={submit}>
   <SearchModeSelect bind:value={mode} />
-  <input type="search" placeholder={placeholders[mode]} aria-label="Search" />
+  <input bind:value={query} type="search" placeholder={placeholders[mode]} aria-label="Search" />
   <button type="submit">Search</button>
 </form>
 
 <style>
   .search-bar {
     display: flex;
+    width: min(100%, 40rem);
   }
 
   /* The input sets the bar's height (padding + font size); the mode select and button stretch to match */
   input {
-    width: 28rem;
+    width: 100%;
+    min-width: 0;
     padding: 0.625rem 1rem;
     font-size: var(--text-lg, 1.125rem);
     border: 1px solid var(--border-default, #cbd5e1);
