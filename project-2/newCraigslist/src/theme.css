@@ -68,6 +68,9 @@
   --color-accent-light: #eff6ff;
   --color-accent-contrast: #ffffff;
 
+  /* Tertiary Color (Sage Green) — same in light and dark mode */
+  --color-sage: #62994B;
+
   /* Semantic Feedback Colors */
   --color-success: #16a34a;
   --color-success-bg: #f0fdf4;
