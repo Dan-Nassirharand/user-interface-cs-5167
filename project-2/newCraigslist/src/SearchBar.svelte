@@ -20,18 +20,19 @@
     display: flex;
   }
 
+  /* The input sets the bar's height (padding + font size); the mode select and button stretch to match */
   input {
-    width: 24rem;
-    padding: 0.5rem 0.75rem;
-    font-size: var(--text-base, 1rem);
+    width: 28rem;
+    padding: 0.625rem 1rem;
+    font-size: var(--text-lg, 1.125rem);
     border: 1px solid var(--border-default, #cbd5e1);
     /* Square on both sides: joined to the mode select and the search button */
     border-radius: 0;
   }
 
   button {
-    padding: 0.5rem 1rem;
-    font-size: var(--text-base, 1rem);
+    padding: 0.625rem 1.25rem;
+    font-size: var(--text-lg, 1.125rem);
     /* Same 1px outline as the input so the edges line up; the input's right border forms the seam */
     border: 1px solid var(--border-default, #cbd5e1);
     border-left: none;

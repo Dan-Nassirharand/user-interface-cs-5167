@@ -10,11 +10,13 @@
 <ThemeToggle />
 
 <main>
-  <Title showLogo={true}/>
-  <div class="words">
-    <WordCard word="Find." color="var(--color-accent)" />
-    <WordCard word="Shop." color="var(--color-primary)" />
-    <WordCard word="List." color="var(--color-sage)" />
+  <div class="header">
+    <Title showLogo={true}/>
+    <div class="words">
+      <WordCard word="Find." description="Find housing, jobs, listings, events, and more in your area." color="var(--color-accent)" />
+      <WordCard word="Shop." description="Shop everything that craigslist users are selling." color="var(--color-primary)" />
+      <WordCard word="List." description="List items, services, and more to users in your area." color="var(--color-sage)" />
+    </div>
   </div>
   <SearchBar />
 </main>
@@ -23,10 +25,20 @@
   main {
     position: fixed;
     inset: 0;
+    /* Equal top and bottom rows put the middle row (the search bar) at the exact center */
+    display: grid;
+    grid-template-rows: 1fr auto 1fr;
+    justify-items: center;
+    row-gap: 1.5rem;
+    /* Nudge everything slightly below center */
+    translate: 0 1.5rem;
+  }
+
+  .header {
+    align-self: end;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: 1.5rem;
   }
 

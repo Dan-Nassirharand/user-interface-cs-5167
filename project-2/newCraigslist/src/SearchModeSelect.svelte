@@ -84,8 +84,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    padding: 0 0.5rem;
-    font-size: var(--text-base, 1rem);
+    padding: 0 0.625rem;
+    /* Icons are sized in em, so this also scales them */
+    font-size: var(--text-lg, 1.125rem);
     background: #ffffff;
     color: #0f172a;
     border: 1px solid var(--border-default, #cbd5e1);
