@@ -1,55 +1,46 @@
 <script>
-  import HomeBackground from './HomeBackground.svelte';
-  import Title from './Title.svelte';
-  import SearchBar from './SearchBar.svelte';
-  import WordCard from './WordCard.svelte';
-  import DictionaryWordCard from './DictionaryWordCard.svelte';
+  import Home from './Home.svelte';
+  import Header from './Header.svelte';
+  import Footer from './Footer.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
+  import SearchResults from './SearchResults.svelte';
+  import Location from './Location.svelte';
+  import { onMount } from 'svelte';
+
+  let route = $state(window.location.pathname);
+  let params = $state(new URLSearchParams(window.location.search));
+
+  function syncRoute() {
+    route = window.location.pathname;
+    params = new URLSearchParams(window.location.search);
+  }
+
+  function search(query, mode) {
+    const next = new URLSearchParams();
+    next.set(mode === 'location' ? 'location' : 'q', query);
+    const path = mode === 'location' ? '/location' : '/search-final';
+    history.pushState({}, '', `${path}?${next}`);
+    syncRoute();
+    window.scrollTo(0, 0);
+  }
+
+  onMount(() => {
+    window.addEventListener('popstate', syncRoute);
+    return () => window.removeEventListener('popstate', syncRoute);
+  });
 </script>
 
-<HomeBackground />
-<ThemeToggle />
-
-<main>
-  <div class="header">
-    <Title showLogo={true}/>
-    <div class="words">
-      
-      <WordCard word="Find." description="Find housing, jobs, listings, events, and more in your area." color="var(--color-accent)" />
-      <WordCard word="Shop." description="Shop everything that craigslist users are selling." color="var(--color-primary)" />
-      <WordCard word="List." description="List items, services, and more to users in your area." color="var(--color-sage)" />
-     
-      <!-- <DictionaryWordCard word="Find." pronunciation="/faɪnd/" partOfSpeech="verb" description="Find housing, jobs, listings, events, and more in your area." color="var(--color-accent)" />
-      <DictionaryWordCard word="Shop." pronunciation="/ʃɑp/" partOfSpeech="verb" description="Shop everything that craigslist users are selling." color="var(--color-primary)" />
-      <DictionaryWordCard word="List." pronunciation="/lɪst/" partOfSpeech="verb" description="List items, services, and more to users in your area." color="var(--color-sage)" /> -->
-    </div>
-  </div>
-  <SearchBar />
-</main>
-
-<style>
-  main {
-    position: fixed;
-    inset: 0;
-    /* Equal top and bottom rows put the middle row (the search bar) at the exact center */
-    display: grid;
-    grid-template-rows: 1fr auto 1fr;
-    justify-items: center;
-    row-gap: 1.5rem;
-    /* Nudge everything slightly below center */
-    translate: 0 1.5rem;
-  }
-
-  .header {
-    align-self: end;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .words {
-    display: flex;
-    gap: 1.5rem;
-  }
-</style>
+{#if route === '/search-final'}
+  <Header query={params.get('q') ?? ''} onsearch={search} />
+  {#key params.toString()}
+    <SearchResults query={params.get('q') ?? ''} location={params.get('location') || 'Cincinnati, OH'} onsearch={search} />
+  {/key}
+  <Footer />
+{:else if route === '/location'}
+  <Header onsearch={search} />
+  <Location />
+  <Footer />
+{:else}
+  <ThemeToggle />
+  <Home onsearch={search} />
+{/if}
