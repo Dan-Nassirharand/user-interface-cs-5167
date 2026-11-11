@@ -5,11 +5,22 @@
   import WordCard from './WordCard.svelte';
   import DictionaryWordCard from './DictionaryWordCard.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
+  import LocationPage from './LocationPage.svelte';
+
+  // Temporary page navigation. A normal visit still opens the existing homepage.
+  let page = $state(window.location.hash && window.location.hash !== '#home' ? 'location' : 'home');
+
+  function syncPage() {
+    page = window.location.hash && window.location.hash !== '#home' ? 'location' : 'home';
+  }
 </script>
 
-<HomeBackground />
-<ThemeToggle />
+<svelte:head>{#if page === 'home'}<title>craigslist</title>{/if}</svelte:head>
+<svelte:window onhashchange={syncPage} />
+<div class:location-theme={page === 'location'}><ThemeToggle /></div>
 
+{#if page === 'home'}
+<HomeBackground />
 <main>
   <div class="header">
     <Title showLogo={true}/>
@@ -26,8 +37,45 @@
   </div>
   <SearchBar />
 </main>
+{:else}
+  <LocationPage />
+{/if}
+
+{#if import.meta.env.DEV}
+  <!-- Remove this preview switch once the team's page navigation is connected. -->
+  <nav class="page-preview" aria-label="Development page preview">
+    <span>Page preview</span>
+    <a href="#home" class:active={page === 'home'} aria-current={page === 'home' ? 'page' : undefined}>Home</a>
+    <a href="#location" class:active={page === 'location'} aria-current={page === 'location' ? 'page' : undefined}>Location</a>
+  </nav>
+{/if}
 
 <style>
+  .location-theme { position: absolute; top: 0; right: 0; z-index: 20; }
+  .location-theme :global(.toggle) { position: absolute; }
+
+  .page-preview {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.35rem;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-full);
+    background: var(--bg-surface);
+    box-shadow: var(--shadow-md);
+    font-size: var(--text-xs);
+  }
+
+  .page-preview span { padding: 0 0.6rem; color: var(--text-secondary); }
+  .page-preview a { padding: 0.45rem 0.85rem; color: var(--text-secondary); border-radius: var(--radius-full); }
+  .page-preview a:hover { background: var(--bg-tertiary); text-decoration: none; }
+  .page-preview a.active { background: color-mix(in srgb, var(--color-primary) 78%, black); color: var(--color-primary-contrast); }
+  .page-preview a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
   main {
     position: fixed;
     inset: 0;
