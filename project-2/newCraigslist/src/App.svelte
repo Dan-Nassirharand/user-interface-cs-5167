@@ -7,6 +7,12 @@
   import ThemeToggle from './ThemeToggle.svelte';
   import LocationPage from './LocationPage.svelte';
 
+  function readSavedTheme() {
+    try { return localStorage.getItem('theme') === 'dark'; }
+    catch { return false; }
+  }
+  let dark = $state(readSavedTheme());
+
   // Temporary page navigation. A normal visit still opens the existing homepage.
   let page = $state(window.location.hash && window.location.hash !== '#home' ? 'location' : 'home');
 
@@ -17,7 +23,7 @@
 
 <svelte:head>{#if page === 'home'}<title>craigslist</title>{/if}</svelte:head>
 <svelte:window onhashchange={syncPage} />
-<div class:location-theme={page === 'location'}><ThemeToggle /></div>
+<div class:location-theme={page === 'location'}><ThemeToggle bind:dark /></div>
 
 {#if page === 'home'}
 <HomeBackground />
@@ -38,7 +44,7 @@
   <SearchBar />
 </main>
 {:else}
-  <LocationPage />
+  <LocationPage bind:dark />
 {/if}
 
 {#if import.meta.env.DEV}

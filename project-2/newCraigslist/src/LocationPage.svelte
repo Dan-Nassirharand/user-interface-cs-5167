@@ -1,10 +1,13 @@
 <script>
   import { tick } from 'svelte';
   import LocationIcon from './LocationIcon.svelte';
+  import SettingsPanel from './SettingsPanel.svelte';
+  import PostComposer from './PostComposer.svelte';
+  import MyPosts from './MyPosts.svelte';
 
   // The search-page owner can supply onsearch(request) when that page is ready.
   // Subcategory links already describe the intended route and its query parameters.
-  let { onsearch } = $props();
+  let { onsearch, dark = $bindable(false) } = $props();
 
   const categories = [
     { id: 'housing', title: 'Housing', icon: 'housing', tone: 'purple', description: 'Find a place to call home', subcategories: ['Apartments & rentals', 'Rooms & shared', 'Real estate for sale', 'Sublets & temporary', 'Vacation rentals', 'Housing wanted'] },
@@ -15,7 +18,7 @@
     { id: 'shopping', title: 'Shopping', icon: 'shopping', tone: 'purple', description: 'Secondhand. First-rate finds.', subcategories: ['Furniture', 'Electronics', 'Clothing & accessories', 'Home & garden', 'Bikes', 'Books & media', 'Sporting goods', 'Tools', 'Collectibles'] },
     { id: 'community', title: 'Community', icon: 'community', tone: 'green', description: 'Meet your neighborhood', subcategories: ['Activities & events', 'Groups & clubs', 'Volunteers', 'Classes', 'Lost & found', 'Local news'] },
     { id: 'gigs', title: 'Gigs', icon: 'gigs', tone: 'purple', description: 'Small projects. Possibilities.', subcategories: ['Computer gigs', 'Creative gigs', 'Event gigs', 'Labor & moving', 'Writing', 'Talent & performance'] },
-    { id: 'free', title: 'Free & barter', icon: 'free', tone: 'blue', description: 'Give a little. Find a lot.', subcategories: ['Free stuff', 'Barter & trade', 'Curb alerts', 'Items wanted', 'Materials & supplies', 'Community swaps'] },
+    { id: 'free', title: 'Freebies', icon: 'free', tone: 'blue', description: 'Give a little. Find a lot.', subcategories: ['Free stuff', 'Barter & trade', 'Curb alerts', 'Items wanted', 'Materials & supplies', 'Community swaps'] },
   ];
   const categoryRows = [categories.slice(0, 3), categories.slice(3, 6), categories.slice(6, 9)];
   const locations = [
@@ -31,14 +34,36 @@
     { id: 'los-angeles-ca', city: 'Los Angeles', state: 'CA' },
   ];
 
-  // This is a sample browsing area, not the visitor's detected location.
-  let location = $state(locations[0]);
+  const profileStorageKey = 'craigslist-profile-v1';
+
+  function readProfile() {
+    const defaults = { username: '', email: '', phone: '', avatar: '', favoriteLocation: 'cincinnati-oh' };
+    try {
+      const saved = JSON.parse(localStorage.getItem(profileStorageKey) || 'null');
+      if (!saved || typeof saved !== 'object') return defaults;
+      return {
+        username: typeof saved.username === 'string' ? saved.username.slice(0, 40) : '',
+        email: typeof saved.email === 'string' ? saved.email.slice(0, 254) : '',
+        phone: typeof saved.phone === 'string' ? saved.phone.slice(0, 30) : '',
+        avatar: typeof saved.avatar === 'string' && /^data:image\/(jpeg|png|webp|gif);base64,/.test(saved.avatar) && saved.avatar.length < 400000 ? saved.avatar : '',
+        favoriteLocation: locations.some((item) => item.id === saved.favoriteLocation) ? saved.favoriteLocation : defaults.favoriteLocation,
+      };
+    } catch { return defaults; }
+  }
+
+  const initialProfile = readProfile();
+  let profile = $state(initialProfile);
+  // Start in the saved favorite area; this does not request browser geolocation.
+  let location = $state(locations.find((item) => item.id === initialProfile.favoriteLocation) || locations[0]);
+  let settingsOpen = $state(false);
+  let postOpen = $state(false);
+  let myPostsOpen = $state(false);
+  let notice = $state('');
   let locationQuery = $state('');
   let query = $state('');
   let selectedCategory = $state(null);
   let searchPreview = $state(null);
   let locationDialog;
-  let postDialog;
   let searchFeedback = $state(null);
   const filteredLocations = $derived(locations.filter((item) =>
     `${item.city} ${item.state}`.toLowerCase().includes(locationQuery.trim().toLowerCase())
@@ -90,6 +115,18 @@
     locationQuery = '';
     locationDialog.showModal();
   }
+
+  function saveProfile(nextProfile) {
+    try { localStorage.setItem(profileStorageKey, JSON.stringify(nextProfile)); }
+    catch { throw new Error('Your settings could not be saved. Browser storage may be full or unavailable. Try a smaller profile photo.'); }
+    if (nextProfile.favoriteLocation !== profile.favoriteLocation) {
+      location = locations.find((item) => item.id === nextProfile.favoriteLocation) || locations[0];
+      searchPreview = null;
+    }
+    profile = { ...nextProfile };
+    notice = 'Your settings have been saved in this browser.';
+    settingsOpen = false;
+  }
 </script>
 
 <svelte:head>
@@ -116,6 +153,9 @@
         <input type="search" aria-label={`Search craigslist in ${location.city}`} placeholder={`Search in ${location.city}…`} bind:value={query} required />
         <button type="submit">Search <LocationIcon name="arrow-right" size={16} /></button>
       </form>
+      <button class="profile-button" onclick={() => settingsOpen = true} aria-label={profile.username ? `Account settings for ${profile.username}` : 'Account settings'} aria-haspopup="dialog">
+        {#if profile.avatar}<img src={profile.avatar} alt="" />{:else}<LocationIcon name="user" size={22} />{/if}
+      </button>
     </div>
   </header>
 
@@ -156,14 +196,16 @@
           <span class="post-icon"><LocationIcon name="plus" size={24} /></span>
           <h2 id="post-title">Something to share?</h2>
           <p>Your next buyer, neighbor, or opportunity is right here.</p>
-          <button onclick={() => postDialog.showModal()} aria-haspopup="dialog">Create a post <LocationIcon name="arrow-up-right" size={17} /></button>
+          <button onclick={() => postOpen = true} aria-haspopup="dialog">Create a post <LocationIcon name="arrow-up-right" size={17} /></button>
+          <button class="my-posts-link" onclick={() => myPostsOpen = true} aria-haspopup="dialog">My posts <LocationIcon name="chevron-right" size={15} /></button>
         </section>
 
-        <button class="settings-tile" disabled title="Settings will be available in a future page">
+        <button class="settings-tile" onclick={() => settingsOpen = true} aria-haspopup="dialog">
           <LocationIcon name="settings" size={21} />
-          <span><strong>Settings</strong><small>Coming soon</small></span>
+          <span><strong>Settings</strong><small>Profile & preferences</small></span>
+          <LocationIcon name="chevron-right" size={16} />
         </button>
-        <p class="sidebar-note"><LocationIcon name="community" size={17} /> A community, closer together.</p>
+        <div class="sidebar-note-space" aria-hidden="true"></div>
       </aside>
 
       <main id="location-categories" tabindex="-1">
@@ -172,6 +214,10 @@
           <h1>Explore <span>{location.city}.</span></h1>
           <p>A place to live. A new opportunity. Something just right.</p>
         </div>
+
+        {#if notice}
+          <div class="local-notice" role="status"><LocationIcon name="check" size={18} /><span>{notice}</span><button class="icon-button" onclick={() => notice = ''} aria-label="Dismiss confirmation"><LocationIcon name="close" size={17} /></button></div>
+        {/if}
 
         {#if searchPreview}
           <div class="search-handoff" role="status" bind:this={searchFeedback}>
@@ -186,8 +232,7 @@
         {/if}
 
         <div class="section-heading">
-          <h2>Browse categories <span>{String(categories.length).padStart(2, '0')}</span></h2>
-          <p>Pick a category to explore</p>
+          <h2>Pick a category to explore</h2>
         </div>
 
         <div class="category-rows">
@@ -228,10 +273,10 @@
           {/each}
         </div>
 
-        <footer class="content-footer"><span>Good things happen locally.</span><span>Find. <span>Shop.</span> List.</span></footer>
+        <footer class="content-footer"><span aria-hidden="true"></span><span>Find. <span>Shop.</span> List.</span></footer>
       </main>
     </div>
-    <footer class="site-footer"><span>© {new Date().getFullYear()} craigslist</span><span>Made for your community.</span></footer>
+    <footer class="site-footer"><span>© {new Date().getFullYear()} craigslist</span><span aria-hidden="true"></span></footer>
   </div>
 </div>
 
@@ -245,18 +290,14 @@
     {#each filteredLocations as item}
       <button onclick={() => chooseLocation(item)} aria-label={`Browse ${item.city}, ${item.state}`}><span><LocationIcon name="pin" size={17} />{item.city}<small>{item.state}</small></span>{#if location.id === item.id}<LocationIcon name="check" size={18} />{:else}<LocationIcon name="arrow-right" size={17} />{/if}</button>
     {:else}
-      <p class="empty-locations">No matching cities in this prototype. Try a nearby city or a state abbreviation.</p>
+      <p class="empty-locations">No matching cities. Try a nearby city or a state abbreviation.</p>
     {/each}
   </div>
-  <p class="dialog-note">Prototype locations · map illustration is not a live map.</p>
 </dialog>
 
-<dialog bind:this={postDialog} class="utility-dialog post-dialog" aria-labelledby="post-dialog-title">
-  <div class="dialog-heading"><span class="dialog-icon"><LocationIcon name="plus" size={24} /></span><button class="icon-button" onclick={() => postDialog.close()} aria-label="Close posting information"><LocationIcon name="close" size={20} /></button></div>
-  <h2 id="post-dialog-title">A good place to share.</h2>
-  <p>The posting flow is coming in a future page. For now, explore the categories to find the right home for your listing.</p>
-  <button class="primary-button" onclick={() => postDialog.close()}>Back to exploring <LocationIcon name="arrow-right" size={17} /></button>
-</dialog>
+<SettingsPanel open={settingsOpen} {profile} {locations} {dark} onsave={saveProfile} onclose={() => settingsOpen = false} onthemechange={(value) => dark = value} />
+<PostComposer open={postOpen} {categories} {location} {profile} onclose={() => postOpen = false} onposted={() => notice = 'Your post has been saved locally in this browser.'} />
+<MyPosts open={myPostsOpen} {categories} onclose={() => myPostsOpen = false} />
 
 <style>
   .location-page, .utility-dialog {
@@ -268,7 +309,8 @@
   button, input { font: inherit; }
   button { cursor: pointer; }
   button, a, input { -webkit-tap-highlight-color: transparent; }
-  button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+  button:focus-visible, a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+  .header-search input:focus, .location-search input:focus { outline: none; box-shadow: none; }
   h1, h2, h3, p { margin: 0; }
   .skip-link { position: fixed; top: -5rem; left: 1rem; z-index: 50; background: var(--bg-surface); padding: 0.75rem 1rem; border: 1px solid var(--border-default); border-radius: var(--radius-md); }
   .skip-link:focus { top: 1rem; }
@@ -276,16 +318,20 @@
   .header-inner { max-width: 1440px; min-height: 88px; margin: auto; padding: 1rem 5.5rem 1rem 2.75rem; display: flex; align-items: center; gap: 1.75rem; }
   .brand { display: inline-flex; align-items: center; color: var(--text-primary); font-family: 'Times New Roman', Times, serif; font-size: 2.2rem; line-height: 1; letter-spacing: -0.06rem; flex-shrink: 0; }
   .brand:hover { color: var(--text-primary); text-decoration: none; }
-  .brand img { height: 1em; width: 0.89em; object-fit: cover; margin-right: 0.2em; }
+  /* Natural image sizing keeps every logo pixel; margins account for the PNG's transparent sides. */
+  .brand img { height: 1em; width: auto; object-fit: contain; margin-left: -0.204em; margin-right: -0.004em; }
+  .profile-button { width: 40px; height: 40px; flex-shrink: 0; border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--bg-surface); color: var(--text-secondary); display: grid; place-items: center; padding: 0; overflow: hidden; }
+  .profile-button:hover { color: var(--color-primary); border-color: var(--color-primary); background: var(--color-primary-light); }
+  .profile-button img { width: 100%; height: 100%; object-fit: cover; }
   .header-divider { height: 28px; width: 1px; background: var(--border-subtle); }
   .header-location { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border: 0; background: none; color: var(--text-secondary); font-size: var(--text-sm); white-space: nowrap; }
   .header-location:hover { color: var(--color-primary); }
   .header-search { display: flex; align-items: center; gap: 0.75rem; max-width: 520px; flex: 1; margin-left: auto; padding: 0.3rem 0.3rem 0.3rem 0.9rem; border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-secondary); background: var(--bg-primary); }
-  .header-search:focus-within { border-color: var(--color-primary); }
+  .header-search:focus-within, .location-search:focus-within { border-color: var(--color-primary); }
   .header-search input { width: 100%; min-width: 0; background: transparent; color: var(--text-primary); border: 0; padding: 0.45rem 0; font-size: var(--text-sm); }
   .header-search input::placeholder { color: var(--text-secondary); }
-  .header-search button, .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; background: var(--location-action); color: var(--color-primary-contrast); border: none; border-radius: var(--radius-sm); padding: 0.6rem 1rem; font-weight: var(--weight-medium); font-size: var(--text-sm); }
-  .header-search button:hover, .primary-button:hover { background: var(--location-action-hover); }
+  .header-search button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; background: var(--location-action); color: var(--color-primary-contrast); border: none; border-radius: var(--radius-sm); padding: 0.6rem 1rem; font-weight: var(--weight-medium); font-size: var(--text-sm); }
+  .header-search button:hover { background: var(--location-action-hover); }
   .page-shell { max-width: 1360px; margin: auto; padding: 0 2.75rem; }
   .breadcrumb { display: flex; align-items: center; gap: 0.65rem; padding: 1.5rem 0; font-size: var(--text-xs); color: var(--text-secondary); }
   .breadcrumb a { color: var(--text-secondary); }
@@ -307,22 +353,28 @@
   .post-card p { margin-top: 0.5rem; font-size: var(--text-xs); line-height: var(--leading-relaxed); }
   .post-card button { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%; margin-top: 1.35rem; padding: 0.65rem 0.75rem; border: 0; border-radius: var(--radius-sm); background: var(--bg-surface); color: var(--text-primary); font-weight: var(--weight-semibold); font-size: var(--text-xs); }
   .post-card button:hover { background: var(--bg-tertiary); }
-  .settings-tile { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.2rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-surface); color: var(--text-secondary); text-align: left; cursor: default; }
+  .post-card .my-posts-link { margin-top: 0.65rem; padding: 0.3rem 0; border-radius: 0; background: transparent; color: var(--color-primary-contrast); font-weight: var(--weight-medium); }
+  .post-card .my-posts-link:hover { background: transparent; text-decoration: underline; }
+  .settings-tile { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 1.2rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--bg-surface); color: var(--text-secondary); text-align: left; }
+  .settings-tile:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  .settings-tile > :global(svg:last-child) { margin-left: auto; }
   .settings-tile span { display: grid; gap: 0.1rem; }
   .settings-tile strong { font-size: var(--text-sm); font-weight: var(--weight-medium); }
   .settings-tile small { font-size: 0.65rem; }
-  .sidebar-note { display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.65rem; padding: 0.4rem 0.15rem; }
-  main { min-width: 0; outline: none; }
+  /* Keep the existing sidebar height after removing the decorative note. */
+  .sidebar-note-space { height: calc(17px + 0.8rem); flex-shrink: 0; }
+  /* Shift the right column up alongside the breadcrumb without moving the bottom footer. */
+  main { min-width: 0; outline: none; margin-top: -3rem; margin-bottom: 3rem; }
   .intro { padding: 0.4rem 0 1.95rem; }
   .local-label { display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.62rem; font-weight: var(--weight-semibold); letter-spacing: 0.12em; }
   .local-label > span { width: 6px; height: 6px; background: var(--color-sage); border-radius: 50%; }
   h1 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: -0.045em; margin: 0.8rem 0 0.7rem; }
   h1 > span { color: var(--color-primary); }
   .intro > p { color: var(--text-secondary); font-size: var(--text-sm); }
-  .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
-  .section-heading h2 { display: flex; align-items: center; gap: 0.65rem; font-size: var(--text-sm); font-weight: var(--weight-semibold); }
-  .section-heading h2 span { color: var(--text-secondary); font-size: 0.6rem; font-weight: var(--weight-medium); border: 1px solid var(--border-subtle); padding: 0.05rem 0.35rem; border-radius: var(--radius-sm); }
-  .section-heading > p { color: var(--text-secondary); font-size: 0.65rem; }
+  .section-heading { margin-bottom: 1rem; }
+  .section-heading h2 { color: var(--text-secondary); font-size: var(--text-xs); font-weight: var(--weight-medium); }
+  .local-notice { display: flex; align-items: center; gap: 0.65rem; padding: 0.75rem 1rem; margin-bottom: 1.25rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--color-success-bg); color: var(--color-success-text); font-size: var(--text-xs); }
+  .local-notice > span { flex: 1; }
   .category-rows { display: flex; flex-direction: column; gap: 1rem; }
   .category-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
   .category-tile { display: flex; flex-direction: column; align-items: stretch; text-align: left; padding: 1.15rem 1.25rem; min-height: 158px; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg-surface); color: var(--text-primary); box-shadow: var(--shadow-sm); transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast); }
@@ -373,8 +425,6 @@
   .location-results button > span { display: flex; align-items: center; gap: 0.6rem; }
   .location-results small { color: var(--text-secondary); font-size: var(--text-xs); }
   .empty-locations { font-size: var(--text-sm); color: var(--text-secondary); padding: 0.75rem 0; }
-  .utility-dialog .dialog-note { font-size: 0.65rem; margin-top: 1rem; }
-  .post-dialog .primary-button { width: 100%; margin-top: 1.5rem; }
 
   @media (min-width: 1600px) { .header-inner { padding-right: 2.75rem; } }
   @media (max-width: 1100px) {
@@ -388,17 +438,20 @@
   @media (max-width: 850px) {
     .header-inner { flex-wrap: wrap; padding: 1.25rem 1.5rem; gap: 1rem; }
     .brand { font-size: 2rem; }
-    .header-location { margin-right: 3rem; }
-    .header-search { flex-basis: 100%; max-width: none; margin: 0; }
+    .header-location { margin-right: 0; }
+    .profile-button { margin-left: auto; margin-right: 3rem; }
+    .header-search { order: 3; flex-basis: 100%; max-width: none; margin: 0; }
     .page-shell { padding: 0 1.5rem; }
     .page-layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    main { margin: 0; }
     .sidebar { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
     .location-card { display: flex; }
     .area-map { width: 30%; min-width: 65px; height: auto; border-bottom: 0; border-right: 1px solid var(--border-subtle); }
     .area-map > span { display: none; }
     .location-card-content { padding: 1rem; flex: 1; }
     .post-card { padding: 1rem; }
-    .post-icon, .post-card p, .settings-tile, .sidebar-note { display: none; }
+    .post-icon, .post-card p, .sidebar-note-space { display: none; }
+    .settings-tile { grid-column: 1 / -1; padding: 0.75rem 1rem; }
     .post-card h2 { font-size: var(--text-base); margin-top: 0.1rem; }
     .post-card button { margin-top: 1rem; }
     .intro { padding-top: 0.4rem; padding-bottom: 1.6rem; }
@@ -407,8 +460,7 @@
     .header-inner { padding: 1.25rem 1rem 1rem; gap: 0.85rem; }
     .brand { font-size: 1.75rem; }
     .header-divider { display: none; }
-    .header-location { margin-left: auto; margin-right: 3.1rem; font-size: 0.7rem; gap: 0.3rem; }
-    .header-location span { max-width: 85px; overflow: hidden; text-overflow: ellipsis; }
+    .header-location { display: none; }
     .header-search { gap: 0.5rem; }
     .header-search button { padding: 0.6rem 0.75rem; }
     .header-search button :global(svg) { display: none; }
@@ -426,7 +478,6 @@
     .post-card button { margin-top: 0.7rem; padding: 0.55rem; gap: 0.3rem; font-size: 0.65rem; }
     .intro > p { font-size: var(--text-xs); max-width: 270px; line-height: var(--leading-relaxed); }
     .local-label { font-size: 0.55rem; letter-spacing: 0.08em; }
-    .section-heading > p { display: none; }
     .category-grid { gap: 0.65rem; }
     .category-rows { gap: 0.65rem; }
     .category-tile { min-height: 133px; padding: 0.8rem; }

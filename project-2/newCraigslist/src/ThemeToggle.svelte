@@ -1,15 +1,15 @@
 <script>
-  // Start from the saved choice, otherwise default to light mode
-  let dark = $state(localStorage.getItem("theme") === "dark");
+  // App owns the saved theme so the header and settings controls stay in sync.
+  let { dark = $bindable(false) } = $props();
 
   // theme.css switches palettes based on [data-theme] on <html>
   $effect(() => {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
+    try { localStorage.setItem("theme", dark ? "dark" : "light"); } catch { /* Keep the current session usable if storage is unavailable. */ }
   });
 
   function toggle() {
     dark = !dark;
-    localStorage.setItem("theme", dark ? "dark" : "light");
   }
 </script>
 
