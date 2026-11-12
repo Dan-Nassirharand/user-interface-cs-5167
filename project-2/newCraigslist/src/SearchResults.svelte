@@ -1,11 +1,29 @@
 <script>
-  import { tick } from 'svelte';
+  import { tick, untrack } from 'svelte';
   import { listings, categories } from './listings.js';
 
-  let { query = '', location = 'Cincinnati, OH', onsearch } = $props();
+  let { query = '', location = 'Cincinnati, OH', onsearch, initialCategory = '', initialSubcategory = '' } = $props();
+
+  function normalizeCategory(value) {
+    return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  function filtersForSelection(requestedCategory, requestedSubcategory) {
+    const fallback = { category: 'All categories', subcategory: 'All subcategories' };
+    const name = normalizeCategory(requestedSubcategory);
+    if (!name) return fallback;
+    const matching = listings.filter((item) => normalizeCategory(item.category) === name);
+    const listing = matching.find((item) => normalizeCategory(item.mainCategory) === normalizeCategory(requestedCategory)) || matching[0];
+    if (!listing || !categories[listing.mainCategory]?.includes(listing.category)) return fallback;
+    return { category: listing.mainCategory, subcategory: listing.category };
+  }
+
+  // App keys this page by its URL. Initialize route filters once so manual changes
+  // and Reset all remain independent of the original subcategory selection.
+  const initialFilters = untrack(() => filtersForSelection(initialCategory, initialSubcategory));
   let filtersOpen = $state(true);
-  let category = $state('All categories');
-  let subcategory = $state('All subcategories');
+  let category = $state(initialFilters.category);
+  let subcategory = $state(initialFilters.subcategory);
   let subcategories = $derived(categories[category] ?? []);
   let condition = $state('Any condition');
   let color = $state('Any color');
