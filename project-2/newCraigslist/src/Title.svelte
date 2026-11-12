@@ -1,15 +1,15 @@
 <script>
-  let { text = "craigslist", href = "/", showLogo = false } = $props();
+  let { text = "craigslist", href = "/", showLogo = false, compact = false } = $props();
 </script>
 
-<h1 class="title">
+<svelte:element this={compact ? 'p' : 'h1'} class="title" class:compact>
   <a {href}>
     {#if showLogo}
       <img class="logo" src="/static/logo.png" alt="" />
     {/if}
     {text}
   </a>
-</h1>
+</svelte:element>
 
 <style>
   .title {
@@ -25,6 +25,14 @@
     color: var(--text-primary, #0f172a);
     text-decoration: none;
     cursor: pointer;
+  }
+
+  .compact {
+    font-size: 2.6rem;
+  }
+
+  @media (max-width: 760px) {
+    .compact { font-size: 2rem; }
   }
 
   .logo {

@@ -1,9 +1,7 @@
 <script>
-  import HomeBackground from './HomeBackground.svelte';
-  import Title from './Title.svelte';
-  import SearchBar from './SearchBar.svelte';
-  import WordCard from './WordCard.svelte';
-  import DictionaryWordCard from './DictionaryWordCard.svelte';
+  import Home from './Home.svelte';
+  import Header from './Header.svelte';
+  import Footer from './Footer.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
   import LocationPage from './LocationPage.svelte';
 

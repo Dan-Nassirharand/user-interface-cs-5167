@@ -1,4 +1,5 @@
 <script>
+  let { inline = false } = $props();
   // App owns the saved theme so the header and settings controls stay in sync.
   let { dark = $bindable(false) } = $props();
 
@@ -16,6 +17,7 @@
 <button
   type="button"
   class="toggle"
+  class:inline
   class:dark
   role="switch"
   aria-checked={dark}
@@ -47,6 +49,10 @@
     background: none;
     border: none;
     cursor: pointer;
+  }
+
+  .toggle.inline {
+    position: static;
   }
 
   .toggle:focus-visible {
