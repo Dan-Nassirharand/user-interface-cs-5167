@@ -1,58 +1,130 @@
 <script>
-  import Title from './Title.svelte';
-  import SearchBar from './SearchBar.svelte';
+  import LocationIcon from './LocationIcon.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
+  import SettingsPanel from './SettingsPanel.svelte';
+  import { locations } from './LocationPage.svelte';
 
   let {
-    home = false,
     query = '',
     onsearch,
-    location = { continent: 'North America', country: 'United States', state: 'Ohio', city: 'Cincinnati' },
+    dark = $bindable(false),
+    locationHref = '/location',
+    location = { city: 'Cincinnati', state: 'Ohio' },
   } = $props();
+
+  const profileStorageKey = 'craigslist-profile-v1';
+  function readProfile() {
+    const defaults = { username: '', email: '', phone: '', avatar: '', favoriteLocation: 'cincinnati-oh' };
+    try {
+      const saved = JSON.parse(localStorage.getItem(profileStorageKey) || 'null');
+      if (!saved || typeof saved !== 'object') return defaults;
+      return {
+        username: typeof saved.username === 'string' ? saved.username.slice(0, 40) : '',
+        email: typeof saved.email === 'string' ? saved.email.slice(0, 254) : '',
+        phone: typeof saved.phone === 'string' ? saved.phone.slice(0, 30) : '',
+        avatar: typeof saved.avatar === 'string' && /^data:image\/(jpeg|png|webp|gif);base64,/.test(saved.avatar) && saved.avatar.length < 400000 ? saved.avatar : '',
+        favoriteLocation: locations.some((item) => item.id === saved.favoriteLocation) ? saved.favoriteLocation : defaults.favoriteLocation,
+      };
+    } catch { return defaults; }
+  }
+
+  let profile = $state(readProfile());
+  let settingsOpen = $state(false);
+  let searchText = $state('');
+  $effect(() => { searchText = query; });
+
+  function submitSearch(event) {
+    event.preventDefault();
+    onsearch?.(searchText.trim(), 'search');
+  }
+
+  function saveProfile(nextProfile) {
+    try { localStorage.setItem(profileStorageKey, JSON.stringify(nextProfile)); }
+    catch { throw new Error('Your settings could not be saved. Browser storage may be full or unavailable. Try a smaller profile photo.'); }
+    profile = { ...nextProfile };
+    settingsOpen = false;
+  }
 </script>
 
-<header class:home>
-  {#if !home}
-    <Title showLogo compact />
-    <a class="location" href="/location" aria-label={`Change location: ${location.city}, ${location.state}, ${location.country}, ${location.continent}`}>
-      <span class="location-level">{location.continent}</span>
-      <span class="location-level">{location.country}</span>
-      <span class="location-level">{location.state}</span>
-      <strong>{location.city}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5" /></svg></strong>
+<header class="site-header">
+  <div class="identity">
+    <a class="brand" href="/" aria-label="craigslist home">
+      <img src="/static/logo.png" alt="" />
+      <span>craigslist</span>
     </a>
-    <div class="search"><SearchBar initialQuery={query} {onsearch} /></div>
-  {/if}
+    <span class="header-divider" aria-hidden="true"></span>
+    <a class="header-location" href={locationHref} aria-label={`Back to ${location.city} location page`}>
+      <LocationIcon name="pin" size={17} />
+      <span>{location.city}</span>
+    </a>
+  </div>
+
+  <div class="search">
+    <form class="header-search" role="search" onsubmit={submitSearch}>
+      <LocationIcon name="search" size={19} />
+      <input type="search" aria-label="Search craigslist" placeholder="Search craigslist" bind:value={searchText} />
+      <button type="submit">Search <LocationIcon name="arrow-right" size={16} /></button>
+    </form>
+  </div>
+
   <div class="actions">
-    <details class="account">
-      <summary aria-label="Account" title="Account">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21v-2a8 8 0 0 1 16 0v2" /></svg>
-      </summary>
-      <div class="account-menu"><strong>Your account</strong><p>You are browsing as a guest.</p><span>Account sign-in will be available in a future update.</span></div>
-    </details>
-    <ThemeToggle inline />
+    <button class="profile-button" onclick={() => settingsOpen = true} aria-label={profile.username ? `Account settings for ${profile.username}` : 'Account settings'} aria-haspopup="dialog">
+      {#if profile.avatar}<img src={profile.avatar} alt="" />{:else}<LocationIcon name="user" size={22} />{/if}
+    </button>
+    <ThemeToggle inline bind:dark />
   </div>
 </header>
 
+<SettingsPanel open={settingsOpen} {profile} {locations} {dark} onsave={saveProfile} onclose={() => settingsOpen = false} onthemechange={(value) => dark = value} />
+
 <style>
-  header { display:flex; align-items:center; gap:2rem; padding:1.25rem 3rem; border-bottom:1px solid var(--border-subtle); background:var(--bg-surface); }
-  header.home { border:0; background:transparent; }
-  .location { display:flex; flex-direction:column; flex-shrink:0; gap:.1rem; padding:.25rem .5rem; border-radius:var(--radius-md); color:var(--text-secondary); font-size:.75rem; line-height:1.3; text-decoration:none; }
-  .location:hover { background:var(--bg-secondary); }
-  .location:focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
-  .location strong { display:flex; align-items:center; gap:.25rem; color:var(--color-primary); font-size:.875rem; }
-  .location strong svg { width:1rem; height:1rem; }
-  .search { flex:1; max-width:40rem; min-width:0; margin-left:auto; }
-  .actions { display:flex; align-items:center; gap:.5rem; margin-left:auto; }
-  .account { position:relative; }
-  summary { display:grid; place-items:center; width:2.5rem; height:2.5rem; border-radius:var(--radius-md); cursor:pointer; list-style:none; color:var(--text-primary); }
-  summary::-webkit-details-marker { display:none; }
-  summary:hover { background:var(--bg-tertiary); }
-  summary:focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
-  svg { width:1.5rem; height:1.5rem; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-  .account-menu { position:absolute; z-index:30; top:calc(100% + .75rem); right:0; width:250px; max-width:80vw; padding:1rem; border:1px solid var(--border-subtle); border-radius:var(--radius-lg); background:var(--bg-surface); box-shadow:var(--shadow-lg); font-size:.875rem; }
-  .account-menu p { color:var(--text-secondary); margin:.5rem 0; }
-  .account-menu span { font-size:.75rem; color:var(--text-secondary); }
-  @media(max-width:900px) { header { gap:1rem; padding:1rem; flex-wrap:wrap; } .search { order:3; flex-basis:100%; max-width:none; } }
-  @media(max-width:600px) { .location-level { display:none; } .location { padding:.25rem 0; } header { gap:.5rem; } }
-  @media(max-width:400px) { .location { order:2; flex-basis:100%; } }
+  .site-header {
+    --header-action: color-mix(in srgb, var(--color-primary) 78%, black);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    min-height: 88px;
+    padding: 1rem 3rem;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+  }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  button, a, input { -webkit-tap-highlight-color: transparent; }
+  button:focus-visible, a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+  /* Reserve the previous identity block's width to keep the results search in place. */
+  .identity { display: flex; align-items: center; flex-shrink: 0; gap: 1.5rem; padding-right: 2.4rem; }
+  .brand { display: inline-flex; align-items: center; flex-shrink: 0; color: var(--text-primary); font-family: 'Times New Roman', Times, serif; font-size: 2.2rem; line-height: 1; letter-spacing: -0.06rem; }
+  .brand:hover { color: var(--text-primary); text-decoration: none; }
+  /* Preserve the full logo; these margins compensate for its transparent sides. */
+  .brand img { height: 1em; width: auto; object-fit: contain; margin-left: -0.204em; margin-right: -0.004em; }
+  .header-divider { height: 28px; width: 1px; background: var(--border-subtle); }
+  .header-location { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border: 0; background: none; color: var(--text-secondary); font-size: var(--text-sm); white-space: nowrap; }
+  .header-location:hover { color: var(--color-primary); text-decoration: none; }
+  .search { flex: 1; max-width: 40rem; min-width: 0; margin-left: auto; }
+  .header-search { display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.3rem 0.3rem 0.3rem 0.9rem; border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-secondary); background: var(--bg-primary); }
+  .header-search:focus-within { border-color: var(--color-primary); }
+  .header-search input { width: 100%; min-width: 0; border: 0; padding: 0.45rem 0; color: var(--text-primary); background: transparent; font-size: var(--text-sm); }
+  .header-search input:focus { outline: none; box-shadow: none; }
+  .header-search input::placeholder { color: var(--text-secondary); }
+  .header-search button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.6rem 1rem; border: 0; border-radius: var(--radius-sm); color: var(--color-primary-contrast); background: var(--header-action); font-size: var(--text-sm); font-weight: var(--weight-medium); }
+  .header-search button:hover { background: color-mix(in srgb, var(--color-primary) 68%, black); }
+  .actions { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+  .profile-button { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; overflow: hidden; padding: 0; border: 1px solid var(--border-default); border-radius: var(--radius-full); color: var(--text-secondary); background: var(--bg-surface); }
+  .profile-button:hover { color: var(--color-primary); border-color: var(--color-primary); background: var(--color-primary-light); }
+  .profile-button img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 900px) {
+    .site-header { flex-wrap: wrap; gap: 1rem; min-height: 0; padding: 1rem; }
+    .identity { display: contents; padding-right: 0; }
+    .brand { font-size: 2rem; }
+    .header-divider { display: none; }
+    .search { order: 3; flex-basis: 100%; max-width: none; margin: 0; }
+  }
+  @media (max-width: 540px) {
+    .site-header { gap: 0.75rem; }
+    .brand { font-size: 1.75rem; }
+    .header-location { order: 2; flex-basis: 100%; padding: 0; font-size: var(--text-xs); }
+    .header-search { gap: 0.5rem; }
+    .header-search button { gap: 0.5rem; padding: 0.6rem 0.75rem; }
+  }
 </style>

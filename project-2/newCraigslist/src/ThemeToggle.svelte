@@ -1,7 +1,6 @@
 <script>
-  let { inline = false } = $props();
   // App owns the saved theme so the header and settings controls stay in sync.
-  let { dark = $bindable(false) } = $props();
+  let { inline = false, dark = $bindable(false) } = $props();
 
   // theme.css switches palettes based on [data-theme] on <html>
   $effect(() => {

@@ -1,13 +1,28 @@
+<script module>
+  // Shared by the router and location picker so both use the same supported cities.
+  export const locations = [
+    { id: 'cincinnati-oh', city: 'Cincinnati', state: 'OH' },
+    { id: 'columbus-oh', city: 'Columbus', state: 'OH' },
+    { id: 'cleveland-oh', city: 'Cleveland', state: 'OH' },
+    { id: 'chicago-il', city: 'Chicago', state: 'IL' },
+    { id: 'new-york-ny', city: 'New York City', state: 'NY' },
+    { id: 'boston-ma', city: 'Boston', state: 'MA' },
+    { id: 'austin-tx', city: 'Austin', state: 'TX' },
+    { id: 'seattle-wa', city: 'Seattle', state: 'WA' },
+    { id: 'san-francisco-ca', city: 'San Francisco', state: 'CA' },
+    { id: 'los-angeles-ca', city: 'Los Angeles', state: 'CA' },
+  ];
+</script>
+
 <script>
   import { tick } from 'svelte';
   import LocationIcon from './LocationIcon.svelte';
+  import ThemeToggle from './ThemeToggle.svelte';
   import SettingsPanel from './SettingsPanel.svelte';
   import PostComposer from './PostComposer.svelte';
   import MyPosts from './MyPosts.svelte';
 
-  // The search-page owner can supply onsearch(request) when that page is ready.
-  // Subcategory links already describe the intended route and its query parameters.
-  let { onsearch, dark = $bindable(false) } = $props();
+  let { onsearch, onlocationchange, locationId = '', dark = $bindable(false) } = $props();
 
   const categories = [
     { id: 'housing', title: 'Housing', icon: 'housing', tone: 'purple', description: 'Find a place to call home', subcategories: ['Apartments & rentals', 'Rooms & shared', 'Real estate for sale', 'Sublets & temporary', 'Vacation rentals', 'Housing wanted'] },
@@ -21,18 +36,6 @@
     { id: 'free', title: 'Freebies', icon: 'free', tone: 'blue', description: 'Give a little. Find a lot.', subcategories: ['Free stuff', 'Barter & trade', 'Curb alerts', 'Items wanted', 'Materials & supplies', 'Community swaps'] },
   ];
   const categoryRows = [categories.slice(0, 3), categories.slice(3, 6), categories.slice(6, 9)];
-  const locations = [
-    { id: 'cincinnati-oh', city: 'Cincinnati', state: 'OH' },
-    { id: 'columbus-oh', city: 'Columbus', state: 'OH' },
-    { id: 'cleveland-oh', city: 'Cleveland', state: 'OH' },
-    { id: 'chicago-il', city: 'Chicago', state: 'IL' },
-    { id: 'new-york-ny', city: 'New York City', state: 'NY' },
-    { id: 'boston-ma', city: 'Boston', state: 'MA' },
-    { id: 'austin-tx', city: 'Austin', state: 'TX' },
-    { id: 'seattle-wa', city: 'Seattle', state: 'WA' },
-    { id: 'san-francisco-ca', city: 'San Francisco', state: 'CA' },
-    { id: 'los-angeles-ca', city: 'Los Angeles', state: 'CA' },
-  ];
 
   const profileStorageKey = 'craigslist-profile-v1';
 
@@ -55,6 +58,13 @@
   let profile = $state(initialProfile);
   // Start in the saved favorite area; this does not request browser geolocation.
   let location = $state(locations.find((item) => item.id === initialProfile.favoriteLocation) || locations[0]);
+  $effect(() => {
+    const requestedLocation = locations.find((item) => item.id === locationId);
+    if (requestedLocation) {
+      location = requestedLocation;
+      searchPreview = null;
+    }
+  });
   let settingsOpen = $state(false);
   let postOpen = $state(false);
   let myPostsOpen = $state(false);
@@ -84,7 +94,7 @@
     if (category) params.set('category', category);
     if (subcategory) params.set('subcategory', subcategory);
     if (searchQuery) params.set('q', searchQuery);
-    return `#search?${params}`;
+    return `/search-final?${params}`;
   }
 
   async function requestSearch(event, category = null, subcategory = '', searchQuery = '') {
@@ -109,6 +119,7 @@
     location = nextLocation;
     searchPreview = null;
     locationDialog.close();
+    onlocationchange?.(nextLocation.id);
   }
 
   function openLocationDialog() {
@@ -122,6 +133,7 @@
     if (nextProfile.favoriteLocation !== profile.favoriteLocation) {
       location = locations.find((item) => item.id === nextProfile.favoriteLocation) || locations[0];
       searchPreview = null;
+      onlocationchange?.(location.id);
     }
     profile = { ...nextProfile };
     notice = 'Your settings have been saved in this browser.';
@@ -138,7 +150,7 @@
 
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="#home" aria-label="craigslist home">
+      <a class="brand" href="/" aria-label="craigslist home">
         <img src="/static/logo.png" alt="" />
         <span>craigslist</span>
       </a>
@@ -153,15 +165,18 @@
         <input type="search" aria-label={`Search craigslist in ${location.city}`} placeholder={`Search in ${location.city}…`} bind:value={query} required />
         <button type="submit">Search <LocationIcon name="arrow-right" size={16} /></button>
       </form>
-      <button class="profile-button" onclick={() => settingsOpen = true} aria-label={profile.username ? `Account settings for ${profile.username}` : 'Account settings'} aria-haspopup="dialog">
-        {#if profile.avatar}<img src={profile.avatar} alt="" />{:else}<LocationIcon name="user" size={22} />{/if}
-      </button>
+      <div class="header-actions">
+        <button class="profile-button" onclick={() => settingsOpen = true} aria-label={profile.username ? `Account settings for ${profile.username}` : 'Account settings'} aria-haspopup="dialog">
+          {#if profile.avatar}<img src={profile.avatar} alt="" />{:else}<LocationIcon name="user" size={22} />{/if}
+        </button>
+        <ThemeToggle inline bind:dark />
+      </div>
     </div>
   </header>
 
   <div class="page-shell">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="#home">Home</a><LocationIcon name="chevron-right" size={13} />
+      <a href="/">Home</a><LocationIcon name="chevron-right" size={13} />
       <span aria-current="page">{location.city}, {location.state}</span>
     </nav>
 
@@ -315,11 +330,12 @@
   .skip-link { position: fixed; top: -5rem; left: 1rem; z-index: 50; background: var(--bg-surface); padding: 0.75rem 1rem; border: 1px solid var(--border-default); border-radius: var(--radius-md); }
   .skip-link:focus { top: 1rem; }
   .site-header { background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); }
-  .header-inner { max-width: 1440px; min-height: 88px; margin: auto; padding: 1rem 5.5rem 1rem 2.75rem; display: flex; align-items: center; gap: 1.75rem; }
+  .header-inner { max-width: 1440px; min-height: 88px; margin: auto; padding: 1rem 2.5rem 1rem 2.75rem; display: flex; align-items: center; gap: 1.75rem; }
   .brand { display: inline-flex; align-items: center; color: var(--text-primary); font-family: 'Times New Roman', Times, serif; font-size: 2.2rem; line-height: 1; letter-spacing: -0.06rem; flex-shrink: 0; }
   .brand:hover { color: var(--text-primary); text-decoration: none; }
   /* Natural image sizing keeps every logo pixel; margins account for the PNG's transparent sides. */
   .brand img { height: 1em; width: auto; object-fit: contain; margin-left: -0.204em; margin-right: -0.004em; }
+  .header-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
   .profile-button { width: 40px; height: 40px; flex-shrink: 0; border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--bg-surface); color: var(--text-secondary); display: grid; place-items: center; padding: 0; overflow: hidden; }
   .profile-button:hover { color: var(--color-primary); border-color: var(--color-primary); background: var(--color-primary-light); }
   .profile-button img { width: 100%; height: 100%; object-fit: cover; }
@@ -439,7 +455,7 @@
     .header-inner { flex-wrap: wrap; padding: 1.25rem 1.5rem; gap: 1rem; }
     .brand { font-size: 2rem; }
     .header-location { margin-right: 0; }
-    .profile-button { margin-left: auto; margin-right: 3rem; }
+    .header-actions { margin-left: auto; }
     .header-search { order: 3; flex-basis: 100%; max-width: none; margin: 0; }
     .page-shell { padding: 0 1.5rem; }
     .page-layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
