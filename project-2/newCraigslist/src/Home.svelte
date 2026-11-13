@@ -3,11 +3,12 @@
   import Title from './Title.svelte';
   import SearchBar from './SearchBar.svelte';
   import WordCard from './WordCard.svelte';
+  import Suggestion from './Suggestion.svelte';
 
   let { onsearch } = $props();
 </script>
 
-<HomeBackground />
+<!-- <HomeBackground /> -->
 <main>
   <div class="header">
     <Title showLogo={true}/>
@@ -19,6 +20,7 @@
     </div>
   </div>
   <SearchBar {onsearch} />
+  <Suggestion/>
 </main>
 
 <style>
