@@ -1,18 +1,13 @@
 <script>
   import { onMount } from 'svelte';
 
-  // Configuration
-  // Make the other colors rare hehehe
   const PERCENT_PURPLE = 0.8;
   const PERCENT_BLUE = 0.1;
   const PERCENT_GREEN = 0.1;
 
-  // How long "Copied" shows before reverting to the suggestion (ms)
-  const FEEDBACK_MS = 1000;
-
   const suggestions = [
     "Try: A blue rose in Cincinnati"
-    // add more here
+    // I WILL ADD MORE MYSELF
   ];
 
   const colors = [
@@ -21,137 +16,128 @@
     "var(--color-sage, #8a9a86)"     // Green
   ];
 
-  const weights = [PERCENT_PURPLE, PERCENT_BLUE, PERCENT_GREEN];
+  let currentSuggestion = suggestions[0];
+  let currentColor = colors[0];
+  let copied = false;
+  let timeoutId;
 
-  function pickWeighted(weights) {
-    const total = weights.reduce((sum, w) => sum + w, 0);
-    let roll = Math.random() * total;
-    for (let i = 0; i < weights.length; i++) {
-      roll -= weights[i];
-      if (roll < 0) return i;
+  function pickRandom() {
+    const randomIndex = Math.floor(Math.random() * suggestions.length);
+    currentSuggestion = suggestions[randomIndex];
+
+    const rand = Math.random();
+    if (rand < PERCENT_PURPLE) {
+      currentColor = colors[0];
+    } else if (rand < PERCENT_PURPLE + PERCENT_BLUE) {
+      currentColor = colors[1];
+    } else {
+      currentColor = colors[2];
     }
-    return 0;
   }
 
-  // Deterministic defaults so server and client render the same HTML
-  let text = suggestions[0];
-  let colorIndex = 0;
-  let status = 'idle'; // 'idle' | 'copied' | 'failed'
-  let timer;
-
-  // Randomize only after mount to avoid hydration mismatches
   onMount(() => {
-    text = suggestions[Math.floor(Math.random() * suggestions.length)];
-    colorIndex = pickWeighted(weights);
-    return () => clearTimeout(timer);
+    pickRandom();
   });
 
-  function reset() {
-    clearTimeout(timer);
-    status = 'idle';
-  }
+  async function handleCopy() {
+    const textToCopy = currentSuggestion.replace(/^Try:\s*/i, '');
 
-  // Fallback for non-secure contexts where navigator.clipboard is missing
-  function legacyCopy(value) {
-    const el = document.createElement('textarea');
-    el.value = value;
-    el.setAttribute('readonly', '');
-    el.style.position = 'fixed';
-    el.style.top = '0';
-    el.style.opacity = '0';
-    document.body.appendChild(el);
-    el.select();
-    let ok = false;
     try {
-      ok = document.execCommand('copy');
-    } catch {
-      ok = false;
+      await navigator.clipboard.writeText(textToCopy);
+      copied = true;
+
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        copied = false;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy text:', err);
     }
-    document.body.removeChild(el);
-    return ok;
-  }
-
-  async function copyPrompt() {
-    // Copy the prompt itself, without the "Try: " label
-    const prompt = text.replace(/^Try:\s*/i, '');
-    let ok = false;
-
-    if (navigator.clipboard?.writeText) {
-      try {
-        await navigator.clipboard.writeText(prompt);
-        ok = true;
-      } catch (err) {
-        console.error('Clipboard API failed, trying fallback:', err);
-      }
-    }
-    if (!ok) ok = legacyCopy(prompt);
-
-    status = ok ? 'copied' : 'failed';
-    clearTimeout(timer);
-    timer = setTimeout(reset, FEEDBACK_MS);
   }
 </script>
 
 <button
   type="button"
-  class="suggestion"
-  class:active={status !== 'idle'}
-  style:color={colors[colorIndex]}
-  on:click={copyPrompt}
-  on:mouseleave={reset}
-  on:blur={reset}
-  aria-label={`Copy prompt: ${text.replace(/^Try:\s*/i, '')}`}
+  class="suggestion-inline"
+  style="--item-color: {currentColor};"
+  on:click={handleCopy}
+  aria-label="Copy suggestion to clipboard"
 >
-  <span class="label">{text}</span>
-  <span class="feedback" role="status" aria-live="polite">
-    {#if status === 'copied'}✓ Copied{:else if status === 'failed'}Copy failed{/if}
-  </span>
+  {currentSuggestion}
+
+  {#if copied}
+    <span class="copied-badge" role="status">Copied!</span>
+  {/if}
 </button>
 
 <style>
-  .suggestion {
-    /* Both children share one grid cell, so size never changes */
-    display: inline-grid;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: none;
-    text-align: left;
+  .suggestion-inline {
+    all: unset;
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    align-self: start;
+    justify-self: center;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-none);
+    color: var(--item-color);
     cursor: pointer;
-    font-size: var(--text-base, 1.0rem);
-    font-weight: var(--weight-medium, 500);
-    font-family: "Times New Roman", Times, serif;
-    line-height: 1.25;
+    transition: opacity 0.15s ease, transform 0.1s ease;
   }
 
-  .label,
-  .feedback {
-    grid-area: 1 / 1;
-    transition: opacity 0.15s ease;
+  .suggestion-inline:focus-visible {
+    outline: 2px solid var(--item-color);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
-  .feedback {
-    font-weight: var(--weight-semibold, 600);
-    opacity: 0;
+  .suggestion-inline:hover {
+    opacity: 0.75;
   }
 
-  .active .label {
-    opacity: 0;
+  .suggestion-inline:active {
+    transform: scale(0.98);
   }
 
-  .active .feedback {
-    opacity: 1;
+  .copied-badge {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--text-primary);
+    color: var(--text-inverse);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    line-height: var(--leading-none);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+    animation: popUp 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .suggestion:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 3px;
+  .copied-badge::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px;
+    border-style: solid;
+    border-color: var(--text-primary) transparent transparent transparent;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .label,
-    .feedback {
-      transition: none;
+  @keyframes popUp {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 4px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
     }
   }
 </style>

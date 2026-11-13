@@ -115,10 +115,13 @@
     overflow-y: auto;
     padding: 1rem 1.25rem;
     text-align: left;
-    background: #ffffff;
+    background: var(--bg-secondary, #f8fafc);
     border: 1px solid var(--border-default, #cbd5e1);
     border-radius: var(--radius-lg, 12px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+  .card:hover {
+    background: var(--bg-surface-hover);
   }
 
   /* Card is always white, so text uses fixed greys rather than the theme's text colors */
@@ -134,7 +137,7 @@
   .meta {
     margin: 0.125rem 0 0.75rem;
     font-size: var(--text-xs, 0.75rem);
-    color: #64748b;
+    color: var(--text-secondary, #f8fafc);
   }
 
   .pos {
@@ -147,7 +150,7 @@
     padding-left: 1.25rem;
     font-size: var(--text-sm, 0.875rem);
     line-height: 1.5;
-    color: #475569;
+    color: var(--text-secondary, #f8fafc);
   }
 
   .definitions li + li {
