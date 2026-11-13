@@ -133,7 +133,7 @@
     margin: 0;
     padding: 0.25rem;
     list-style: none;
-    background: #ffffff;
+    background: var(--bg-secondary, #f8fafc);
     border: 1px solid var(--border-default, #cbd5e1);
     border-radius: var(--radius-md, 8px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -148,7 +148,7 @@
     font-size: var(--text-sm, 0.875rem);
     white-space: nowrap;
     background: none;
-    color: #0f172a;
+    color: var(--text-secondary, #f8fafc);
     border: none;
     border-radius: var(--radius-sm, 4px);
     text-align: left;
@@ -156,7 +156,7 @@
 
   .menu button:hover,
   .menu button:focus-visible {
-    background: #e2e8f0;
+    background: var(--bg-surface-hover);
     outline: none;
   }
 </style>

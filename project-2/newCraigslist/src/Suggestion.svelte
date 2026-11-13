@@ -17,7 +17,6 @@
     "Try: Find a new CEO",
     "Try: Used Bikes",
     "Try: Professional Cameras",
-    // I WILL ADD MORE MYSELF
   ];
 
   const colors = [

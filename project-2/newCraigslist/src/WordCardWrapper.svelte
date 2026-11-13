@@ -20,5 +20,4 @@
     {/if}
 </div>
 <style>
-/* I don't think this needs style lol */
 </style>
