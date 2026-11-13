@@ -46,6 +46,12 @@
     border: 1px solid var(--border-default, #cbd5e1);
     /* Square on both sides: joined to the mode select and the search button */
     border-radius: 0;
+    background: var(--bg-secondary, #f8fafc);
+    color: var(--text-secondary, #f8fafc);
+  }
+
+  input:hover {
+    background: var(--bg-surface-hover);
   }
 
   button {
