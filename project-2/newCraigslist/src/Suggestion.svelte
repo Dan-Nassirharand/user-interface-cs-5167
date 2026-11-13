@@ -1,12 +1,22 @@
 <script>
   import { onMount } from 'svelte';
 
-  const PERCENT_PURPLE = 0.8;
-  const PERCENT_BLUE = 0.1;
-  const PERCENT_GREEN = 0.1;
+  const PERCENT_PURPLE = 0.75;
+  const PERCENT_BLUE = 0.125;
+  const PERCENT_GREEN = 0.125;
 
   const suggestions = [
-    "Try: A blue rose in Cincinnati"
+    "Try: A blue rose in Cincinnati",
+    "Try: Librarian Jobs near me",
+    "Try: Dogwalking gigs",
+    "Try: Used cars",
+    "Try: Getting your UI fixed",
+    "Try: Find a Computer Graphics Professor",
+    "Try: Volunteering events near me",
+    "Try: Sell my ram",
+    "Try: Find a new CEO",
+    "Try: Used Bikes",
+    "Try: Professional Cameras",
     // I WILL ADD MORE MYSELF
   ];
 
@@ -79,7 +89,7 @@
     align-self: start;
     justify-self: center;
     font-family: var(--font-sans);
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     font-weight: var(--weight-medium);
     line-height: var(--leading-none);
     color: var(--item-color);
