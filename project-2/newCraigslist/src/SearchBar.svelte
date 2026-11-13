@@ -9,17 +9,25 @@
   let mode = $state("search");
   let { onsearch, initialQuery = '' } = $props();
   let query = $state('');
-  $effect(() => { query = initialQuery; });
+  let searchInput = $state(null);
+  $effect(() => { query = initialQuery; searchInput?.setCustomValidity(''); });
+  $effect(() => { mode; searchInput?.setCustomValidity(''); });
 
   function submit(event) {
     event.preventDefault();
-    onsearch?.(query.trim(), mode);
+    const input = event.currentTarget.querySelector('input');
+    input.setCustomValidity('');
+    const error = onsearch?.(query.trim(), mode);
+    if (typeof error === 'string' && error) {
+      input.setCustomValidity(error);
+      input.reportValidity();
+    }
   }
 </script>
 
 <form class="search-bar" onsubmit={submit}>
   <SearchModeSelect bind:value={mode} />
-  <input bind:value={query} type="search" placeholder={placeholders[mode]} aria-label="Search" />
+  <input bind:this={searchInput} bind:value={query} type="search" placeholder={placeholders[mode]} aria-label="Search" oninput={(event) => event.currentTarget.setCustomValidity('')} />
   <button type="submit">Search</button>
 </form>
 
