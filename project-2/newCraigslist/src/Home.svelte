@@ -4,6 +4,7 @@
   import SearchBar from './SearchBar.svelte';
   import WordCard from './WordCard.svelte';
   import Suggestion from './Suggestion.svelte';
+  import WordCardWrapper from './WordCardWrapper.svelte';
 
   let { onsearch } = $props();
 </script>
@@ -14,9 +15,15 @@
     <Title showLogo={true}/>
     <div class="words">
       
-      <WordCard word="Find." description="Find housing, jobs, listings, events, and more in your area." color="var(--color-accent)" />
-      <WordCard word="Shop." description="Shop everything that craigslist users are selling." color="var(--color-primary)" />
-      <WordCard word="List." description="List items, services, and more to users in your area." color="var(--color-sage)" />
+      <WordCardWrapper word="Find." isStandard ={true} description="Find housing, jobs, listings, events, and more in your area." color="var(--color-accent)" 
+        pronunciation = "/faɪnd/"
+        partOfSpeech = "verb"/>
+      <WordCardWrapper word="Shop." isStandard ={true} description="Shop everything that craigslist users are selling." color="var(--color-primary)"
+        pronunciation = "/ʃɑp/"
+        partOfSpeech = "verb"/>
+      <WordCardWrapper word="List." isStandard ={true} description="List items, services, and more to users in your area." color="var(--color-sage)"
+        pronunciation = "/lɪst/"
+        partOfSpeech = "verb"/>
     </div>
   </div>
   <SearchBar {onsearch} />
