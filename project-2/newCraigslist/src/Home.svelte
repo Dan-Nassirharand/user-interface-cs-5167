@@ -9,7 +9,7 @@
   let { onsearch } = $props();
 </script>
 
-<!-- <HomeBackground /> -->
+<HomeBackground />
 <main>
   <div class="header">
     <Title showLogo={true}/>
