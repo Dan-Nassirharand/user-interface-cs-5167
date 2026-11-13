@@ -1,6 +1,6 @@
 <script>
   import searchIcon from './assets/icons/search2.svg?raw';
-  import locationIcon from './assets/icons/location4.svg?raw';
+  import locationIcon from './assets/icons/location2.svg?raw';
   import upCaret from './assets/icons/upCaret.svg?raw';
   import downCaret from './assets/icons/downCaret.svg?raw';
 
@@ -87,18 +87,17 @@
     padding: 0 0.625rem;
     /* Icons are sized in em, so this also scales them */
     font-size: var(--text-lg, 1.125rem);
-    background: #ffffff;
-    color: #0f172a;
+    background: var(--bg-secondary, #5c2d91);
+    color: var(--text-secondary, #f8fafc);
     border: 1px solid var(--border-default, #cbd5e1);
     /* Square right side where it joins the search input; the input's border forms the seam */
     border-right: none;
     border-radius: var(--radius-md, 8px) 0 0 var(--radius-md, 8px);
-    transition: background-color 0.15s;
   }
 
   .trigger:hover {
     /* Same grey as the hovered menu options */
-    background: #e2e8f0;
+    background: var(--bg-surface-hover);
   }
 
   .icon,
@@ -111,6 +110,7 @@
     /* The downloaded icons have built-in padding, so size up to compensate */
     width: 1.5em;
     height: 1.5em;
+    color: var(--text-secondary, #475569);
   }
 
   .caret {
@@ -122,6 +122,7 @@
   .caret :global(svg) {
     width: 100%;
     height: 100%;
+    stroke: currentColor;
   }
 
   .menu {

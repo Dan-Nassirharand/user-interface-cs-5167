@@ -59,7 +59,7 @@
 
   let results = $derived(matches.length ? Array.from({ length: visibleCount }, (_, index) => {
     const item = matches[index % matches.length];
-    return { ...item, id: `${item.id}-${index}`, title: `${item.title} #${index + 1}` };
+    return { ...item, id: `${item.id}-${index}`, title: `${item.title}` };
   }).filter(item => !hidden.includes(item.id)) : []);
 
   $effect(() => {
@@ -333,7 +333,7 @@
     border-right:1px solid var(--border-subtle);
     background:var(--bg-primary);
     z-index:5;
-  } .filter-heading { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; } .filter-heading h2 { font-size:1rem; margin:0; } .text-button { border:0; padding:0; color:var(--color-primary); font-size:.75rem; background:none; }
+  } .filter-heading { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; } .filter-heading h2 { font-size:1rem; margin:0; } .text-button { border:0; padding:0; color:var(--color-accent); font-size:.75rem; background:none; }
   aside > label,fieldset { display:block; font-size:.8rem; font-weight:600; margin:0 0 1.5rem; } aside select { display:block; width:100%; margin-top:.6rem; font-size:.8rem; font-weight:400; } fieldset { padding:0; border:0; min-width:0; } legend { margin-bottom:.6rem; } .price-inputs { display:flex; align-items:end; gap:.4rem; } .price-inputs label { min-width:0; flex:1; } .price-inputs span { font-size:.7rem; color:var(--text-secondary); } .price-inputs input { width:100%; margin-top:.3rem; font-size:.8rem; } .local-note { border-top:1px solid var(--border-subtle); padding-top:1.5rem; font-size:.8rem; color:var(--color-sage); } .local-note p { color:var(--text-secondary); line-height:1.7; }
   .cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem; } article { border:1px solid var(--border-subtle); border-radius:var(--radius-lg); overflow:hidden; background:var(--bg-surface); transition:box-shadow .2s; } article:hover { box-shadow:var(--shadow-md); } .image-wrap { position:relative; } .image-button { display:block; width:100%; padding:0; border:0; border-radius:0; } img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; } .save { position:absolute; right:.75rem; top:.75rem; width:2rem; height:2rem; padding:0; border:0; border-radius:50%; background:var(--bg-surface); font-size:1.35rem; box-shadow:var(--shadow-sm); } .saved { color:var(--color-primary); } .card-body { padding:1rem; } .card-top,.meta { display:flex; justify-content:space-between; align-items:center; gap:.5rem; } .card-top span { color:var(--color-primary); font-size:.7rem; } .card-top strong { font-size:1.1rem; } article h2 { margin:.35rem 0 .5rem; font-size:1rem; } article h2 button { border:0; padding:0; background:none; text-align:left; font-weight:600; } article h2 button:hover { color:var(--color-primary); } .description { font-size:.8rem; color:var(--text-secondary); margin:0; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; min-height:2.4rem; } .meta { border-top:1px solid var(--border-subtle); padding-top:.8rem; margin-top:1rem; font-size:.7rem; color:var(--text-secondary); }
   .empty { text-align:center; padding:5rem 1rem; color:var(--text-secondary); } .empty h2 { color:var(--text-primary); } .empty button { margin:.5rem; }

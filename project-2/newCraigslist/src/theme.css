@@ -57,7 +57,8 @@
   --border-strong: #94a3b8;
 
   /* Brand Colors (Modernized Craigslist Purple) */
-  --color-primary: #5c2d91;
+  /* --color-primary: #5c2d91; */
+  --color-primary: #7f28d1;
   --color-primary-hover: #4a2475;
   --color-primary-light: #f3e8ff;
   --color-primary-contrast: #ffffff;
@@ -127,7 +128,6 @@
     --border-default: #475569;
     --border-strong: #64748b;
 
-    --color-primary: #a855f7;
     --color-primary-hover: #c084fc;
     --color-primary-light: #3b1d5a;
     --color-primary-contrast: #ffffff;
@@ -175,7 +175,6 @@
   --border-default: #475569;
   --border-strong: #64748b;
 
-  --color-primary: #a855f7;
   --color-primary-hover: #c084fc;
   --color-primary-light: #3b1d5a;
   --color-primary-contrast: #ffffff;

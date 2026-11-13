@@ -73,6 +73,7 @@
     /* Underline matches the word's color */
     text-decoration: underline;
     text-underline-offset: 0.15em;
+    cursor: default;
   }
 
   .card-area {
