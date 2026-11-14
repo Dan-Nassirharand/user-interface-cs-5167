@@ -261,7 +261,7 @@
   .theme-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1.25rem; }
   .theme-row strong { font-size: var(--text-xs); font-weight: var(--weight-medium); }
   .theme-switch { display: inline-flex; align-items: center; width: 43px; height: 25px; padding: 3px; border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--bg-tertiary); flex-shrink: 0; }
-  .theme-switch > span { width: 17px; height: 17px; border-radius: 50%; background: var(--text-secondary); transition: transform var(--transition-fast); }
+  .theme-switch > span { width: 17px; height: 17px; border-radius: 50%; background: var(--text-secondary); transition: var(--theme-transition), transform var(--transition-fast); }
   .theme-switch.checked { background: var(--settings-action); border-color: var(--settings-action); }
   .theme-switch.checked > span { transform: translateX(17px); background: var(--color-primary-contrast); }
   .error-message { color: var(--color-danger-text); background: var(--color-danger-bg); border-radius: var(--radius-md); padding: 0.65rem 0.8rem; margin-top: 0.85rem; font-size: var(--text-xs); scroll-margin-bottom: 5.5rem; }

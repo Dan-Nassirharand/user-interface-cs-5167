@@ -93,7 +93,7 @@
     line-height: var(--leading-none);
     color: var(--item-color);
     cursor: pointer;
-    transition: opacity 0.15s ease, transform 0.1s ease;
+    transition: var(--theme-transition), opacity 0.15s ease, transform 0.1s ease;
   }
 
   .suggestion-inline:focus-visible {
