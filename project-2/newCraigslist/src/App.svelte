@@ -27,6 +27,10 @@
   let params = $state(new URLSearchParams());
   let lastLocationId = $state(readFavoriteLocation());
 
+  $effect(() => {
+    document.documentElement.dataset.page = route === '/location' ? 'location' : route === '/search-final' ? 'search' : 'home';
+  });
+
   const currentLocation = $derived(findLocation(params.get('location')) || locations.find((item) => item.id === lastLocationId) || locations[0]);
   const locationLabel = $derived(`${currentLocation.city}, ${currentLocation.state}`);
   const locationHref = $derived(`/location?${new URLSearchParams({ location: currentLocation.id })}`);
@@ -139,7 +143,7 @@
 <svelte:window onpopstate={syncRoute} onhashchange={syncRoute} onclick={followInternalLink} />
 
 {#if route === '/search-final'}
-  <Header query={params.get('q') || ''} location={headerLocation} {locationHref} onsearch={search} bind:dark />
+  <Header query={params.get('q') || ''} location={headerLocation} {locations} {locationHref} onsearch={search} bind:dark />
   {#key params.toString()}
     <SearchResults query={params.get('q') || ''} location={locationLabel} initialCategory={params.get('category') || ''} initialSubcategory={params.get('subcategory') || ''} onsearch={search} />
   {/key}

@@ -1,5 +1,6 @@
 <script>
   import SearchModeSelect from './SearchModeSelect.svelte';
+  import searchIcon from './assets/icons/search2.svg?raw';
 
   const placeholders = {
     search: "Search craigslist",
@@ -7,7 +8,15 @@
   };
 
   let mode = $state("search");
-  let { onsearch, initialQuery = '' } = $props();
+  let {
+    onsearch,
+    initialQuery = '',
+    header = false,
+    modeToggle = true,
+    placeholder,
+    ariaLabel = 'Search',
+  } = $props();
+  const showModeToggle = $derived(modeToggle && !header);
   let query = $state('');
   let searchInput = $state(null);
   $effect(() => { query = initialQuery; searchInput?.setCustomValidity(''); });
@@ -17,7 +26,7 @@
     event.preventDefault();
     const input = event.currentTarget.querySelector('input');
     input.setCustomValidity('');
-    const error = onsearch?.(query.trim(), mode);
+    const error = onsearch?.(query.trim(), showModeToggle ? mode : 'search');
     if (typeof error === 'string' && error) {
       input.setCustomValidity(error);
       input.reportValidity();
@@ -25,9 +34,13 @@
   }
 </script>
 
-<form class="search-bar" onsubmit={submit}>
-  <SearchModeSelect bind:value={mode} />
-  <input bind:this={searchInput} bind:value={query} type="search" placeholder={placeholders[mode]} aria-label="Search" oninput={(event) => event.currentTarget.setCustomValidity('')} />
+<form class="search-bar" class:header role="search" onsubmit={submit}>
+  {#if showModeToggle}
+    <SearchModeSelect bind:value={mode} />
+  {:else}
+    <span class="search-icon" aria-hidden="true">{@html searchIcon}</span>
+  {/if}
+  <input bind:this={searchInput} bind:value={query} type="search" placeholder={placeholder ?? placeholders[showModeToggle ? mode : 'search']} aria-label={ariaLabel} oninput={(event) => event.currentTarget.setCustomValidity('')} />
   <button type="submit">Search</button>
 </form>
 
@@ -65,10 +78,58 @@
     background: var(--color-primary, #5c2d91);
     color: var(--color-primary-contrast, #ffffff);
     cursor: pointer;
-    transition: filter 0.15s;
+    transition: var(--theme-transition), filter 0.15s;
   }
 
   button:hover {
     filter: brightness(1.1);
+  }
+
+  .search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.75rem;
+    border: 1px solid var(--border-default, #cbd5e1);
+    border-right: none;
+    border-radius: var(--radius-md, 8px) 0 0 var(--radius-md, 8px);
+    background: var(--bg-secondary, #f8fafc);
+    color: var(--text-secondary, #475569);
+  }
+
+  .search-icon :global(svg) {
+    width: 1.5rem;
+    height: 1.5rem;
+    stroke: currentColor;
+  }
+
+  .header {
+    width: 100%;
+    min-height: 50px;
+    border-radius: var(--radius-md, 8px);
+  }
+
+  .header input,
+  .header button {
+    font-size: var(--text-sm, 0.875rem);
+  }
+
+  .header input {
+    padding: 0.625rem 0.75rem;
+  }
+
+  .header input:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .header:focus-within {
+    outline: 2px solid var(--color-primary, #5c2d91);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 540px) {
+    .header button { padding-inline: 0.875rem; }
   }
 </style>
