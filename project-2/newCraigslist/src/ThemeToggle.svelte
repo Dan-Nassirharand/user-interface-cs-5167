@@ -69,7 +69,7 @@
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
-    transition: opacity 0.3s, transform 0.3s;
+    transition: var(--theme-transition), opacity 0.3s, transform 0.3s;
   }
 
   /* Light mode: sun visible, moon rotated away */

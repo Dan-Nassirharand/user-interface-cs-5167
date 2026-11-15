@@ -1,15 +1,27 @@
 <script>
-  let { showDemo = true } = $props();
+  import BackToTop from './BackToTop.svelte';
+
+  // The location page already supplies the same responsive page-shell gutters.
+  let { embedded = false } = $props();
 </script>
 
-<footer>
-  <a href="/">craigslist</a>
-  <span>Local connections. Everyday possibilities.</span>
-  {#if showDemo}<span>Demo · All listings are mock data.</span>{/if}
-</footer>
+<div class="footer-shell" class:embedded>
+  <footer class="site-footer">
+    <span>© {new Date().getFullYear()} craigslist</span>
+  </footer>
+</div>
+<BackToTop />
 
 <style>
-  footer { display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; border-top:1px solid var(--border-subtle); padding:1.5rem 0; margin:3rem auto 0; width:calc(100% - 6rem); max-width:1404px; color:var(--text-secondary); font-size:.75rem; }
-  a { color:var(--color-primary); }
-  @media(max-width:760px) { footer { width:calc(100% - 2rem); } }
+  .footer-shell { max-width: 1500px; margin: auto; padding: 2rem 3rem 0; }
+  .footer-shell.embedded { max-width: none; padding-inline: 0; }
+  .site-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; min-height: 88px; margin: 0; padding: 1.1rem 0 1.5rem; border-top: 1px solid var(--border-subtle); font-size: 0.65rem; color: var(--text-secondary); }
+  @media (min-width: 761px) {
+    /* Match the filter text's 2rem outset and 0.35rem inner padding. */
+    :global(main:has(#search-filters)) ~ .footer-shell:not(.embedded) { padding-left: 1.35rem; }
+  }
+  @media (max-width: 760px) { .footer-shell { padding-inline: 1rem; } }
+  @media (max-width: 540px) {
+    .site-footer { font-size: 0.6rem; }
+  }
 </style>

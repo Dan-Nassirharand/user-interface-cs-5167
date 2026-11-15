@@ -2,7 +2,7 @@
   import LocationIcon from './LocationIcon.svelte';
   import ThemeToggle from './ThemeToggle.svelte';
   import SettingsPanel from './SettingsPanel.svelte';
-  import { locations } from './LocationPage.svelte';
+  import SearchBar from './SearchBar.svelte';
 
   let {
     query = '',
@@ -10,6 +10,12 @@
     dark = $bindable(false),
     locationHref = '/location',
     location = { city: 'Cincinnati', state: 'Ohio' },
+    locations = [],
+    accountProfile = null,
+    onsettings,
+    onlocationselect,
+    searchPlaceholder = 'Search craigslist',
+    searchLabel = 'Search craigslist',
   } = $props();
 
   const profileStorageKey = 'craigslist-profile-v1';
@@ -29,13 +35,12 @@
   }
 
   let profile = $state(readProfile());
+  const displayedProfile = $derived(accountProfile || profile);
   let settingsOpen = $state(false);
-  let searchText = $state('');
-  $effect(() => { searchText = query; });
 
-  function submitSearch(event) {
-    event.preventDefault();
-    onsearch?.(searchText.trim(), 'search');
+  function openSettings() {
+    if (onsettings) onsettings();
+    else settingsOpen = true;
   }
 
   function saveProfile(nextProfile) {
@@ -53,33 +58,38 @@
       <span>craigslist</span>
     </a>
     <span class="header-divider" aria-hidden="true"></span>
-    <a class="header-location" href={locationHref} aria-label={`Back to ${location.city} location page`}>
-      <LocationIcon name="pin" size={17} />
-      <span>{location.city}</span>
-    </a>
+    {#if onlocationselect}
+      <button class="header-location" onclick={onlocationselect} aria-haspopup="dialog">
+        <LocationIcon name="pin" size={17} />
+        <span>{location.city}</span>
+        <span class="city-caret" aria-hidden="true"><LocationIcon name="chevron-down" size={14} /></span>
+      </button>
+    {:else}
+      <a class="header-location" href={locationHref} aria-label={`Back to ${location.city} location page`}>
+        <LocationIcon name="pin" size={17} />
+        <span>{location.city}</span>
+      </a>
+    {/if}
   </div>
 
   <div class="search">
-    <form class="header-search" role="search" onsubmit={submitSearch}>
-      <LocationIcon name="search" size={19} />
-      <input type="search" aria-label="Search craigslist" placeholder="Search craigslist" bind:value={searchText} />
-      <button type="submit">Search <LocationIcon name="arrow-right" size={16} /></button>
-    </form>
+    <SearchBar header initialQuery={query} {onsearch} placeholder={searchPlaceholder} ariaLabel={searchLabel} />
   </div>
 
   <div class="actions">
-    <button class="profile-button" onclick={() => settingsOpen = true} aria-label={profile.username ? `Account settings for ${profile.username}` : 'Account settings'} aria-haspopup="dialog">
-      {#if profile.avatar}<img src={profile.avatar} alt="" />{:else}<LocationIcon name="user" size={22} />{/if}
+    <button class="profile-button" onclick={openSettings} aria-label={displayedProfile.username ? `Account settings for ${displayedProfile.username}` : 'Account settings'} aria-haspopup="dialog">
+      {#if displayedProfile.avatar}<img src={displayedProfile.avatar} alt="" />{:else}<LocationIcon name="user" size={22} />{/if}
     </button>
     <ThemeToggle inline bind:dark />
   </div>
 </header>
 
-<SettingsPanel open={settingsOpen} {profile} {locations} {dark} onsave={saveProfile} onclose={() => settingsOpen = false} onthemechange={(value) => dark = value} />
+{#if !onsettings}
+  <SettingsPanel open={settingsOpen} {profile} {locations} {dark} onsave={saveProfile} onclose={() => settingsOpen = false} onthemechange={(value) => dark = value} />
+{/if}
 
 <style>
   .site-header {
-    --header-action: color-mix(in srgb, var(--color-primary) 78%, black);
     display: flex;
     align-items: center;
     gap: 2rem;
@@ -88,9 +98,9 @@
     border-bottom: 1px solid var(--border-subtle);
     background: var(--bg-surface);
   }
-  button, input { font: inherit; }
+  button { font: inherit; }
   button { cursor: pointer; }
-  button, a, input { -webkit-tap-highlight-color: transparent; }
+  button, a { -webkit-tap-highlight-color: transparent; }
   button:focus-visible, a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
   /* Reserve the previous identity block's width to keep the results search in place. */
   .identity { display: flex; align-items: center; flex-shrink: 0; gap: 1.5rem; padding-right: 2.4rem; }
@@ -99,16 +109,10 @@
   /* Preserve the full logo; these margins compensate for its transparent sides. */
   .brand img { height: 1em; width: auto; object-fit: contain; margin-left: -0.204em; margin-right: -0.004em; }
   .header-divider { height: 28px; width: 1px; background: var(--border-subtle); }
-  .header-location { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border: 0; background: none; color: var(--text-secondary); font-size: var(--text-sm); white-space: nowrap; }
+  .header-location { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border: 0; background: none; color: var(--text-secondary); font-size: var(--text-sm); white-space: nowrap; }
   .header-location:hover { color: var(--color-primary); text-decoration: none; }
+  .city-caret { position: absolute; right: -1.375rem; display: flex; }
   .search { flex: 1; max-width: 40rem; min-width: 0; margin-left: auto; }
-  .header-search { display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.3rem 0.3rem 0.3rem 0.9rem; border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-secondary); background: var(--bg-primary); }
-  .header-search:focus-within { border-color: var(--color-primary); }
-  .header-search input { width: 100%; min-width: 0; border: 0; padding: 0.45rem 0; color: var(--text-primary); background: transparent; font-size: var(--text-sm); }
-  .header-search input:focus { outline: none; box-shadow: none; }
-  .header-search input::placeholder { color: var(--text-secondary); }
-  .header-search button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.6rem 1rem; border: 0; border-radius: var(--radius-sm); color: var(--color-primary-contrast); background: var(--header-action); font-size: var(--text-sm); font-weight: var(--weight-medium); }
-  .header-search button:hover { background: color-mix(in srgb, var(--color-primary) 68%, black); }
   .actions { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
   .profile-button { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; overflow: hidden; padding: 0; border: 1px solid var(--border-default); border-radius: var(--radius-full); color: var(--text-secondary); background: var(--bg-surface); }
   .profile-button:hover { color: var(--color-primary); border-color: var(--color-primary); background: var(--color-primary-light); }
@@ -124,7 +128,6 @@
     .site-header { gap: 0.75rem; }
     .brand { font-size: 1.75rem; }
     .header-location { order: 2; flex-basis: 100%; padding: 0; font-size: var(--text-xs); }
-    .header-search { gap: 0.5rem; }
-    .header-search button { gap: 0.5rem; padding: 0.6rem 0.75rem; }
+    .city-caret { position: static; }
   }
 </style>

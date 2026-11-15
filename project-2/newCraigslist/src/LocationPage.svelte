@@ -17,7 +17,8 @@
 <script>
   import { tick } from 'svelte';
   import LocationIcon from './LocationIcon.svelte';
-  import ThemeToggle from './ThemeToggle.svelte';
+  import Header from './Header.svelte';
+  import Footer from './Footer.svelte';
   import SettingsPanel from './SettingsPanel.svelte';
   import PostComposer from './PostComposer.svelte';
   import MyPosts from './MyPosts.svelte';
@@ -70,7 +71,6 @@
   let myPostsOpen = $state(false);
   let notice = $state('');
   let locationQuery = $state('');
-  let query = $state('');
   let selectedCategory = $state(null);
   let searchPreview = $state(null);
   let locationDialog;
@@ -98,7 +98,7 @@
   }
 
   async function requestSearch(event, category = null, subcategory = '', searchQuery = '') {
-    event.preventDefault();
+    event?.preventDefault();
     const request = {
       location: location.id,
       locationLabel: `${location.city}, ${location.state}`,
@@ -148,31 +148,11 @@
 <div class="location-page">
   <a class="skip-link" href="#location-categories">Skip to categories</a>
 
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="/" aria-label="craigslist home">
-        <img src="/static/logo.png" alt="" />
-        <span>craigslist</span>
-      </a>
-      <span class="header-divider" aria-hidden="true"></span>
-      <button class="header-location" onclick={openLocationDialog} aria-haspopup="dialog">
-        <LocationIcon name="pin" size={17} />
-        <span>{location.city}</span>
-        <LocationIcon name="chevron-down" size={14} />
-      </button>
-      <form class="header-search" role="search" onsubmit={(event) => requestSearch(event, null, '', query)}>
-        <LocationIcon name="search" size={19} />
-        <input type="search" aria-label={`Search craigslist in ${location.city}`} placeholder={`Search in ${location.city}…`} bind:value={query} required />
-        <button type="submit">Search <LocationIcon name="arrow-right" size={16} /></button>
-      </form>
-      <div class="header-actions">
-        <button class="profile-button" onclick={() => settingsOpen = true} aria-label={profile.username ? `Account settings for ${profile.username}` : 'Account settings'} aria-haspopup="dialog">
-          {#if profile.avatar}<img src={profile.avatar} alt="" />{:else}<LocationIcon name="user" size={22} />{/if}
-        </button>
-        <ThemeToggle inline bind:dark />
-      </div>
-    </div>
-  </header>
+  <Header {location} {locations} accountProfile={profile} bind:dark
+    searchPlaceholder={`Search in ${location.city}...`}
+    searchLabel={`Search craigslist in ${location.city}`}
+    onsearch={(query) => requestSearch(null, null, '', query)}
+    onlocationselect={openLocationDialog} onsettings={() => settingsOpen = true} />
 
   <div class="page-shell">
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -208,7 +188,6 @@
         </section>
 
         <section class="post-card" aria-labelledby="post-title">
-          <span class="post-icon"><LocationIcon name="plus" size={24} /></span>
           <h2 id="post-title">Something to share?</h2>
           <p>Your next buyer, neighbor, or opportunity is right here.</p>
           <button onclick={() => postOpen = true} aria-haspopup="dialog">Create a post <LocationIcon name="arrow-up-right" size={17} /></button>
@@ -220,7 +199,6 @@
           <span><strong>Settings</strong><small>Profile & preferences</small></span>
           <LocationIcon name="chevron-right" size={16} />
         </button>
-        <div class="sidebar-note-space" aria-hidden="true"></div>
       </aside>
 
       <main id="location-categories" tabindex="-1">
@@ -288,10 +266,10 @@
           {/each}
         </div>
 
-        <footer class="content-footer"><span aria-hidden="true"></span><span>Find. <span>Shop.</span> List.</span></footer>
+        <footer class="content-footer"><span aria-hidden="true"></span><span>Find. <span>Shop.</span> <span class="list-word">List.</span></span></footer>
       </main>
     </div>
-    <footer class="site-footer"><span>© {new Date().getFullYear()} craigslist</span><span aria-hidden="true"></span></footer>
+    <Footer embedded />
   </div>
 </div>
 
@@ -320,34 +298,16 @@
     --location-action: color-mix(in srgb, var(--color-primary) 78%, black);
     --location-action-hover: color-mix(in srgb, var(--color-primary) 68%, black);
   }
-  .location-page { min-height: 100vh; background: var(--bg-secondary); padding-bottom: 4.5rem; }
+  .location-page { min-height: 100vh; background: var(--bg-secondary); }
   button, input { font: inherit; }
   button { cursor: pointer; }
   button, a, input { -webkit-tap-highlight-color: transparent; }
   button:focus-visible, a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
-  .header-search input:focus, .location-search input:focus { outline: none; box-shadow: none; }
+  .location-search input:focus { outline: none; box-shadow: none; }
   h1, h2, h3, p { margin: 0; }
   .skip-link { position: fixed; top: -5rem; left: 1rem; z-index: 50; background: var(--bg-surface); padding: 0.75rem 1rem; border: 1px solid var(--border-default); border-radius: var(--radius-md); }
   .skip-link:focus { top: 1rem; }
-  .site-header { background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); }
-  .header-inner { max-width: 1440px; min-height: 88px; margin: auto; padding: 1rem 2.5rem 1rem 2.75rem; display: flex; align-items: center; gap: 1.75rem; }
-  .brand { display: inline-flex; align-items: center; color: var(--text-primary); font-family: 'Times New Roman', Times, serif; font-size: 2.2rem; line-height: 1; letter-spacing: -0.06rem; flex-shrink: 0; }
-  .brand:hover { color: var(--text-primary); text-decoration: none; }
-  /* Natural image sizing keeps every logo pixel; margins account for the PNG's transparent sides. */
-  .brand img { height: 1em; width: auto; object-fit: contain; margin-left: -0.204em; margin-right: -0.004em; }
-  .header-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
-  .profile-button { width: 40px; height: 40px; flex-shrink: 0; border: 1px solid var(--border-default); border-radius: var(--radius-full); background: var(--bg-surface); color: var(--text-secondary); display: grid; place-items: center; padding: 0; overflow: hidden; }
-  .profile-button:hover { color: var(--color-primary); border-color: var(--color-primary); background: var(--color-primary-light); }
-  .profile-button img { width: 100%; height: 100%; object-fit: cover; }
-  .header-divider { height: 28px; width: 1px; background: var(--border-subtle); }
-  .header-location { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; border: 0; background: none; color: var(--text-secondary); font-size: var(--text-sm); white-space: nowrap; }
-  .header-location:hover { color: var(--color-primary); }
-  .header-search { display: flex; align-items: center; gap: 0.75rem; max-width: 520px; flex: 1; margin-left: auto; padding: 0.3rem 0.3rem 0.3rem 0.9rem; border: 1px solid var(--border-default); border-radius: var(--radius-md); color: var(--text-secondary); background: var(--bg-primary); }
-  .header-search:focus-within, .location-search:focus-within { border-color: var(--color-primary); }
-  .header-search input { width: 100%; min-width: 0; background: transparent; color: var(--text-primary); border: 0; padding: 0.45rem 0; font-size: var(--text-sm); }
-  .header-search input::placeholder { color: var(--text-secondary); }
-  .header-search button { display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; background: var(--location-action); color: var(--color-primary-contrast); border: none; border-radius: var(--radius-sm); padding: 0.6rem 1rem; font-weight: var(--weight-medium); font-size: var(--text-sm); }
-  .header-search button:hover { background: var(--location-action-hover); }
+  .location-search:focus-within { border-color: var(--color-primary); }
   .page-shell { max-width: 1360px; margin: auto; padding: 0 2.75rem; }
   .breadcrumb { display: flex; align-items: center; gap: 0.65rem; padding: 1.5rem 0; font-size: var(--text-xs); color: var(--text-secondary); }
   .breadcrumb a { color: var(--text-secondary); }
@@ -363,8 +323,7 @@
   .area-note { color: var(--text-secondary); font-size: var(--text-xs); }
   .change-location { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 1.15rem; padding: 0.55rem 0.7rem; width: 100%; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); background: var(--bg-surface); color: var(--color-primary); font-size: var(--text-xs); font-weight: var(--weight-semibold); }
   .change-location:hover { border-color: var(--color-primary); background: var(--color-primary-light); }
-  .post-card { padding: 1.35rem 1.2rem 1.2rem; border-radius: var(--radius-lg); background: var(--location-action); color: var(--color-primary-contrast); }
-  .post-icon { width: 37px; height: 37px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: var(--radius-full); margin-bottom: 1.05rem; }
+  .post-card { padding: 1rem 1.2rem 1.2rem; border-radius: var(--radius-lg); background: var(--location-action); color: var(--color-primary-contrast); }
   .post-card h2 { font-size: 1.05rem; font-weight: var(--weight-semibold); }
   .post-card p { margin-top: 0.5rem; font-size: var(--text-xs); line-height: var(--leading-relaxed); }
   .post-card button { display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%; margin-top: 1.35rem; padding: 0.65rem 0.75rem; border: 0; border-radius: var(--radius-sm); background: var(--bg-surface); color: var(--text-primary); font-weight: var(--weight-semibold); font-size: var(--text-xs); }
@@ -377,23 +336,22 @@
   .settings-tile span { display: grid; gap: 0.1rem; }
   .settings-tile strong { font-size: var(--text-sm); font-weight: var(--weight-medium); }
   .settings-tile small { font-size: 0.65rem; }
-  /* Keep the existing sidebar height after removing the decorative note. */
-  .sidebar-note-space { height: calc(17px + 0.8rem); flex-shrink: 0; }
-  /* Shift the right column up alongside the breadcrumb without moving the bottom footer. */
-  main { min-width: 0; outline: none; margin-top: -3rem; margin-bottom: 3rem; }
-  .intro { padding: 0.4rem 0 1.95rem; }
+  /* Shift the right column up alongside the breadcrumb. */
+  main { min-width: 0; outline: none; margin-top: -3rem; }
+  /* Balance the responsive title height so the category rows align with the sidebar. */
+  .intro { padding: 0.4rem 0 clamp(0.65rem, calc(3.9rem - 3.75vw), 1.65rem); }
   .local-label { display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.62rem; font-weight: var(--weight-semibold); letter-spacing: 0.12em; }
   .local-label > span { width: 6px; height: 6px; background: var(--color-sage); border-radius: 50%; }
-  h1 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: -0.045em; margin: 0.8rem 0 0.7rem; }
+  h1 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: var(--weight-semibold); line-height: var(--leading-tight); letter-spacing: -0.045em; margin: 0.8rem 0 0.5rem; }
   h1 > span { color: var(--color-primary); }
   .intro > p { color: var(--text-secondary); font-size: var(--text-sm); }
-  .section-heading { margin-bottom: 1rem; }
+  .section-heading { margin-bottom: 0.8rem; }
   .section-heading h2 { color: var(--text-secondary); font-size: var(--text-xs); font-weight: var(--weight-medium); }
   .local-notice { display: flex; align-items: center; gap: 0.65rem; padding: 0.75rem 1rem; margin-bottom: 1.25rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); background: var(--color-success-bg); color: var(--color-success-text); font-size: var(--text-xs); }
   .local-notice > span { flex: 1; }
   .category-rows { display: flex; flex-direction: column; gap: 1rem; }
   .category-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-  .category-tile { display: flex; flex-direction: column; align-items: stretch; text-align: left; padding: 1.15rem 1.25rem; min-height: 158px; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg-surface); color: var(--text-primary); box-shadow: var(--shadow-sm); transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast); }
+  .category-tile { display: flex; flex-direction: column; align-items: stretch; text-align: left; padding: 1.15rem 1.25rem; min-height: 158px; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg-surface); color: var(--text-primary); box-shadow: var(--shadow-sm); transition: var(--theme-transition), box-shadow var(--transition-fast), transform var(--transition-fast); }
   .category-tile:hover { transform: translateY(-3px); border-color: var(--color-primary); box-shadow: var(--shadow-md); }
   .category-tile.selected { border-color: var(--color-primary); background: color-mix(in srgb, var(--color-primary-light) 30%, var(--bg-surface)); box-shadow: 0 0 0 1px var(--color-primary); }
   .tile-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
@@ -424,7 +382,7 @@
   .content-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.6rem; color: var(--text-secondary); font-size: 0.65rem; }
   .content-footer > span:last-child { font-family: 'Times New Roman', Times, serif; font-size: 1.1rem; color: var(--color-accent); }
   .content-footer > span:last-child > span { color: var(--color-primary); }
-  .site-footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding: 1.1rem 0; border-top: 1px solid var(--border-subtle); font-size: 0.65rem; color: var(--text-secondary); }
+  .content-footer > span:last-child > .list-word { color: var(--color-sage); }
   .utility-dialog { color: var(--text-primary); background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius-xl); padding: 1.7rem; width: min(460px, calc(100% - 2rem)); max-height: calc(100dvh - 3rem); box-shadow: var(--shadow-lg); }
   .utility-dialog::backdrop { background: color-mix(in srgb, var(--text-primary) 40%, transparent); backdrop-filter: blur(3px); }
   .dialog-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
@@ -442,9 +400,7 @@
   .location-results small { color: var(--text-secondary); font-size: var(--text-xs); }
   .empty-locations { font-size: var(--text-sm); color: var(--text-secondary); padding: 0.75rem 0; }
 
-  @media (min-width: 1600px) { .header-inner { padding-right: 2.75rem; } }
   @media (max-width: 1100px) {
-    .header-inner { padding-left: 1.75rem; gap: 1rem; }
     .page-shell { padding: 0 1.75rem; }
     .page-layout { grid-template-columns: 210px minmax(0, 1fr); gap: 1.5rem; }
     .category-tile { padding: 1rem; }
@@ -452,11 +408,6 @@
     .subcategory-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 850px) {
-    .header-inner { flex-wrap: wrap; padding: 1.25rem 1.5rem; gap: 1rem; }
-    .brand { font-size: 2rem; }
-    .header-location { margin-right: 0; }
-    .header-actions { margin-left: auto; }
-    .header-search { order: 3; flex-basis: 100%; max-width: none; margin: 0; }
     .page-shell { padding: 0 1.5rem; }
     .page-layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
     main { margin: 0; }
@@ -466,20 +417,13 @@
     .area-map > span { display: none; }
     .location-card-content { padding: 1rem; flex: 1; }
     .post-card { padding: 1rem; }
-    .post-icon, .post-card p, .sidebar-note-space { display: none; }
+    .post-card p { display: none; }
     .settings-tile { grid-column: 1 / -1; padding: 0.75rem 1rem; }
     .post-card h2 { font-size: var(--text-base); margin-top: 0.1rem; }
     .post-card button { margin-top: 1rem; }
-    .intro { padding-top: 0.4rem; padding-bottom: 1.6rem; }
+    .intro { padding-top: 0.4rem; padding-bottom: 2rem; }
   }
   @media (max-width: 540px) {
-    .header-inner { padding: 1.25rem 1rem 1rem; gap: 0.85rem; }
-    .brand { font-size: 1.75rem; }
-    .header-divider { display: none; }
-    .header-location { display: none; }
-    .header-search { gap: 0.5rem; }
-    .header-search button { padding: 0.6rem 0.75rem; }
-    .header-search button :global(svg) { display: none; }
     .page-shell { padding: 0 1rem; }
     .breadcrumb { padding: 1rem 0; }
     .sidebar { gap: 0.7rem; }
@@ -506,7 +450,6 @@
     .subcategory-panel { padding: 1rem; }
     .subcategory-links { grid-template-columns: 1fr; }
     .content-footer { font-size: 0.6rem; }
-    .site-footer { margin-top: 1.8rem; font-size: 0.6rem; }
     .utility-dialog { padding: 1.25rem; }
   }
   @media (prefers-reduced-motion: reduce) { .category-tile { transition: none; } .category-tile:hover { transform: none; } }

@@ -73,6 +73,7 @@
     /* Underline matches the word's color */
     text-decoration: underline;
     text-underline-offset: 0.15em;
+    cursor: default;
   }
 
   .card-area {
@@ -91,10 +92,13 @@
     max-height: 10rem;
     padding: 1rem 1.25rem;
     text-align: center;
-    background: #ffffff;
+    background: var(--bg-secondary, #f8fafc);
     border: 1px solid var(--border-default, #cbd5e1);
     border-radius: var(--radius-lg, 12px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+  .card:hover {
+    background: var(--bg-surface-hover);
   }
 
   .card-word {
@@ -108,6 +112,6 @@
     font-size: var(--text-sm, 0.875rem);
     line-height: 1.5;
     /* Card is always white, so use a fixed dark grey rather than the theme's text color */
-    color: #475569;
+    color: var(--text-secondary, #f8fafc);
   }
 </style>
