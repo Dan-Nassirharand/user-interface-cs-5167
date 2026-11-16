@@ -62,6 +62,10 @@ The prototype has three screens. Every screen has a dark mode toggle, and the he
 
 The home screen keeps only what users need to get started: the title, a search bar, and three words that sum up what Craigslist is for. Hovering over or clicking Find, Shop, or List shows a short definition. The search bar has a dropdown to switch between Search mode, which opens the search screen, and Location mode, which opens the location screen for a city. A random suggestion under the search bar can be clicked to copy it. Example posts scroll slowly in the background.
 
+| Hovering over a word shows its definition | The search bar can switch between Search and Location mode |
+| -------- | -------- |
+| <img src="./documentation/images/home-word-card.png" alt="The Find definition card open below the word Find" width="400" /> | <img src="./documentation/images/home-search-mode.png" alt="The search mode dropdown open with Search and Location options" width="400" /> |
+
 More details: [Home Screen Documentation](./documentation/HomeScreenDocs.md)
 
 ### Location Screen
@@ -69,6 +73,20 @@ More details: [Home Screen Documentation](./documentation/HomeScreenDocs.md)
 <img src="./documentation/images/location.png" alt="Location screen for Cincinnati with a sidebar on the left and a grid of category tiles on the right" width="800" />
 
 The location screen is where users browse one city. The selected city is shown in a card at the top of the sidebar, and it can be changed from that card or from the header. Instead of a wall of links, nine main categories are shown as tiles with icons and short descriptions. Clicking a tile opens its subcategories, and clicking a subcategory opens the search screen. The sidebar also has a Create a post button, which opens a three-step posting form, as well as links to My posts and Settings.
+
+| Opening a category shows its subcategories | Changing the city in the location picker |
+| -------- | -------- |
+| <img src="./documentation/images/location-subcategories.png" alt="The Jobs category open, showing nine job subcategories under the first row of tiles" width="400" /> | <img src="./documentation/images/location-picker.png" alt="The location picker dialog listing the supported cities" width="400" /> |
+
+Creating a post takes three steps:
+
+| 1. Category | 2. Details | 3. Preview |
+| -------- | -------- | -------- |
+| <img src="./documentation/images/post-step-1.png" alt="Step 1 of Create a post, with category, subcategory, and seller type" width="260" /> | <img src="./documentation/images/post-step-2.png" alt="Step 2 of Create a post, with title, description, price, condition, and neighborhood" width="260" /> | <img src="./documentation/images/post-step-3.png" alt="Step 3 of Create a post, showing a preview of the finished post" width="260" /> |
+
+| Saved posts appear in My posts | Settings for profile and preferences |
+| -------- | -------- |
+| <img src="./documentation/images/my-posts.png" alt="The My posts dialog listing a saved post" width="400" /> | <img src="./documentation/images/settings.png" alt="The settings dialog with profile photo, account details, favorite location, and dark mode" width="400" /> |
 
 More details: [Location Screen Documentation](./documentation/LocationScreenDocs.md)
 
@@ -78,7 +96,19 @@ More details: [Location Screen Documentation](./documentation/LocationScreenDocs
 
 The search screen puts listing photos, prices, and filters in one place so users can compare items without moving between pages. The filter sidebar can be hidden to give the listings more room. Users can filter by category, subcategory, price, condition, and color, and sort by date or price. Clicking a listing opens a dialog with more details, a map illustration, and a clearly labeled Reply button for contacting the seller.
 
+| Choosing Furniture on the location screen sets the filters | Listing details with the Reply form open |
+| -------- | -------- |
+| <img src="./documentation/images/search-filtered.png" alt="Search results filtered to For sale and Furniture" width="400" /> | <img src="./documentation/images/search-listing-reply.png" alt="A listing dialog with Favorite, Hide, Flag, and Share actions and a message to the seller" width="400" /> |
+
 More details: [Search Screen Documentation](./documentation/SearchScreenDocs.md)
+
+### Dark Mode and Smaller Screens
+
+Every screen supports dark mode, and the layouts adjust for tablets and phones.
+
+| Dark mode | Location screen on a phone | Search screen on a phone |
+| -------- | -------- | -------- |
+| <img src="./documentation/images/location-dark.png" alt="The location screen in dark mode" width="400" /> | <img src="./documentation/images/location-phone.png" alt="The location screen on a phone, with the sidebar cards above the category grid" width="180" /> | <img src="./documentation/images/search-phone.png" alt="The search screen on a phone" width="180" /> |
 
 ### How the Design Plans Were Addressed
 
@@ -205,6 +235,11 @@ AI use during implementation is described by each screen's documentation:
 ### Final Documentation
 
 The Project Description, Describing The Interface, Implementation, and Future Work sections of this README were drafted with Claude Code (model: `claude-opus-5-5`) based on the project code and design documents. The screenshots were taken from the running prototype, and the descriptions were checked by using the prototype in a browser.
+
+### Strengths and Limitations of Using AI
+
+- **Strengths:** AI was fast at reading a large amount of code and turning it into readable documentation. It was also useful for repetitive work, such as building small components, making every component configurable, and formatting documents. With browser automation, it could click through the prototype, take screenshots, and check that what we wrote matched how the app actually behaves.
+- **Limitations:** AI does not know the reasons behind our design decisions. It only knows what is in the code and documents we give it. When drafting the location screen documentation, it guessed at some details, such as layout order and the reasons for some features, and 8 statements had to be corrected after checking the code and using the prototype. Early on, it also tended to do more than it was asked, so it needed specific prompts that limited it to one task at a time. Because of this, the team made the design choices and reviewed and edited everything AI produced.
 
 [⬆️ Back to Table of Contents](#project-2-craigslist-redesign)
 
