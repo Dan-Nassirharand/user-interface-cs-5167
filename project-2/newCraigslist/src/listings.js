@@ -21,10 +21,12 @@ const samples = [
   ['Weekend road bicycle', 295, 'Bikes', 'Like new', 'White', 'Mount Adams', 'Smooth-shifting road bike, perfect for weekend adventures.', 'road bike'],
 ];
 
+import { asset } from './paths.js';
+
 // Local mock listings; no network or backend is required.
 export const listings = samples.map(([title, price, category, condition, color, neighborhood, description, kind], index) => ({
   id: index + 1, title, price, category, condition, color, neighborhood, description, kind,
   mainCategory: 'For sale',
   age: index + 1,
-  image: `/mock/listing-${index + 1}.svg`,
+  image: asset(`mock/listing-${index + 1}.svg`),
 }));

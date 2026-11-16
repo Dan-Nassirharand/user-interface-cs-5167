@@ -1,6 +1,7 @@
 <script>
   import { tick, untrack } from 'svelte';
   import { listings, categories } from './listings.js';
+  import { withBase } from './paths.js';
 
   let { query = '', location = 'Cincinnati, OH', onsearch, initialCategory = '', initialSubcategory = '' } = $props();
 
@@ -140,7 +141,7 @@
 
   async function shareListing() {
     try {
-      await navigator.clipboard.writeText(          `${window.location.origin}/search-final?q=${encodeURIComponent(selected.title.replace(/ #\d+$/, ''))}`      );
+      await navigator.clipboard.writeText(          `${window.location.origin}${withBase('/search-final')}?q=${encodeURIComponent(selected.title.replace(/ #\d+$/, ''))}`      );
       detailMessage = 'Search link copied to clipboard.';
     } catch {
       detailMessage = 'Could not copy the link. You can share the page URL from your browser.';
