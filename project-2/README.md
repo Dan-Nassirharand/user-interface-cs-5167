@@ -230,7 +230,7 @@ AI use during implementation is described by each screen's documentation:
 
 - [Home Screen Documentation](./documentation/HomeScreenDocs.md#ai-disclosure): Claude Code was used to build the home screen components, with the design choices and final edits made manually.
 - [Search Screen Documentation](./documentation/SearchScreenDocs.md#ai-disclosure): ChatGPT was used to help write the documentation.
-- [Location Screen Documentation](./documentation/LocationScreenDocs.md#ai-disclosure): Claude Code was used to write the documentation from the location screen code.
+- [Location Screen Documentation](./documentation/LocationScreenDocs.md#ai-disclosure): Codex was used to build the location page components with design choices made manually. Claude Code was used to write the documentation from the location screen code.
 
 ### Final Documentation
 
@@ -252,7 +252,7 @@ Watch our demo video on YouTube: [Craigslist Redesign Demo](https://youtu.be/mR0
 [⬆️ Back to Table of Contents](#project-2-craigslist-redesign)
 
 ## Link to Repo and Hosted Application
-[GitHub Repo](https://github.com/Dan-Nassirharand/user-interface-cs-5167/tree/proj-2/project-2)  
+[GitHub Repo](https://github.com/Dan-Nassirharand/user-interface-cs-5167/tree/main/project-2)  
 [Hosted App](https://dan-nassirharand.github.io/user-interface-cs-5167/project-2/)  
 
 [⬆️ Back to Table of Contents](#project-2-craigslist-redesign)
