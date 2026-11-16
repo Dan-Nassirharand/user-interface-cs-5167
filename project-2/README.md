@@ -245,13 +245,14 @@ The Project Description, Describing The Interface, Implementation, and Future Wo
 
 ## Demo Video
 
-<!-- TODO: add the demo video link -->
+Watch our demo video on YouTube: [Craigslist Redesign Demo](https://youtu.be/mR0bOQZYelI)
+
+[![Craigslist Redesign Demo](https://img.youtube.com/vi/mR0bOQZYelI/hqdefault.jpg)](https://youtu.be/mR0bOQZYelI)
 
 [⬆️ Back to Table of Contents](#project-2-craigslist-redesign)
 
 ## Link to Repo and Hosted Application
 [GitHub Repo](https://github.com/Dan-Nassirharand/user-interface-cs-5167/tree/proj-2/project-2)  
-<!-- TODO: this link currently opens a Project 1 app, not this Craigslist redesign. Replace it with the Project 2 deployment. -->
-[Hosted App](https://vasilev-project-1.vercel.app/)  
+[Hosted App](https://dan-nassirharand.github.io/user-interface-cs-5167/project-2/)  
 
 [⬆️ Back to Table of Contents](#project-2-craigslist-redesign)
