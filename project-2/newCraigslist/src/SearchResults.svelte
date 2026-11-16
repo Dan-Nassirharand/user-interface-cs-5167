@@ -1,6 +1,7 @@
 <script>
   import { tick, untrack } from 'svelte';
   import { listings, categories } from './listings.js';
+  import { withBase } from './paths.js';
 
   let { query = '', location = 'Cincinnati, OH', onsearch, initialCategory = '', initialSubcategory = '' } = $props();
 
@@ -140,7 +141,7 @@
 
   async function shareListing() {
     try {
-      await navigator.clipboard.writeText(          `${window.location.origin}/search-final?q=${encodeURIComponent(selected.title.replace(/ #\d+$/, ''))}`      );
+      await navigator.clipboard.writeText(          `${window.location.origin}${withBase('/search-final')}?q=${encodeURIComponent(selected.title.replace(/ #\d+$/, ''))}`      );
       detailMessage = 'Search link copied to clipboard.';
     } catch {
       detailMessage = 'Could not copy the link. You can share the page URL from your browser.';
@@ -208,11 +209,11 @@
         <button onclick={flagListing} aria-pressed={flagged.includes(selected.id)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V3m0 1c5-4 9 4 14 0v10c-5 4-9-4-14 0" /></svg><span>{flagged.includes(selected.id) ? 'Flagged' : 'Flag'}</span></button>
         <button onclick={shareListing}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.5 6.8-4m-6.8 7 6.8 4" /></svg><span>Share</span></button>
       </div>
-      <p class="eyebrow">{selected.category} ? {selected.condition}</p>
+      <p class="eyebrow">{selected.category} · {selected.condition}</p>
       <h2>{selected.title}</h2>
       <strong class="detail-price">${selected.price}</strong>
       <p>{selected.description}</p>
-      <p class="subtitle">{selected.neighborhood} ? {location} ? {selected.age}h ago</p>
+      <p class="subtitle">{selected.neighborhood} · {location} · {selected.age}h ago</p>
       <div class="listing-map" class:reply-open={replyOpen}>
           <form class="reply-form" inert={!replyOpen} aria-hidden={!replyOpen} onsubmit={sendReply}>
             <label for="reply-message">Message to seller</label>
@@ -231,7 +232,7 @@
           <path d="M240 56a19 19 0 0 0-19 19c0 16 19 34 19 34s19-18 19-34a19 19 0 0 0-19-19Z" fill="var(--color-primary)" />
           <circle cx="240" cy="75" r="6" fill="var(--color-primary-contrast)" />
         </svg>
-        <p>{selected.neighborhood} ? Approximate location ? Mock map</p>
+        <p>{selected.neighborhood} · Approximate location · Mock map</p>
         </div>
       </div>
       <button class="reply-button" class:reply-hidden={replyOpen} inert={replyOpen} aria-hidden={replyOpen} onclick={openReply}>Reply</button>

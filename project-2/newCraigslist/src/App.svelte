@@ -5,6 +5,7 @@
   import ThemeToggle from './ThemeToggle.svelte';
   import LocationPage, { locations } from './LocationPage.svelte';
   import SearchResults from './SearchResults.svelte';
+  import { withBase, toAppUrl, isAppUrl } from './paths.js';
 
   const stateNames = { OH: 'Ohio', IL: 'Illinois', NY: 'New York', MA: 'Massachusetts', TX: 'Texas', WA: 'Washington', CA: 'California' };
   const cityAliases = { nyc: 'new-york-ny', 'new york': 'new-york-ny', sf: 'san-francisco-ca', la: 'los-angeles-ca', cinci: 'cincinnati-oh' };
@@ -33,7 +34,7 @@
 
   const currentLocation = $derived(findLocation(params.get('location')) || locations.find((item) => item.id === lastLocationId) || locations[0]);
   const locationLabel = $derived(`${currentLocation.city}, ${currentLocation.state}`);
-  const locationHref = $derived(`/location?${new URLSearchParams({ location: currentLocation.id })}`);
+  const locationHref = $derived(withBase(`/location?${new URLSearchParams({ location: currentLocation.id })}`));
   const headerLocation = $derived({
     continent: 'North America',
     country: 'United States',
@@ -76,20 +77,21 @@
   }
 
   function syncRoute() {
-    const url = canonicalUrl(new URL(window.location.href));
+    const current = toAppUrl(window.location.href);
+    const url = canonicalUrl(toAppUrl(window.location.href));
     if (url.pathname === '/location' || url.pathname === '/search-final') {
       const area = findLocation(url.searchParams.get('location')) || locations.find((item) => item.id === lastLocationId) || locations[0];
       url.searchParams.set('location', area.id);
       lastLocationId = area.id;
     }
-    if (url.href !== window.location.href) history.replaceState(history.state, '', `${url.pathname}${url.search}${url.hash}`);
+    if (url.href !== current.href) history.replaceState(history.state, '', withBase(`${url.pathname}${url.search}${url.hash}`));
     route = url.pathname;
     params = new URLSearchParams(url.search);
   }
 
   function navigate(destination) {
     const url = canonicalUrl(new URL(destination, window.location.origin));
-    const next = `${url.pathname}${url.search}${url.hash}`;
+    const next = withBase(`${url.pathname}${url.search}${url.hash}`);
     if (next !== `${window.location.pathname}${window.location.search}${window.location.hash}`) history.pushState({}, '', next);
     syncRoute();
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -126,11 +128,13 @@
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const link = event.target.closest?.('a[href]');
     if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
-    const url = new URL(link.href, window.location.href);
+    if (!isAppUrl(link.href)) return;
+    const url = toAppUrl(link.href);
     if (url.origin !== window.location.origin) return;
+    const here = toAppUrl(window.location.href);
     const legacyPage = url.hash === '#home' || url.hash === '#location' || url.hash.startsWith('#search?');
     // Let in-page links, such as Skip to categories, keep their normal scrolling behavior.
-    if (!legacyPage && url.pathname === window.location.pathname && url.search === window.location.search && url.hash) return;
+    if (!legacyPage && url.pathname === here.pathname && url.search === here.search && url.hash) return;
     if (!['/', '/location', '/search-final', '/search'].includes(url.pathname)) return;
     event.preventDefault();
     navigate(`${url.pathname}${url.search}${url.hash}`);

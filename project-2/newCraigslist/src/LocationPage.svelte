@@ -22,6 +22,7 @@
   import SettingsPanel from './SettingsPanel.svelte';
   import PostComposer from './PostComposer.svelte';
   import MyPosts from './MyPosts.svelte';
+  import { withBase } from './paths.js';
 
   let { onsearch, onlocationchange, locationId = '', dark = $bindable(false) } = $props();
 
@@ -94,7 +95,7 @@
     if (category) params.set('category', category);
     if (subcategory) params.set('subcategory', subcategory);
     if (searchQuery) params.set('q', searchQuery);
-    return `/search-final?${params}`;
+    return withBase(`/search-final?${params}`);
   }
 
   async function requestSearch(event, category = null, subcategory = '', searchQuery = '') {
@@ -156,7 +157,7 @@
 
   <div class="page-shell">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Home</a><LocationIcon name="chevron-right" size={13} />
+      <a href={withBase('/')}>Home</a><LocationIcon name="chevron-right" size={13} />
       <span aria-current="page">{location.city}, {location.state}</span>
     </nav>
 

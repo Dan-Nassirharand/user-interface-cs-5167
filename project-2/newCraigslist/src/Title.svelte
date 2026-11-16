@@ -1,11 +1,12 @@
 <script>
-  let { text = "craigslist", href = "/", showLogo = false, compact = false } = $props();
+  import { withBase, asset } from './paths.js';
+  let { text = "craigslist", href = withBase("/"), showLogo = false, compact = false } = $props();
 </script>
 
 <svelte:element this={compact ? 'p' : 'h1'} class="title" class:compact>
   <a {href}>
     {#if showLogo}
-      <img class="logo" src="/static/logo.png" alt="" />
+      <img class="logo" src={asset("static/logo.png")} alt="" />
     {/if}
     {text}
   </a>

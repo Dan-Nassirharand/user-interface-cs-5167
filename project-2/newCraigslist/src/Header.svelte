@@ -3,12 +3,13 @@
   import ThemeToggle from './ThemeToggle.svelte';
   import SettingsPanel from './SettingsPanel.svelte';
   import SearchBar from './SearchBar.svelte';
+  import { withBase, asset } from './paths.js';
 
   let {
     query = '',
     onsearch,
     dark = $bindable(false),
-    locationHref = '/location',
+    locationHref = withBase('/location'),
     location = { city: 'Cincinnati', state: 'Ohio' },
     locations = [],
     accountProfile = null,
@@ -53,8 +54,8 @@
 
 <header class="site-header">
   <div class="identity">
-    <a class="brand" href="/" aria-label="craigslist home">
-      <img src="/static/logo.png" alt="" />
+    <a class="brand" href={withBase('/')} aria-label="craigslist home">
+      <img src={asset('static/logo.png')} alt="" />
       <span>craigslist</span>
     </a>
     <span class="header-divider" aria-hidden="true"></span>
